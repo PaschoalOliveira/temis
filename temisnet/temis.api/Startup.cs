@@ -33,6 +33,7 @@ namespace temis.api
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+
             
             services.AddControllers();
             services.AddSwaggerGen(c =>
