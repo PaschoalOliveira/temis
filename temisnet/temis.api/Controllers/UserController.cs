@@ -17,11 +17,11 @@ namespace temis.Api.Controllers
            _userService = service;
         }
 
-        [HttpGet]
+    /*    [HttpGet]
         public IActionResult Get()
         {
             return Ok(_userService.FindAll());
-        }
+        }*/
 
          /// <summary>
         /// Cria um usuário
@@ -81,7 +81,6 @@ namespace temis.Api.Controllers
         }
 
         [HttpGet]
-        [Route("/api/teste")]
         public IActionResult Get(int? tamanhoPag, int? qntPag)
         {
             if(tamanhoPag!=null || qntPag!=null)
