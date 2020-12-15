@@ -18,6 +18,6 @@
   "author": "",
   "license": "ISC",
   "cypress-cucumber-preprocessor": {
-    "step_definitions": "cypress/integration/steps"
+    "nonGlobalStepDefinitions": true
   }
 }
