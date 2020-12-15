@@ -16,3 +16,8 @@ When('tento emitir DAJE', () => {
 Then('a DAJE é emitida', () => {
 	return true;
 });
+
+
+
+
+
