@@ -79,5 +79,17 @@ namespace temis.Api.Controllers
             _userService.Delete(id);
             return NoContent();
         }
+
+        [HttpGet]
+        [Route("/api/teste")]
+        public IActionResult Get(int? tamanhoPag, int? qntPag)
+        {
+            if(tamanhoPag!=null || qntPag!=null)
+            {
+                
+            } 
+
+            return Ok(_userService.FindAll());
+        }
     }
 }
