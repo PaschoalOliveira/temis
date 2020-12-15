@@ -14,7 +14,7 @@ Background:
 
 #RN01: É possível emitir DAJE
 Scenario: Emitindo DAJE
-    Given preencher dados do "<contribuinte>"
+    Given preencher dados do "<contribuinte>","<endereço>","<cidade>","<tipo de documento>", "<documento>"
         | contribuinte    | endereço      | cidade     | tipo de documento  | documento      |
         | Maria das Dores | Rua Genário   | Salvador   | CPF                | 253.502.910-33 |
     When tento emitir DAJE
