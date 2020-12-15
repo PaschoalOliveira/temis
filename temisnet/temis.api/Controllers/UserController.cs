@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using temis.Api.Controllers.Models.Requests;
+using temis.core.Models;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
+using temis.Data.Repositories;
 
 namespace temis.Api.Controllers
 {
@@ -17,11 +19,11 @@ namespace temis.Api.Controllers
            _userService = service;
         }
 
-        [HttpGet]
+    /*    [HttpGet]
         public IActionResult Get()
         {
             return Ok(_userService.FindAll());
-        }
+        }*/
 
          /// <summary>
         /// Cria um usuário
@@ -81,12 +83,12 @@ namespace temis.Api.Controllers
         }
 
         [HttpGet]
-        [Route("/api/teste")]
-        public IActionResult Get(int? tamanhoPag, int? qntPag)
+        public IActionResult Get(int? page, int? limit)
         {
-            if(tamanhoPag!=null || qntPag!=null)
-            {
-                
+           if(page!=null || limit!=null)
+            {       
+                PageList<User> pageRequest = PaginationRepository<User>.Create(_userService.FindAll(),(int)page,(int)limit);
+                return Ok(pageRequest);
             } 
 
             return Ok(_userService.FindAll());

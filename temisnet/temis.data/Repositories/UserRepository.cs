@@ -18,6 +18,42 @@ namespace temis.Data.Repositories
                    Idade = 45,
                    Nome = "teste",
                    Sobrenome = "teste",
+                },
+            new User() 
+                {
+                   Id=2, 
+                   Username="teste",
+                   Password = "teste",
+                   Idade = 45,
+                   Nome = "teste",
+                   Sobrenome = "teste",
+                },
+            new User() 
+                {
+                   Id=3, 
+                   Username="teste",
+                   Password = "teste",
+                   Idade = 45,
+                   Nome = "teste",
+                   Sobrenome = "teste",
+                },
+            new User() 
+                {
+                   Id=4, 
+                   Username="teste",
+                   Password = "teste",
+                   Idade = 45,
+                   Nome = "teste",
+                   Sobrenome = "teste",
+                },
+            new User() 
+                {
+                   Id=5, 
+                   Username="teste",
+                   Password = "teste",
+                   Idade = 45,
+                   Nome = "teste",
+                   Sobrenome = "teste",
                 }
         };
         public List<User> FindAll()
