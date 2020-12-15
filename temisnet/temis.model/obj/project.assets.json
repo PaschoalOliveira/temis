@@ -1,0 +1,48 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {}
+  },
+  "libraries": {},
+  "projectFileDependencyGroups": {
+    ".NETCoreApp,Version=v5.0": []
+  },
+  "packageFolders": {
+    "C:\\Users\\heverton.reis\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\heverton.reis\\Desktop\\testes\\temis\\temisnet\\temis.model\\temis.model.csproj",
+      "projectName": "temis.model",
+      "projectPath": "C:\\Users\\heverton.reis\\Desktop\\testes\\temis\\temisnet\\temis.model\\temis.model.csproj",
+      "packagesPath": "C:\\Users\\heverton.reis\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\heverton.reis\\Desktop\\testes\\temis\\temisnet\\temis.model\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\heverton.reis\\AppData\\Roaming\\NuGet\\NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net5.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net5.0": {
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net5.0": {
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.404\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

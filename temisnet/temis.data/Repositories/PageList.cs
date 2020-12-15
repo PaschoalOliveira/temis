@@ -20,7 +20,7 @@ namespace temis.Data.Repositories
             this.TotalElementos = totalElementos;
             this.TamanhoPagina = tamanhoPagina;
             this.PaginaCorrente = numeroPagina;
-            this.TotalPaginas = (int)Math.Ceiling((double)totalElementos / tamanhoPagina);
+            this.TotalPaginas = (int)Math.Ceiling(totalElementos / tamanhoPagina);
             this.AddRange(items);
         }
 

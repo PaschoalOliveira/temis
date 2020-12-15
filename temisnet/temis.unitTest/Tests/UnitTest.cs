@@ -9,13 +9,13 @@ namespace temis.unitTest
         {
         }
 
-        /*
+        
         [Test]
         public void TestMethod1()
         {
             var mockInfo = new Mock<User>();
             mockInfo.SetUpGet(user => user.Nome).Returns("joao");
-
+            
             Action act = () =>
             {
                 var usuario = new User(mockInfo.Object);
@@ -24,6 +24,6 @@ namespace temis.unitTest
 
             act.should.notThrow();
         }
-        */
+        
     }
 }
