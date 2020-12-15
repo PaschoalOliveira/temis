@@ -21,15 +21,9 @@ describe("Teste de Membros", ()=>{
     it("GET Membros por ID",() => {
         cy.request({
             method:'GET',
-            url:"https://localhost:5001/Membro/2"
-        }).then((response)=>{
-            const body = response.body;
-            var achou = false;
-            console.log(body);
-            if(elemento.membroId == 2){
-                achou = true;
-            }
-            expect(achou).to.be.equal(true);
+            url:"https://localhost:5001/Membro/1"
+        }).its('body').its('membroId').then((membroId)=>{
+            expect(membroId).to.be.eq(2);
         })
     })
 })

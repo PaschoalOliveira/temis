@@ -2,5 +2,7 @@ temisnet/.vscode/
 temisteste/node_modules/
 temisnet/temis.api/bin/
 temisnet/temis.api/obj/
-temisnet/temis.model/obj/
-temisnet/temis.model/bin/
+temisnet/temis.core/obj/
+temisnet/temis.core/bin/
+temisnet/temis.data/obj/
+temisnet/temis.data/bin/

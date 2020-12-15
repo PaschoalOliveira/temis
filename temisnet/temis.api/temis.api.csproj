@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\temis.model\temis.model.csproj" />
+    <ProjectReference Include="..\temis.core\temis.core.csproj" />
   </ItemGroup>
 
 </Project>
