@@ -20,12 +20,5 @@
   },
   "keywords": [],
   "author": "",
-<<<<<<< HEAD
   "license": "ISC"
-=======
-  "license": "ISC",
-  "cypress-cucumber-preprocessor": {
-    "step_definitions": "cypress/integration"
-  }
->>>>>>> 25742f32ed83548a7df6445e35d88d8611393428
 }
