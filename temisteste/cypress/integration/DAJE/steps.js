@@ -1,8 +1,8 @@
 import {Given, When, Then} from "cypress-cucumber-preprocessor/steps"
  
-Given('Desejo emitir um DAJE', () => {
+/*Given('Desejo emitir um DAJE', () => {
 	return true;
-});
+});*/
 
 And('preencher dados do "([^"]*)"$', (args1) => {
 	console.log(args1);

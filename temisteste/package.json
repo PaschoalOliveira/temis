@@ -5,7 +5,11 @@
   "main": "index.js",
   "dependencies": {
     "cypress": "^6.1.0",
-    "jquery": "^3.5.1"
+    "jquery": "^3.5.1",
+    "mocha": "^8.2.1"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true
   },
   "devDependencies": {
     "cypress-cucumber-preprocessor": "^4.0.0"
@@ -16,8 +20,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "cypress-cucumber-preprocessor": {
-    "step_definitions": "cypress/integration/steps"
-  }
+  "license": "ISC"
 }
