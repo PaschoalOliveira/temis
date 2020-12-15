@@ -11,6 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using temis.Core.Interfaces;
+using temis.Core.Services.Interfaces;
+using temis.Core.Services.Service;
+using temis.Data.Repositories;
 
 namespace temis.api
 {
@@ -27,6 +31,9 @@ namespace temis.api
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
