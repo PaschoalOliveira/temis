@@ -6,7 +6,7 @@ using temis.Core.Models;
 
 namespace temis.Data.Repositories
 {
-    public class Pagination<T> : List<T>
+    public class PaginationRepository<T> : List<T>
     {
         public static PageList<T> Create(IQueryable<T> source, int numeroPagina, int tamanhoPagina){
             
