@@ -35,7 +35,6 @@ namespace temis.Api.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] User user)
         {
-            
             User userClient = _userService.CreateUser(user);
             if (userClient != null) return Ok(userClient);
 
@@ -85,17 +84,16 @@ namespace temis.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get(int? page, int? limit, long id)
-        {     
-            PageRequest pageRequest = PageRequest.Of(page, limit);
-           // PageResponse<User> pageResponse = service.Filter(id, transactionDate, pageRequest);
+        public IActionResult Get(int? page, int? limit, string name)
+        {    
+            return Ok(_userService.FindAndFilter(name));
 
           /*  if (pageResponse.Content != null || pageResponse.Content.Count != 0)
             {
                 return  Ok(pageResponse);
             } */
 
-            return Ok(_userService.FindAll());
+            // return Ok(_userService.FindAll());
         }
     }
 }

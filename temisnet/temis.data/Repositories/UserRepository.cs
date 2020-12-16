@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using temis.Core.Interfaces;
 using temis.Core.Models;
 using temis.data.Data;
-using MySql.Data.MySqlClient;
 
 namespace temis.Data.Repositories
 {
@@ -19,119 +18,46 @@ namespace temis.Data.Repositories
             context = ctx;
             dataset = context.Set<User>();
         }
-        private static List<User> users = new List<User>()
-        {
-
-            new User() 
-                {
-                   Id=1, 
-                   Username="teste",
-                   Password = "teste",
-                   Idade = 45,
-                   Nome = "teste",
-                   Sobrenome = "teste",
-                },
-            new User() 
-                {
-                   Id=2, 
-                   Username="teste",
-                   Password = "teste",
-                   Idade = 45,
-                   Nome = "teste",
-                   Sobrenome = "teste",
-                },
-            new User() 
-                {
-                   Id=3, 
-                   Username="teste",
-                   Password = "teste",
-                   Idade = 45,
-                   Nome = "teste",
-                   Sobrenome = "teste",
-                },
-            new User() 
-                {
-                   Id=4, 
-                   Username="teste",
-                   Password = "teste",
-                   Idade = 45,
-                   Nome = "teste",
-                   Sobrenome = "teste",
-                },
-            new User() 
-                {
-                   Id=5, 
-                   Username="teste",
-                   Password = "teste",
-                   Idade = 45,
-                   Nome = "teste",
-                   Sobrenome = "teste",
-                }
-        };
+        private static List<User> users = new List<User>();
         public List<User> FindAll()
         {
-            var membros = dataset.FromSqlRaw("Select * From member_tbl").ToList();
+            var membros = context.Membros.ToList();
             return membros.OrderBy(u => u.Nome).ToList();
         }
 
         public User FindById(long id)
-        { 
-            User user = context.Membros.FromSqlRaw("Select * From member_tbl").Where((p) => p.Id == id).FirstOrDefault();
-        //   User user = context.Membros.FromSqlRaw($"Select * From member_tbl Where MembrosId = {0}",id).FirstOrDefault();
-            return user;
-        //   return context.Membros.Where((p) => p.Id == id).SingleOrDefault();
-        }
-        public User CreateUser(User user) 
         {
-
-            /*
-                bool isExist = users.Any(userClient => userClient.Id == user.Id);
-
-                if(user!=null && !isExist)
-                {
-                    // context.Membros.Add(user);
-                    // context.SaveChanges();
-                    context.Membros.FromSqlRaw(@"INSERT INTO member_tbl (username, password, idade, nome, sobrenome)VALUES (""value1"", ""value2"", 25, ""oi"", ""xau"");").ToList();
-                    //var membros = context.Membros.FromSqlRaw("Select * From member_tbl").ToList();
-
-                    users.Add(user);
-                    return user;
-                }
-            */
-            Exception exception = null;
-            
-            try
+            User user = context.Membros.Where(p => p.Id == id).FirstOrDefault();
+            return user;
+        }
+        public User CreateUser(User user)
+        {
+            if (user != null)
             {
-                // context.Membros.FromSqlRaw(@"INSERT INTO member_tbl (username, password, idade, nome, sobrenome)
-                //                             VALUES (""value2"", ""value2"", 25, ""oi"", ""xau"");").ToList();
-                context.Database.ExecuteSqlRaw(@"INSERT INTO member_tbl (username, password, idade, nome, sobrenome)
-                                            VALUES (""teste1"", ""teste1"", 25, ""Italo"", ""xau"");");
-            }
-            catch (Exception ex)
-            {
-                exception = ex;
+                context.Database.ExecuteSqlRaw($@"INSERT INTO member_tbl (username, password, idade, nome, sobrenome)
+                                            VALUES (""{user.Username}"", ""{user.Password}"", {user.Idade}, ""{user.Nome}"", ""{user.Sobrenome}"");");
             }
 
-            return context.Membros.FromSqlRaw("Select * From member_tbl").Where((p) => p.Username == "teste1").FirstOrDefault();
+            return context.Membros.Where(p => p.Username == user.Username).FirstOrDefault();
         }
 
         public User EditUser(User user)
         {
-            
-            //User userNew = users.Where( u => u.Id == user.Id).FirstOrDefault();
-            var userId = new MySqlParameter("@userId", user.Id);
-            var userIdade = new MySqlParameter("@userIdade", user.Idade);
-            var userNome = new MySqlParameter("@userNome", user.Nome);
-            var userPassword = new MySqlParameter("@userPassword", user.Password);
-            var userSobrenome = new MySqlParameter("@userSobrenome", user.Sobrenome);
-            var userUsername = new MySqlParameter("@userUsername", user.Username);
 
-            context.Database.ExecuteSqlRaw(
-                "UPDATE member_tbl SET idade = @userIdade, nome = @userNome, password = @userPassword, sobrenome = @userSobrenome, username = @userUsername WHERE id = @userId", 
-                userIdade, userNome, userPassword, userSobrenome, userUsername, userId);
+            //User userNew = users.Where( u => u.Id == user.Id).FirstOrDefault();
             User userNew = FindById(user.Id);
-            return userNew;
-            
+            if (userNew != null)
+            {
+                userNew.Idade = user.Idade;
+                userNew.Nome = user.Nome;
+                userNew.Password = user.Password;
+                userNew.Sobrenome = user.Sobrenome;
+                userNew.Username = user.Username;
+
+                //context.Membros.FromSqlRaw("INSERT ");
+            }
+
+            return user;
         }
 
         public void Delete(long id)
@@ -143,13 +69,13 @@ namespace temis.Data.Repositories
 
         public void EditPassword(long id, string password)
         {
-           User userPassword = new User() {Id = id};
-           userPassword.Password = password;
+            User userPassword = new User() { Id = id };
+            userPassword.Password = password;
         }
 
         public IEnumerable<User> PartialEditUser(string username)
         {
-            
+
             IEnumerable<User> user =
             from userByName in users
             where userByName.Username == username
@@ -157,17 +83,27 @@ namespace temis.Data.Repositories
 
             return user;
         }
-
-        public PageResponse<User> Filter (long id, PageRequest pageRequest)
+        public List<User> FindAndFilter(string name)
         {
+            return context.Membros.Where(
+                                    i => 
+                                    i.Nome.Contains(name) ||
+                                    i.Sobrenome.Contains(name) ||
+                                    i.Username.Contains(name)
+                                   ).OrderBy(u => u.Nome).ToList<User>();
+        }
 
-            IQueryable<User> query = context.Membros.Where(i => i.Id == id);
-            List<User> filtredUser;
-
-           // filtredUser = 
-
-            //return PageResponse<User>.For(filtredUser, pageRequest, query.Count());
-
+        public PageResponse<User> Filter(long id, PageRequest pageRequest)
+        {
+/* 
+            IQueryable<User> query = context.Membros.Where(
+                                                    i => 
+                                                    i.Nome.Contains(name) ||
+                                                    i.Sobrenome.Contains(name) ||
+                                                    i.Username.Contains(name)
+                                                    )
+                                                    .OrderBy(u => u.Nome);
+ */
             return null;
         }
 

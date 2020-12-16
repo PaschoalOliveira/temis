@@ -59,5 +59,9 @@ namespace temis.Core.Services.Service
         {
             return _repository.Filter(id, pageRequest);
         }
+        public List<User> FindAndFilter(string name)
+        {
+            return _repository.FindAndFilter(name);
+        }
     }
 }
