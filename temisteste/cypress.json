@@ -1,6 +1,6 @@
 {
     "env": {
-        "TAGS": "@focus"
+        "TAGS": "not @ignore"
     },
     "testFiles": "**/*.*"
 }

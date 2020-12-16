@@ -5,16 +5,15 @@ Feature: Solicitar DAJE de Registro Civil
     DESEJO solicitar a emissão de um DAJE de Registro Civil
     PARA que possa avançar nos tramites do casamento
 
-
 Background: 
     Given o acesso ao sistema DAJE do TJ
     And que os dados estejam preenchidos
         | atribuição     | tipo_de_ato              | comarca    | cartório                             |
-        | REGISTRO CIVIL | VIII - CERTIDAO EM GERAL | ALAGOINHAS | REGISTRO CIVIL 1 OFICIO - ALAGOINHAS | 
+        | REGISTRO CIVIL | VIII - CERTIDAO EM GERAL | ALAGOINHAS | REGISTRO CIVIL 1 OFICIO - ALAGOINHAS |
 #RN01: É possível emitir DAJE
 
 Scenario Outline: Emitindo DAJE
-    And preencher dados do contribuinte
+    And preencher dados do "<contribuinte>","<endereço>","<cidade>","<documento>"
     When tento emitir DAJE
     Then a DAJE é emitida
     Examples: 
@@ -40,7 +39,7 @@ Scenario Outline: Formulario com campos vazios
         | CNPJ |
 
 #RN04: A natureza do ato deve ser igual ao que foi selecionado
-@focus
+
 Scenario: Checar natureza do ato
     Then a natureza do ato é exibida corretamente 
 
