@@ -101,22 +101,24 @@ namespace temis.Data.Repositories
             
             try
             {
-                context.Membros.FromSqlRaw(@"INSERT INTO member_tbl (username, password, idade, nome, sobrenome)
-                                            VALUES (""value2"", ""value2"", 25, ""oi"", ""xau"");").ToList();
+                // context.Membros.FromSqlRaw(@"INSERT INTO member_tbl (username, password, idade, nome, sobrenome)
+                //                             VALUES (""value2"", ""value2"", 25, ""oi"", ""xau"");").ToList();
+                context.Database.ExecuteSqlRaw(@"INSERT INTO member_tbl (username, password, idade, nome, sobrenome)
+                                            VALUES (""teste1"", ""teste1"", 25, ""Italo"", ""xau"");");
             }
             catch (Exception ex)
             {
                 exception = ex;
             }
 
-            return context.Membros.FromSqlRaw("Select * From member_tbl").Where((p) => p.Username == "value2").FirstOrDefault();
+            return context.Membros.FromSqlRaw("Select * From member_tbl").Where((p) => p.Username == "teste1").FirstOrDefault();
         }
 
         public User EditUser(User user)
         {
             
-            User userNew = users.Where( u => u.Id == user.Id).FirstOrDefault();
-
+            //User userNew = users.Where( u => u.Id == user.Id).FirstOrDefault();
+            User userNew = FindById(user.Id);
             if (userNew !=null)
             {
                 userNew.Idade = user.Idade;
@@ -124,6 +126,8 @@ namespace temis.Data.Repositories
                 userNew.Password = user.Password;
                 userNew.Sobrenome = user.Sobrenome;
                 userNew.Username = user.Username;
+
+                //context.Membros.FromSqlRaw("INSERT ");
             }
             
             return user;
