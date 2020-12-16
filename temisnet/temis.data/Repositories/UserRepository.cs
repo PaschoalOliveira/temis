@@ -19,7 +19,7 @@ namespace temis.Data.Repositories
             context = ctx;
         }
         private static List<User> users = new List<User>();
-        
+
         public List<User> FindAll()
         {
             var membros = context.Membros.ToList();
@@ -93,7 +93,7 @@ namespace temis.Data.Repositories
                                    ).OrderBy(u => u.Nome);
 
             List<User> filtredUser;
-            filtredUser = Pagination<User>.For(query, pageRequest).ToList();
+            filtredUser = PaginationRepository<User>.For(query, pageRequest).ToList();
             return PageResponse<User>.For(filtredUser, pageRequest, query.Count());
         }
 

@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using temis.Core.Models;
 
 namespace temis.core.Models
 {
-    public class PaginationRepository<T> : List<T>
-    {
-        public static class Pagination<TEntity> where TEntity : class
+    public static class PaginationRepository<TEntity> where TEntity : class
     {
         public static (int, int) CalcPageOffset(PageRequest request)
         {
@@ -22,6 +17,5 @@ namespace temis.core.Models
             (int take, int skip) = CalcPageOffset(pageRequest);
             return dbSet.Take(take).Skip(skip);
         }
-    }
     }
 }
