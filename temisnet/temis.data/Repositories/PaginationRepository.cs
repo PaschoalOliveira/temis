@@ -8,12 +8,20 @@ namespace temis.core.Models
 {
     public class PaginationRepository<T> : List<T>
     {
-        public static PageList<T> Create(List<T> source, int numeroPagina, int tamanhoPagina){
-            
-            var count = source.Count();
-            var items = source.Skip((numeroPagina - 1) * tamanhoPagina).Take(tamanhoPagina).ToList();
-
-            return new PageList<T>(items, count, numeroPagina , tamanhoPagina);
+        public static class Pagination<TEntity> where TEntity : class
+    {
+        public static (int, int) CalcPageOffset(PageRequest request)
+        {
+            int skip = (request.Number - 1) * request.Limit;
+            int take = skip + request.Limit;
+            return (take, skip);
         }
+
+        public static IQueryable<TEntity> For(IQueryable<TEntity> dbSet, PageRequest pageRequest)
+        {
+            (int take, int skip) = CalcPageOffset(pageRequest);
+            return dbSet.Take(take).Skip(skip);
+        }
+    }
     }
 }

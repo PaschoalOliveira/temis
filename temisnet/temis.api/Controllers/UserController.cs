@@ -83,13 +83,15 @@ namespace temis.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get(int? page, int? limit)
-        {
-           if(page!=null || limit!=null)
-            {       
-                PageList<User> pageRequest = PaginationRepository<User>.Create(_userService.FindAll(),(int)page,(int)limit);
-                return Ok(pageRequest);
-            } 
+        public IActionResult Get(int? page, int? limit, long id)
+        {     
+            PageRequest pageRequest = PageRequest.Of(page, limit);
+           // PageResponse<User> pageResponse = service.Filter(id, transactionDate, pageRequest);
+
+          /*  if (pageResponse.Content != null || pageResponse.Content.Count != 0)
+            {
+                return  Ok(pageResponse);
+            } */
 
             return Ok(_userService.FindAll());
         }

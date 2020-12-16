@@ -4,6 +4,7 @@ using System.Linq;
 using temis.Core.Interfaces;
 using temis.Core.Models;
 
+
 namespace temis.Data.Repositories
 {
     public class UserRepository : IUserRepository
@@ -117,5 +118,18 @@ namespace temis.Data.Repositories
 
             return user;
         }
+
+        public PageResponse<User> Filter (long id, PageRequest pageRequest)
+        {
+
+            IEnumerable<User> query = from user in users where user.Id == id select user;
+            List<User> filtredUser;
+
+          //  filtredUser = Pagination<User>.For(query, pageRequest).ToList();
+            //return filtredUser;
+
+            return null;
+        }
+
     }
 }

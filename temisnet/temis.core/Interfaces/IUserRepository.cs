@@ -12,5 +12,6 @@ namespace temis.Core.Interfaces
          IEnumerable<User> PartialEditUser(string username);
          void EditPassword(long id, string password);
          void Delete(long Id);
+         PageResponse<User> Filter (long id, PageRequest pageRequest);
     }
 }
