@@ -10,20 +10,16 @@ namespace temis.data.Data
         public DbSet<User> Membros { get; set; }
         public MembroContext(DbContextOptions<MembroContext> options) : base(options)
         {
-            
+            Database.EnsureCreated();
         }
 
-        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
-
-        {​​
-
-            base.OnModelCreating(modelBuilder);
-
-        }​​
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            optionsBuilder.UseMySql(@"Server=151.106.96.101;Port=3306;Database=u590093429_temis;Uid=u590093429_temisuser;Pwd=TemisUser1;");
-        }*/
+            builder.Entity<User>().ToTable("member_tbl");
+            builder.Entity<User>().HasNoKey();
+            builder.Entity<User>().Property(t => t.Id).HasColumnName("Id");
+
+        }
+
     }
 }

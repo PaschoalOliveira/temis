@@ -6,8 +6,7 @@ namespace temis.Core.Models
     [Table("member_tbl")]
     public class User
     {
-        
-        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id {get; set; }
 
         [Column("username")]
@@ -24,6 +23,17 @@ namespace temis.Core.Models
         
         [Column("sobrenome")]
         public string Sobrenome { get; set; }
+        public User (long id, string username,  string password, int idade, string name, string sobrenome)
+        {
+            this.Id = id;
+            this.Username = username;
+            this.Idade = idade;
+            this.Password = password;
+            this.Nome = name;
+            this.Sobrenome = sobrenome;
+        }
+
+        public User() {}
 
     }
 }

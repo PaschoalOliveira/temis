@@ -11,9 +11,12 @@ namespace temis.Data.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly MembroContext context;
+        private DbSet<User> dataset;
+
         public UserRepository(MembroContext ctx)
         {
             context = ctx;
+            dataset = context.Set<User>();
         }
         private static List<User> users = new List<User>()
         {
@@ -66,7 +69,7 @@ namespace temis.Data.Repositories
         };
         public List<User> FindAll()
         {
-            var membros = context.Membros.FromSqlRaw("Select * From member_tbl").ToList();
+            var membros = dataset.FromSqlRaw("Select * From member_tbl").ToList();
             return membros.OrderBy(u => u.Nome).ToList();
         }
 
@@ -79,20 +82,34 @@ namespace temis.Data.Repositories
         }
         public User CreateUser(User user) 
         {
+
+            /*
+                bool isExist = users.Any(userClient => userClient.Id == user.Id);
+
+                if(user!=null && !isExist)
+                {
+                    // context.Membros.Add(user);
+                    // context.SaveChanges();
+                    context.Membros.FromSqlRaw(@"INSERT INTO member_tbl (username, password, idade, nome, sobrenome)VALUES (""value1"", ""value2"", 25, ""oi"", ""xau"");").ToList();
+                    //var membros = context.Membros.FromSqlRaw("Select * From member_tbl").ToList();
+
+                    users.Add(user);
+                    return user;
+                }
+            */
+            Exception exception = null;
             
-            bool isExist = users.Any(userClient => userClient.Id == user.Id);
-
-            if(user!=null && !isExist)
+            try
             {
-                // context.Membros.Add(user);
-                // context.SaveChanges();
-                context.Membros.FromSqlRaw(@"INSERT INTO member_tbl (username, password, idade, nome, sobrenome)VALUES (""value1"", ""value2"", 25, ""oi"", ""xau"");").ToList();
-                //var membros = context.Membros.FromSqlRaw("Select * From member_tbl").ToList();
-
-                users.Add(user);
-                return user;
+                context.Membros.FromSqlRaw(@"INSERT INTO member_tbl (username, password, idade, nome, sobrenome)
+                                            VALUES (""value2"", ""value2"", 25, ""oi"", ""xau"");").ToList();
             }
-                return null;
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+
+            return context.Membros.FromSqlRaw("Select * From member_tbl").Where((p) => p.Username == "value2").FirstOrDefault();
         }
 
         public User EditUser(User user)
