@@ -11,7 +11,6 @@ namespace temis.Core.Services.Interfaces
          User FindById(long id);
          void EditPassword(long id, string password);
          void Delete(long Id);
-         PageResponse<User> Filter (long id, PageRequest pageRequest);
-         List<User> FindAndFilter (string name);
+         PageResponse<User> Filter (string name, PageRequest pageRequest);
     }
 }

@@ -85,15 +85,16 @@ namespace temis.Api.Controllers
 
         [HttpGet]
         public IActionResult Get(int? page, int? limit, string name)
-        {    
-            return Ok(_userService.FindAndFilter(name));
+        {   
+            PageRequest pageRequest = PageRequest.Of(page, limit);
+            PageResponse<User> pageResponse = _userService.Filter(name, pageRequest);
 
-          /*  if (pageResponse.Content != null || pageResponse.Content.Count != 0)
+            if (pageResponse.Content != null || pageResponse.Content.Count != 0)
             {
                 return  Ok(pageResponse);
-            } */
+            } 
 
-            // return Ok(_userService.FindAll());
+            return NoContent();
         }
     }
 }

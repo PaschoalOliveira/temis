@@ -2,23 +2,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using temis.core.Models;
 using temis.Core.Interfaces;
 using temis.Core.Models;
 using temis.data.Data;
+using MySql.Data.MySqlClient;
 
 namespace temis.Data.Repositories
 {
     public class UserRepository : IUserRepository
     {
         private readonly MembroContext context;
-        private DbSet<User> dataset;
 
         public UserRepository(MembroContext ctx)
         {
             context = ctx;
-            dataset = context.Set<User>();
         }
         private static List<User> users = new List<User>();
+        
         public List<User> FindAll()
         {
             var membros = context.Membros.ToList();
@@ -43,21 +44,20 @@ namespace temis.Data.Repositories
 
         public User EditUser(User user)
         {
+            var userId = new MySqlParameter("@userId", user.Id);
+            var userIdade = new MySqlParameter("@userIdade", user.Idade);
+            var userNome = new MySqlParameter("@userNome", user.Nome);
+            var userPassword = new MySqlParameter("@userPassword", user.Password);
+            var userSobrenome = new MySqlParameter("@userSobrenome", user.Sobrenome);
+            var userUsername = new MySqlParameter("@userUsername", user.Username);
 
-            //User userNew = users.Where( u => u.Id == user.Id).FirstOrDefault();
+            context.Database.ExecuteSqlRaw(
+                "UPDATE member_tbl SET idade = @userIdade, nome = @userNome, password = @userPassword, sobrenome = @userSobrenome, username = @userUsername WHERE id = @userId", 
+                userIdade, userNome, userPassword, userSobrenome, userUsername, userId);
+
+            
             User userNew = FindById(user.Id);
-            if (userNew != null)
-            {
-                userNew.Idade = user.Idade;
-                userNew.Nome = user.Nome;
-                userNew.Password = user.Password;
-                userNew.Sobrenome = user.Sobrenome;
-                userNew.Username = user.Username;
-
-                //context.Membros.FromSqlRaw("INSERT ");
-            }
-
-            return user;
+            return userNew;
         }
 
         public void Delete(long id)
@@ -83,28 +83,18 @@ namespace temis.Data.Repositories
 
             return user;
         }
-        public List<User> FindAndFilter(string name)
+        public PageResponse<User> Filter(string name, PageRequest pageRequest)
         {
-            return context.Membros.Where(
+            IQueryable<User> query = context.Membros.Where(
                                     i => 
                                     i.Nome.Contains(name) ||
                                     i.Sobrenome.Contains(name) ||
                                     i.Username.Contains(name)
-                                   ).OrderBy(u => u.Nome).ToList<User>();
-        }
+                                   ).OrderBy(u => u.Nome);
 
-        public PageResponse<User> Filter(long id, PageRequest pageRequest)
-        {
-/* 
-            IQueryable<User> query = context.Membros.Where(
-                                                    i => 
-                                                    i.Nome.Contains(name) ||
-                                                    i.Sobrenome.Contains(name) ||
-                                                    i.Username.Contains(name)
-                                                    )
-                                                    .OrderBy(u => u.Nome);
- */
-            return null;
+            List<User> filtredUser;
+            filtredUser = Pagination<User>.For(query, pageRequest).ToList();
+            return PageResponse<User>.For(filtredUser, pageRequest, query.Count());
         }
 
     }

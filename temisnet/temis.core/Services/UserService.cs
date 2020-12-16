@@ -55,13 +55,10 @@ namespace temis.Core.Services.Service
             _repository.Delete(id);
         }
 
-        public PageResponse<User> Filter(long id, PageRequest pageRequest)
+        public PageResponse<User> Filter(string name, PageRequest pageRequest)
         {
-            return _repository.Filter(id, pageRequest);
+            return _repository.Filter(name, pageRequest);
         }
-        public List<User> FindAndFilter(string name)
-        {
-            return _repository.FindAndFilter(name);
-        }
+
     }
 }
