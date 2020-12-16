@@ -3,7 +3,7 @@ Given('o acesso ao sistema DAJE do TJ', () => {
 })
 
 And('que os dados estejam preenchidos',(dataTable) => {
-    console.log(dataTable.rawTable.slice(0))
+    console.log(dataTable.hashes())
     dataTable.hashes().forEach(element => {
         cy.get('#atribuicoes').select(element.atribuição)
         cy.get('#tiposatos').select(element.tipo_de_ato)
