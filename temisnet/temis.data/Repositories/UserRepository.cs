@@ -1,16 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using temis.Core.Interfaces;
 using temis.Core.Models;
+using temis.data.Data;
 
 
 namespace temis.Data.Repositories
 {
     public class UserRepository : IUserRepository
     {
+        private readonly MembroContext context;
+        public UserRepository(MembroContext ctx)
+        {
+            context = ctx;
+        }
         private static List<User> users = new List<User>()
         {
+
             new User() 
                 {
                    Id=1, 
@@ -69,10 +77,15 @@ namespace temis.Data.Repositories
         }
         public User CreateUser(User user) 
         {
+            
             bool isExist = users.Any(userClient => userClient.Id == user.Id);
 
             if(user!=null && !isExist)
             {
+                // context.Membros.Add(user);
+                // context.SaveChanges();
+                //context.Membros.FromSqlRaw(@"INSERT INTO member_tbl (username, password, idade, nome, sobrenome)VALUES (""value1"", ""value2"", 25, ""oi"", ""xau"");").ToList();
+                var membros = context.Membros.FromSqlRaw("Select * From member_tbl").ToList();
                 users.Add(user);
                 return user;
             }
