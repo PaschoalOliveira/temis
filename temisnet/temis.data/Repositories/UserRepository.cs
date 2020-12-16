@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using temis.Core.Interfaces;
 using temis.Core.Models;
 using temis.data.Data;
+using MySql.Data.MySqlClient;
 
 namespace temis.Data.Repositories
 {
@@ -118,19 +119,19 @@ namespace temis.Data.Repositories
         {
             
             //User userNew = users.Where( u => u.Id == user.Id).FirstOrDefault();
-            User userNew = FindById(user.Id);
-            if (userNew !=null)
-            {
-                userNew.Idade = user.Idade;
-                userNew.Nome = user.Nome;
-                userNew.Password = user.Password;
-                userNew.Sobrenome = user.Sobrenome;
-                userNew.Username = user.Username;
+            var userId = new MySqlParameter("@userId", user.Id);
+            var userIdade = new MySqlParameter("@userIdade", user.Idade);
+            var userNome = new MySqlParameter("@userNome", user.Nome);
+            var userPassword = new MySqlParameter("@userPassword", user.Password);
+            var userSobrenome = new MySqlParameter("@userSobrenome", user.Sobrenome);
+            var userUsername = new MySqlParameter("@userUsername", user.Username);
 
-                //context.Membros.FromSqlRaw("INSERT ");
-            }
+            context.Database.ExecuteSqlRaw(
+                "UPDATE member_tbl SET idade = @userIdade, nome = @userNome, password = @userPassword, sobrenome = @userSobrenome, username = @userUsername WHERE id = @userId", 
+                userIdade, userNome, userPassword, userSobrenome, userUsername, userId);
+            User userNew = FindById(user.Id);
+            return userNew;
             
-            return user;
         }
 
         public void Delete(long id)
