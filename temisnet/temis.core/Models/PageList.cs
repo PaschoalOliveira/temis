@@ -24,14 +24,6 @@ namespace temis.Core.Models
             this.AddRange(items);
 
         }
-
-           public PageList<T> Create(List<T> source, int numeroPagina, int tamanhoPagina){
-            
-            var count = source.Count();
-            var items = source.Skip((numeroPagina - 1) * tamanhoPagina).Take(tamanhoPagina).ToList();
-
-            return new PageList<T>(items, count, numeroPagina , tamanhoPagina);
-        }
     
     }
 }
