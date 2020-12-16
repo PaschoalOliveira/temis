@@ -83,8 +83,8 @@ namespace temis.Data.Repositories
             {
                 // context.Membros.Add(user);
                 // context.SaveChanges();
-                context.Membros.FromSqlRaw(@"INSERT INTO member_tbl (username, password, idade, nome, sobrenome)VALUES (""value1"", ""value2"", 25, ""oi"", ""xau"");").ToList();
-
+                //context.Membros.FromSqlRaw(@"INSERT INTO member_tbl (username, password, idade, nome, sobrenome)VALUES (""value1"", ""value2"", 25, ""oi"", ""xau"");").ToList();
+                var membros = context.Membros.FromSqlRaw("Select * From member_tbl").ToList();
                 users.Add(user);
                 return user;
             }
