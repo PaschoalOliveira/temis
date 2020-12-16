@@ -33,5 +33,7 @@ namespace temis.Core.Models
 
             this.Page = page;
         }
+        public static PageResponse<User> For(List<User> content, PageRequest pr, long totalResult) => new PageResponse<User>(content, pr, totalResult);
+    
     }
 }

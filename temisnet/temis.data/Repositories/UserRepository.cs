@@ -6,7 +6,6 @@ using temis.Core.Interfaces;
 using temis.Core.Models;
 using temis.data.Data;
 
-
 namespace temis.Data.Repositories
 {
     public class UserRepository : IUserRepository
@@ -67,13 +66,14 @@ namespace temis.Data.Repositories
         };
         public List<User> FindAll()
         {
-            return users;
+            var membros = context.Membros.FromSqlRaw("Select * From member_tbl").ToList();
+            return membros.OrderBy(u => u.Nome).ToList();
         }
 
         public User FindById(long id)
         {
-            User user = users.Where( u => u.Id == id).FirstOrDefault();
-            return user;
+          User user = context.Membros.FromSqlRaw($"Select * From member_tbl Where MembrosId = {0}",id).FirstOrDefault();
+          return user;
         }
         public User CreateUser(User user) 
         {
@@ -84,8 +84,9 @@ namespace temis.Data.Repositories
             {
                 // context.Membros.Add(user);
                 // context.SaveChanges();
-                //context.Membros.FromSqlRaw(@"INSERT INTO member_tbl (username, password, idade, nome, sobrenome)VALUES (""value1"", ""value2"", 25, ""oi"", ""xau"");").ToList();
-                var membros = context.Membros.FromSqlRaw("Select * From member_tbl").ToList();
+                context.Membros.FromSqlRaw(@"INSERT INTO member_tbl (username, password, idade, nome, sobrenome)VALUES (""value1"", ""value2"", 25, ""oi"", ""xau"");").ToList();
+                //var membros = context.Membros.FromSqlRaw("Select * From member_tbl").ToList();
+
                 users.Add(user);
                 return user;
             }
@@ -135,11 +136,12 @@ namespace temis.Data.Repositories
         public PageResponse<User> Filter (long id, PageRequest pageRequest)
         {
 
-            IEnumerable<User> query = from user in users where user.Id == id select user;
+            IQueryable<User> query = context.Membros.Where(i => i.Id == id);
             List<User> filtredUser;
 
-          //  filtredUser = Pagination<User>.For(query, pageRequest).ToList();
-            //return filtredUser;
+           // filtredUser = 
+
+            //return PageResponse<User>.For(filtredUser, pageRequest, query.Count());
 
             return null;
         }

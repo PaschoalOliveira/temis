@@ -19,11 +19,13 @@ namespace temis.Api.Controllers
            _userService = service;
         }
 
-    /*    [HttpGet]
-        public IActionResult Get()
+        [HttpGet("{id}")]
+        public IActionResult Get([FromRoute] long id)
         {
-            return Ok(_userService.FindAll());
-        }*/
+            var user = _userService.FindById(id);
+
+            return Ok(user);
+        }
 
          /// <summary>
         /// Cria um usuário
