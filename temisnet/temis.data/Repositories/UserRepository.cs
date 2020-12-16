@@ -71,9 +71,11 @@ namespace temis.Data.Repositories
         }
 
         public User FindById(long id)
-        {
-          User user = context.Membros.FromSqlRaw($"Select * From member_tbl Where MembrosId = {0}",id).FirstOrDefault();
-          return user;
+        { 
+            User user = context.Membros.FromSqlRaw("Select * From member_tbl").Where((p) => p.Id == id).FirstOrDefault();
+        //   User user = context.Membros.FromSqlRaw($"Select * From member_tbl Where MembrosId = {0}",id).FirstOrDefault();
+            return user;
+        //   return context.Membros.Where((p) => p.Id == id).SingleOrDefault();
         }
         public User CreateUser(User user) 
         {
