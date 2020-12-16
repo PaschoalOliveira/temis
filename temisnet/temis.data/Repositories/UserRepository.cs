@@ -132,7 +132,8 @@ namespace temis.Data.Repositories
         public void Delete(long id)
         {
             User user = FindById(id);
-            users.Remove(user);
+            context.Membros.Remove(user);
+            context.SaveChanges();
         }
 
         public void EditPassword(long id, string password)
