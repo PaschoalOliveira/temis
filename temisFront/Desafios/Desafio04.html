@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset=utf-8 />
+    <title>Verifique se há um item do dropdown, selecione ele, clique no botão</title>
+    <script>
+        function clicou()
+        {
+            var e = document.getElementById("colorSelect");
+            if(e.value == "Red"){
+                alert("Parabéns! Desafio 4 Concluído");
+            }
+            
+        }
+    </script>
+</head>
+
+<body>
+    <form>
+        <select id="colorSelect">
+            <option>Red</option>
+            <option>Green</option>
+            <option>White</option>
+            <option>Black</option>
+        </select>
+        <input type="button" onclick="clicou()" value="Clique">
+    </form>
+</body>
+
+</html>
