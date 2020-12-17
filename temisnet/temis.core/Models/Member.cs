@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace temis.Core.Models
 {
     [Table("member_tbl")]
-    public class User
+    public class Member
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id {get; set; }
@@ -23,7 +23,7 @@ namespace temis.Core.Models
         
         [Column("sobrenome")]
         public string Sobrenome { get; set; }
-        public User (long id, string username,  string password, int idade, string name, string sobrenome)
+        public Member (long id, string username,  string password, int idade, string name, string sobrenome)
         {
             this.Id = id;
             this.Username = username;
@@ -33,7 +33,7 @@ namespace temis.Core.Models
             this.Sobrenome = sobrenome;
         }
 
-        public User() {}
+        public Member() {}
 
     }
 }

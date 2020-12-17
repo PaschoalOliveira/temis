@@ -5,36 +5,36 @@ using temis.Core.Services.Interfaces;
 namespace temis.Api.Controllers
 {
     [ApiController]
-    [Route("/api/user")]
-    public class UserController : ControllerBase
+    [Route("/api/member")]
+    public class MemberController : ControllerBase
     {
-        private IUserService _userService;
+        private IMemberService _memberService;
 
-        public UserController(IUserService service)
+        public MemberController(IMemberService service)
         {
-           _userService = service;
+           _memberService = service;
         }
 
         [HttpGet("{id}")]
         public IActionResult Get([FromRoute] long id)
         {
-            var user = _userService.FindById(id);
+            var member = _memberService.FindById(id);
 
-            return Ok(user);
+            return Ok(member);
         }
 
         [HttpGet]
         public IActionResult Get(int? page, int? limit, string name)
         {   
             PageRequest pageRequest = PageRequest.Of(page, limit);
-            PageResponse<User> pageResponse = _userService.Filter(name, pageRequest);
+            PageResponse<Member> pageResponse = _memberService.Filter(name, pageRequest);
 
             if (pageResponse.Content != null || pageResponse.Content.Count != 0)
             {
                 return Ok(pageResponse);
             } 
 
-            return Ok(_userService.FindAll());
+            return Ok(_memberService.FindAll());
         }
 
          /// <summary>
@@ -43,12 +43,12 @@ namespace temis.Api.Controllers
         /// <response code="200">Usuário cadastrado</response>
         /// <response code="500">Erro interno</response>
         [HttpPost]
-        public IActionResult Post([FromBody] User user)
+        public IActionResult Post([FromBody] Member member)
         {
-            User userClient = _userService.CreateUser(user);
-            if (userClient != null) return Ok(userClient);
+            Member memberClient = _memberService.CreateMember(member);
+            if (memberClient != null) return Ok(memberClient);
 
-            return BadRequest("Duplicate id or could not insert this user.");
+            return BadRequest("Duplicate id or could not insert this member.");
         }
 
          /// <summary>
@@ -57,10 +57,10 @@ namespace temis.Api.Controllers
         /// <response code="200">Alteração feita com sucesso</response>
         /// <response code="500">Erro interno</response>
         [HttpPut]
-        public IActionResult  Put([FromBody] User user)
+        public IActionResult  Put([FromBody] Member member)
         {
-            _userService.EditUser(user);
-            return Ok(user);
+            _memberService.EditMember(member);
+            return Ok(member);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace temis.Api.Controllers
         [HttpPatch("edit")]
         public IActionResult Patch([FromBody]EditPasswordRequest request)
         {
-            _userService.EditPassword(request.Id, request.Password);
+            _memberService.EditPassword(request.Id, request.Password);
             return Ok();
         }
 
@@ -83,13 +83,14 @@ namespace temis.Api.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete([FromRoute] long id)
         {
-            bool userNotFound = _userService.FindById(id) == null;
-            if(userNotFound)
+            bool memberNotFound = _memberService.FindById(id) == null;
+
+            if(memberNotFound)
             {
-                return NotFound("User not found");
+                return NotFound("Member not found");
             }
 
-            _userService.Delete(id);
+            _memberService.Delete(id);
             return NoContent();
         }
 

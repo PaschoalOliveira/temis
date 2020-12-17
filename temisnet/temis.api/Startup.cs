@@ -35,8 +35,8 @@ namespace temis.api
             string connectionString = "Server=151.106.96.101;Port=3306;Database=u590093429_temis;Uid=u590093429_temisuser;Pwd=TemisUser1;";
             services.AddDbContext<MembroContext>((options) => options.UseMySql(connectionString));
 
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IMemberRepository, MemberRepository>();
+            services.AddScoped<IMemberService, MemberService>();
 
             
             services.AddControllers();

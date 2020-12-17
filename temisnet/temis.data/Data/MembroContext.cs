@@ -7,7 +7,7 @@ namespace temis.data.Data
 {
     public class MembroContext : DbContext
     {
-        public DbSet<User> Membros { get; set; }
+        public DbSet<Member> Membros { get; set; }
         public MembroContext(DbContextOptions<MembroContext> options) : base(options)
         {
             Database.EnsureCreated();
@@ -15,9 +15,9 @@ namespace temis.data.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<User>().ToTable("member_tbl");
-            builder.Entity<User>().HasNoKey();
-            builder.Entity<User>().Property(t => t.Id).HasColumnName("Id");
+            builder.Entity<Member>().ToTable("member_tbl");
+            builder.Entity<Member>().HasNoKey();
+            builder.Entity<Member>().Property(t => t.Id).HasColumnName("Id");
 
         }
 
