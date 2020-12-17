@@ -35,8 +35,8 @@ namespace temis.Data.Repositories
 
             if (member != null)
             {
-                context.Database.ExecuteSqlRaw($@"INSERT INTO member (name, age, role, lastName, cpf)
-                                            VALUES (""{member.Name}"", ""{member.Age}"", {member.Role}, ""{member.LastName}"", ""{member.CPF}"");");
+                context.Database.ExecuteSqlRaw($@"INSERT INTO member (name, last_name, age, role, cpf)
+                                            VALUES (""{member.Name}"", ""{member.LastName}"", {member.Age}, ""{member.Role}"", ""{member.CPF}"");");
             }
 
             return context.Membros.Where(p => p.Name == member.Name).FirstOrDefault();
@@ -45,16 +45,15 @@ namespace temis.Data.Repositories
         public Member EditMember(Member member)
         {
             var memberId = new MySqlParameter("@memberId", member.Id);
-            var memberIdade = new MySqlParameter("@memberAge", member.Age);
-            var memberNome = new MySqlParameter("@memberName", member.Name);
-            var memberSobrenome = new MySqlParameter("@memberLastName", member.LastName);
-            var memberMembername = new MySqlParameter("@memberRole", member.Role);
-            var memberMemberCPF = new MySqlParameter("@memberCPF", member.CPF);
+            var memberAge = new MySqlParameter("@memberAge", member.Age);
+            var memberName = new MySqlParameter("@memberName", member.Name);
+            var memberLastName = new MySqlParameter("@memberLastName", member.LastName);
+            var memberRole = new MySqlParameter("@memberRole", member.Role);
+            var memberCPF = new MySqlParameter("@memberCPF", member.CPF);
 
             context.Database.ExecuteSqlRaw(
-                "UPDATE member SET idade = @memberAge, name = @memberName, lastName = @memberLastName, memberName = @memberName WHERE id = @memberId, cpf = @memberCPF", 
-                memberIdade, memberNome, memberSobrenome, memberMembername, memberId, memberMemberCPF);
-
+                "UPDATE member SET age = @memberAge, name = @memberName, last_name = @memberLastName, role = @memberRole, cpf = @memberCPF WHERE id = @memberId", 
+                memberAge, memberName, memberLastName, memberRole, memberCPF, memberId);
             
             Member memberNew = FindById(member.Id);
             return memberNew;
@@ -62,8 +61,11 @@ namespace temis.Data.Repositories
 
         public void Delete(long id)
         {
+            // context.Database.ExecuteSqlCommand($"DELETE FROM Table WHERE ID = {id}");
+
             Member member = FindById(id);
             context.Membros.Remove(member);
+
             context.SaveChanges();
         }
 
