@@ -10,3 +10,4 @@ temisnet/temis.unitTest/obj/
 temisnet/temis.unitTest/bin/
 temisteste/cypress.json
 debug.log
+.vscode/launch.json
