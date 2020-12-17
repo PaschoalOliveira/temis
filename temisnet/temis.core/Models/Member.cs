@@ -3,13 +3,27 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace temis.Core.Models
 {
-    [Table("member_tbl")]
+    [Table("member")]
     public class Member
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id {get; set; }
+        
+        [Column("name")]
+        public string Name { get; set; }
 
-        [Column("username")]
+        [Column("last_name")]
+        public string LastName { get; set; }
+
+        [Column("role")]
+        public string Role { get; set; }
+
+        [Column("age")]
+        public int Age { get; set; }
+
+
+
+  /*      [Column("username")]
         public string Username { get; set; }
 
         [Column("password")]
@@ -22,15 +36,17 @@ namespace temis.Core.Models
         public string Nome { get; set; }
         
         [Column("sobrenome")]
-        public string Sobrenome { get; set; }
-        public Member (long id, string username,  string password, int idade, string name, string sobrenome)
+        public string Sobrenome { get; set; }*/
+
+
+        public Member (long id, string name,  string lastName, int age, string role)
         {
             this.Id = id;
-            this.Username = username;
-            this.Idade = idade;
-            this.Password = password;
-            this.Nome = name;
-            this.Sobrenome = sobrenome;
+            this.Name = name;
+            this.Age = age;
+            this.LastName = lastName;
+            this.Role = role;
+
         }
 
         public Member() {}

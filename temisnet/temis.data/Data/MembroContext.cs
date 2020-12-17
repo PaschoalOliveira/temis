@@ -15,7 +15,7 @@ namespace temis.data.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Member>().ToTable("member_tbl");
+            builder.Entity<Member>().ToTable("member");
             builder.Entity<Member>().HasNoKey();
             builder.Entity<Member>().Property(t => t.Id).HasColumnName("Id");
 
