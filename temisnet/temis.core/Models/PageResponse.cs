@@ -22,10 +22,8 @@ namespace temis.Core.Models
             page.Number = pr.Number;
             page.Limit = pr.Limit;
 
-            // total de páginas
             page.TotalPages = (int)Math.Ceiling((double)totalResult / (double)page.Limit);
             
-            // total elementos
             page.Total = (int)totalResult;
 
             page.First = page.Number == 1;

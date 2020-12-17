@@ -1,11 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using temis.Api.Controllers.Models.Requests;
-using temis.core.Models;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
-using temis.Data.Repositories;
-
 namespace temis.Api.Controllers
 {
     [ApiController]
@@ -25,6 +21,20 @@ namespace temis.Api.Controllers
             var user = _userService.FindById(id);
 
             return Ok(user);
+        }
+
+        [HttpGet]
+        public IActionResult Get(int? page, int? limit, string name)
+        {   
+            PageRequest pageRequest = PageRequest.Of(page, limit);
+            PageResponse<User> pageResponse = _userService.Filter(name, pageRequest);
+
+            if (pageResponse.Content != null || pageResponse.Content.Count != 0)
+            {
+                return Ok(pageResponse);
+            } 
+
+            return Ok(_userService.FindAll());
         }
 
          /// <summary>
@@ -83,18 +93,5 @@ namespace temis.Api.Controllers
             return NoContent();
         }
 
-        [HttpGet]
-        public IActionResult Get(int? page, int? limit, string name)
-        {   
-            PageRequest pageRequest = PageRequest.Of(page, limit);
-            PageResponse<User> pageResponse = _userService.Filter(name, pageRequest);
-
-            if (pageResponse.Content != null || pageResponse.Content.Count != 0)
-            {
-                return  Ok(pageResponse);
-            } 
-
-            return NoContent();
-        }
     }
 }

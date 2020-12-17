@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using temis.core.Models;
 using temis.Core.Interfaces;
 using temis.Core.Models;
 using temis.data.Data;

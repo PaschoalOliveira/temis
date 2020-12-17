@@ -1,7 +1,7 @@
 using System.Linq;
 using temis.Core.Models;
 
-namespace temis.core.Models
+namespace temis.data.Data
 {
     public static class PaginationRepository<TEntity> where TEntity : class
     {
