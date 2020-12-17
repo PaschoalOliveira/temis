@@ -14,7 +14,6 @@ namespace temis.Core.Services.Service
         {
             _repository = repository;
         }
-
         public Member CreateMember(Member member)
         {
             Member memberNew = _repository.CreateMember(member);

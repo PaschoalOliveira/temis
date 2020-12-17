@@ -21,13 +21,17 @@ namespace temis.Core.Models
         [Column("age")]
         public int Age { get; set; }
 
-        public Member (long id, string name,  string lastName, int age, string role)
+        [Column("cpf")]
+        public string CPF { get; set; }
+
+        public Member (long id, string name,  string lastName, int age, string role, string cpf)
         {
             this.Id = id;
             this.Name = name;
             this.Age = age;
             this.LastName = lastName;
             this.Role = role;
+            this.CPF = cpf;
 
         }
 

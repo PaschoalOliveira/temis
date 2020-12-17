@@ -35,8 +35,8 @@ namespace temis.Data.Repositories
 
             if (member != null)
             {
-                context.Database.ExecuteSqlRaw($@"INSERT INTO member (name, age, role, lastName)
-                                            VALUES (""{member.Name}"", ""{member.Age}"", {member.Role}, ""{member.LastName}"");");
+                context.Database.ExecuteSqlRaw($@"INSERT INTO member (name, age, role, lastName, cpf)
+                                            VALUES (""{member.Name}"", ""{member.Age}"", {member.Role}, ""{member.LastName}"", ""{member.CPF}"");");
             }
 
             return context.Membros.Where(p => p.Name == member.Name).FirstOrDefault();
@@ -49,10 +49,11 @@ namespace temis.Data.Repositories
             var memberNome = new MySqlParameter("@memberName", member.Name);
             var memberSobrenome = new MySqlParameter("@memberLastName", member.LastName);
             var memberMembername = new MySqlParameter("@memberRole", member.Role);
+            var memberMemberCPF = new MySqlParameter("@memberCPF", member.CPF);
 
             context.Database.ExecuteSqlRaw(
-                "UPDATE member SET idade = @memberAge, name = @memberName, lastName = @memberLastName, memberName = @memberName WHERE id = @memberId", 
-                memberIdade, memberNome, memberSobrenome, memberMembername, memberId);
+                "UPDATE member SET idade = @memberAge, name = @memberName, lastName = @memberLastName, memberName = @memberName WHERE id = @memberId, cpf = @memberCPF", 
+                memberIdade, memberNome, memberSobrenome, memberMembername, memberId, memberMemberCPF);
 
             
             Member memberNew = FindById(member.Id);
@@ -69,7 +70,7 @@ namespace temis.Data.Repositories
         public void EditPassword(long id, string password)
         {
             Member memberPassword = new Member() { Id = id };
-           // memberPassword.Password = password;
+         //   memberPassword.Password = password;
         }
 
         public IEnumerable<Member> PartialEditMember(string membername)
