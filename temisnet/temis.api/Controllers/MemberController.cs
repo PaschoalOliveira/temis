@@ -24,14 +24,14 @@ namespace temis.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get(int? page, int? limit, string name)
+        public IActionResult Get(int? page, int? limit, string name = "")
         {   
             PageRequest pageRequest = PageRequest.Of(page, limit);
             PageResponse<Member> pageResponse = _memberService.Filter(name, pageRequest);
 
             if (pageResponse.Content != null || pageResponse.Content.Count != 0)
             {
-                return Ok(pageResponse);
+                return Ok(pageResponse.Content);
             } 
 
             return Ok(_memberService.FindAll());
