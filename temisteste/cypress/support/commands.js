@@ -31,3 +31,9 @@ Cypress.Commands.add("loga", (username, password) => {
     // Verifica se entrou na página de login
     cy.url().should('include','/login')
   })
+
+  Cypress.on('uncaught:exception', (err, runnable) => {
+    // returning false here prevents Cypress from
+    // failing the test
+    return false
+  })
