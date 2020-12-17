@@ -1,39 +1,44 @@
 create table member(
-   id BIGINT(20) NOT NULL AUTO_INCREMENT,
-   name VARCHAR(50) NOT NULL,
-   last_name VARCHAR(50) NOT NULL,
+   id BIGINT NOT NULL AUTO_INCREMENT,
+   cpf VARCHAR(11) NOT NULL,
+   name VARCHAR(20) NOT NULL,
+   last_name VARCHAR(20) NOT NULL,
    age INT NOT NULL,
-   role VARCHAR(50) NOT NULL,
+   role VARCHAR(10) NOT NULL,
    PRIMARY KEY ( id )
 );
 
 create table team(
-   id BIGINT(20) NOT NULL AUTO_INCREMENT,
-   name VARCHAR(50) NOT NULL,
+   id BIGINT NOT NULL AUTO_INCREMENT,
+   name VARCHAR(20) NOT NULL,
    description VARCHAR(50) NOT NULL,
    PRIMARY KEY ( id )
 );
 
 create table team_member(
-   member_id BIGINT(20) NOT NULL,
-   team_id BIGINT(20) NOT NULL,
+   member_id BIGINT NOT NULL,
+   team_id BIGINT NOT NULL,
    foreign key (member_id) references member (id),
    foreign key (team_id) references team (id)
 );
 
 create table judging_instance(
-   id BIGINT(20) NOT NULL AUTO_INCREMENT,
-   member_id BIGINT(20),
-   team_id BIGINT(20),
+   id BIGINT NOT NULL AUTO_INCREMENT,
+   member_id BIGINT,
+   team_id BIGINT,
    foreign key (member_id) references member (id),
    foreign key (team_id) references team (id),
+   ck_member_team CHECK (
+      CASE WHEN member_id IS NULL THEN 0 ELSE 1 END +
+      CASE WHEN team_id  IS NULL THEN 1 ELSE 1 END = 1
+   )
    PRIMARY KEY ( id )
    
 );
 
 create table process(
-   id BIGINT(20) NOT NULL AUTO_INCREMENT,
-   judging_instance_id BIGINT(20) NOT NULL,
+   id BIGINT NOT NULL AUTO_INCREMENT,
+   judging_instance_id BIGINT NOT NULL,
    status VARCHAR(50) NOT NULL,
    status_update DATE NOT NULL,
    create_date DATE NOT NULL,
@@ -42,7 +47,7 @@ create table process(
 );
 
 create table judgment(
-   id BIGINT(20) NOT NULL AUTO_INCREMENT,
+   id BIGINT NOT NULL AUTO_INCREMENT,
    date DATE NOT NULL,
    veredict VARCHAR(50),
    process_id  BIGINT(50) NOT NULL,
