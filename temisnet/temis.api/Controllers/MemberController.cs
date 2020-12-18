@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using temis.Api.Controllers.Models.Requests;
 using temis.Core.DTO;
@@ -10,19 +11,21 @@ namespace temis.Api.Controllers
     public class MemberController : ControllerBase
     {
         private IMemberService _memberService;
+        private IMapper _mapper;
 
-        public MemberController(IMemberService service)
+        public MemberController(IMemberService service, IMapper mapper)
         {
            _memberService = service;
+           _mapper = mapper;
         }
 
         [HttpGet("{id}")]
         public IActionResult Get([FromRoute] long id)
         {
             var member = _memberService.FindById(id);
-          //  MemberDto memberDto = mapper.Map<MemberDto>(member);
+            var viewModel = _mapper.Map<MemberDto>(member);
 
-            return Ok(member);
+            return Ok(viewModel);
         }
 
         [HttpGet]
@@ -48,7 +51,8 @@ namespace temis.Api.Controllers
         public IActionResult Post([FromBody] Member member)
         {
             Member memberClient = _memberService.CreateMember(member);
-            if (memberClient != null) return Ok(memberClient);
+            var viewModel = _mapper.Map<MemberDto>(memberClient);
+            if (memberClient != null) return Ok(viewModel);
 
             return BadRequest("Duplicate id or could not insert this member.");
         }
@@ -62,7 +66,8 @@ namespace temis.Api.Controllers
         public IActionResult  Put([FromBody] Member member)
         {
             _memberService.EditMember(member);
-            return Ok(member);
+            var viewModel = _mapper.Map<MemberDto>(member);
+            return Ok(viewModel);
         }
 
         /// <summary>

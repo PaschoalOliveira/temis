@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,7 +13,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using temis.Core.DTO;
 using temis.Core.Interfaces;
+using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 using temis.Core.Services.Service;
 using temis.data.Data;
@@ -50,6 +53,14 @@ namespace temis.api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "temis.api", Version = "v1" });
             });
+
+            var config = new AutoMapper.MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Member, MemberDto>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddControllers().AddXmlDataContractSerializerFormatters();
         }
