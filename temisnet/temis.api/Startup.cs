@@ -38,6 +38,12 @@ namespace temis.api
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<IMemberService, MemberService>();
 
+            services.AddScoped<IJudgmentRepository, JudgmentRepository>();
+            services.AddScoped<IJudgmentService, JudgmentService>();
+
+            services.AddScoped<IProcessRepository, ProcessRepository>();
+            services.AddScoped<IProcessService, ProcessService>();
+
             
             services.AddControllers();
             services.AddSwaggerGen(c =>
