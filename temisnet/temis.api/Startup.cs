@@ -47,11 +47,20 @@ namespace temis.api
             services.AddScoped<IProcessRepository, ProcessRepository>();
             services.AddScoped<IProcessService, ProcessService>();
 
-            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "temis.api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { 
+                    Title = "temis.api", 
+                    Version = "v1" ,
+                    Description = "Coder Trainee Training with ASP.NET 3.1",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Coder Trainee Training with ASP.NET 3.1 - Repository",
+                        Email = string.Empty,
+                        Url = new Uri("https://github.com/PaschoalOliveira/temis/tree/feature/dotnet"),
+                    }
+                });
             });
 
             var config = new AutoMapper.MapperConfiguration(cfg =>
