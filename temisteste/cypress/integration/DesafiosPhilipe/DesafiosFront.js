@@ -50,31 +50,33 @@ describe('Fazendo desafios',() =>{
             .its('length')
             .then((colunas) => {
                     cy.get('tbody tr')
-                    .its('length')
-                    .then((linhas)=>{
-                        for(var i=0; i<colunas ; i++){
-                            var resultado = 0
-                            for(var j=0; j<linhas; j++){
-                                cy.get('tbody')
-                                    .children()
-                                    .eq(j)
-                                    .children()
-                                    .eq(i)
-                                    .invoke('text')
-                                    .then((valor)=>{
-                                        resultado+=parseInt(valor)
-                                        cont++
-                                        if(cont==3){
-                                            cy.get('tfoot tr td')
-                                                .eq(contcolunas)
-                                                .invoke('text')
-                                                .should('eq', resultado.toString())
-                                            contcolunas++
-                                        }
-                                    })
+                        .its('length')
+                        .then((linhas)=>{
+                            for(var i=0; i<colunas ; i++){
+                                var resultado = 0
+                                for(var j=0; j<linhas; j++){
+                                    cy.get('tbody')
+                                        .children()
+                                        .eq(j)
+                                        .children()
+                                        .eq(i)
+                                        .invoke('text')
+                                        .then((valor)=>{
+                                            resultado+=parseInt(valor)
+                                            cont++
+                                            if(cont==3){
+                                                cy.get('tfoot tr td')
+                                                    .eq(contcolunas)
+                                                    .invoke('text')
+                                                    .then((valor)=>{
+                                                        cy.log(valor)
+                                                    })
+                                                contcolunas++
+                                            }
+                                        })
+                                }
                             }
-                        }
-                    })                
+                        })                
             })
     })
 
