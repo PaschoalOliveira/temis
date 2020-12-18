@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using temis.Api.Controllers.Models.Requests;
+using temis.Core.DTO;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 namespace temis.Api.Controllers
@@ -19,6 +20,7 @@ namespace temis.Api.Controllers
         public IActionResult Get([FromRoute] long id)
         {
             var member = _memberService.FindById(id);
+          //  MemberDto memberDto = mapper.Map<MemberDto>(member);
 
             return Ok(member);
         }
