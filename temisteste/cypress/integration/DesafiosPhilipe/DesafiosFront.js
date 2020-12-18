@@ -45,6 +45,7 @@ describe('Fazendo desafios',() =>{
 
     it('Desafio 3', () => {
         cy.visit("http://127.0.0.1:5500/temis/temisFront/Desafios/Desafio03.html")
+        var cont=0, contcolunas=0
         cy.get('thead tr td')
             .its('length')
             .then((colunas) => {
@@ -62,20 +63,18 @@ describe('Fazendo desafios',() =>{
                                     .invoke('text')
                                     .then((valor)=>{
                                         resultado+=parseInt(valor)
-                                        console.log(resultado, valor)
+                                        cont++
+                                        if(cont==3){
+                                            cy.get('tfoot tr td')
+                                                .eq(contcolunas)
+                                                .invoke('text')
+                                                .should('eq', resultado.toString())
+                                            contcolunas++
+                                        }
                                     })
-                                    cy.log(resultado)
-                                
                             }
-                            cy.log(resultado)
-                            cy.get('tfoot tr td')
-                                .eq(i)
-                                .invoke('text')
-                                .should('eq', resultado)
                         }
-                    })
-                    
-                
+                    })                
             })
     })
 
