@@ -11,3 +11,4 @@ describe('Desafio 04, Verifique se há o item Red do dropdown, selecione ele, cl
     //.contains('Parabéns! Desafio 4 Concluído').should('be.visible')
     })
 })
+//OK

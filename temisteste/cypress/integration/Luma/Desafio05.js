@@ -8,3 +8,4 @@ describe('Desafio 05, Verifique se o segundo check está marcado', () =>{
     })
    
 })
+//OK
