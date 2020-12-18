@@ -51,7 +51,7 @@ namespace temis.Api.Controllers
             return BadRequest("Duplicate id or could not insert this member.");
         }
 
-         /// <summary>
+        /// <summary>
         /// Altera um usuário cadastrado
         /// </summary>
         /// <response code="200">Alteração feita com sucesso</response>

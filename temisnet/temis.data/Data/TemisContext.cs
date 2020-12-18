@@ -1,14 +1,16 @@
 
 using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore;
 using temis.Core.Models;
 
 namespace temis.data.Data
 {
-    public class MembroContext : DbContext
+    public class TemisContext : DbContext
     {
         public DbSet<Member> Membros { get; set; }
-        public MembroContext(DbContextOptions<MembroContext> options) : base(options)
+        public DbSet<Process> Process { get; set; }
+        public DbSet<Judgment> Judgment { get; set; }
+        
+        public TemisContext(DbContextOptions<TemisContext> options) : base(options)
         {
             Database.EnsureCreated();
         }

@@ -19,9 +19,11 @@ namespace temis.Core.Models
         public string Role { get; set; }
 
         [Column("age")]
-        public virtual int Age { get; set; }
+        public int Age { get; set; }
 
         [Column("cpf")]
+        [StringLength(11)]
+        [Required(ErrorMessage = "CPF is required")]
         public string CPF { get; set; }
 
         public Member (long id, string name,  string lastName, int age, string role, string cpf)

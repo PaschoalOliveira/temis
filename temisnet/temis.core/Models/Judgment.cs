@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace temis.core.Models
+namespace temis.Core.Models
 {
     public class Judgment
     {

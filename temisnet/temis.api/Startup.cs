@@ -33,7 +33,7 @@ namespace temis.api
         public void ConfigureServices(IServiceCollection services)
         {
             string connectionString = "Server=151.106.96.101;Port=3306;Database=u590093429_temis;Uid=u590093429_temisuser;Pwd=TemisUser1;";
-            services.AddDbContext<MembroContext>((options) => options.UseMySql(connectionString));
+            services.AddDbContext<TemisContext>((options) => options.UseMySql(connectionString));
 
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<IMemberService, MemberService>();
