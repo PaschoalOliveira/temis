@@ -1,30 +1,50 @@
+using System;
+using System.Collections.Generic;
+using Moq;
 using NUnit.Framework;
+using temis.Core.Models;
+using temis.Core.Services.Interfaces;
+
 namespace temis.unitTest
 {
     public class Tests
     {
+
         [SetUp]
         public void Setup()
         {
+            
         }
 
         
         [Test]
         public void TestMethod1()
-        {
-            /*
-            var mockInfo = new Mock<User>();
-            mockInfo.SetUpGet(user => user.Nome).Returns("joao");
-            
-            Action act = () =>
-            {
-                var usuario = new User(mockInfo.Object);
-                Assert.AreEqual("joao", usuario.Nome);
-            };
+        {            
+            var mockInfo = new Mock<Member>();
+            mockInfo.Setup(membro => membro.Age).Returns(12);
 
-            act.should.notThrow(); 
-            */
+            Member membro = new Member(1,"teste","teste",12,"juiz","01826287523");
+
+            NUnit.Framework.Assert.AreEqual(mockInfo.Object.Age, membro.Age);          
+        }       
+
+
+        [Test]
+        public void TestMethod2()
+        {            
+            var memberService = new Mock<IMemberService>();
+                memberService.Setup(p => p.FindAll())
+                .Returns(new List<Member>()
+                {
+                    new Member
+                    {
+                        Id = 1,
+                        Age = 12,
+                        CPF = "01826252352"
+                    }
+                });
+
+                NUnit.Framework.Assert.True(memberService.Object.FindAll().Count == 1);
         }
-        
-    }
+   }
 }

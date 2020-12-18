@@ -19,7 +19,7 @@ namespace temis.Core.Models
         public string Role { get; set; }
 
         [Column("age")]
-        public int Age { get; set; }
+        public virtual int Age { get; set; }
 
         [Column("cpf")]
         public string CPF { get; set; }
