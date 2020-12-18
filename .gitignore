@@ -9,5 +9,6 @@ temisnet/temis.data/bin/
 temisnet/temis.unitTest/obj/
 temisnet/temis.unitTest/bin/
 temisteste/cypress.json
-debug.log
+temisteste/debug.log
 .vscode/launch.json
+nodemodules
