@@ -13,9 +13,11 @@ describe('Desafio 03 - Contando elementos',() => {
                 .invoke('text')
                 .then( text => {
                     val = parseInt(text)
-                    console.log(val)
+                    sum = sum + val
+                    if(j == rowSize){
+                    console.log(`A soma é: ${sum}`)
+                    }
                 })
-                console.log(val)
             }
         }
     })
