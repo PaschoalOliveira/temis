@@ -8,14 +8,17 @@ namespace temis.core.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long JudgmentId {get; set; }
 
+        [ForeignKey("judgment_instance_id")]
+        public long JudgmentInstanceId {get; set; }
+        
+        [ForeignKey("process_id")]
+        public long ProcessId {get; set; }
+
         [Column("date")]
         public DateTime JudgmentDate { get; set; }
 
         [Column("veredict")]
         public string Veredict {get;set; }
-
-        [ForeignKey("process_id")]
-        public long ProcessId {get; set; }
 
     }
 }

@@ -16,9 +16,6 @@ namespace temis.core.Models
 
         [Column("create_date")]
         public DateTime CreationDate { get; set; }
-        
-        [ForeignKey("judging_instance_id")]
-        public long JudgingInstanceId {get; set; }
 
         public Process()
         {

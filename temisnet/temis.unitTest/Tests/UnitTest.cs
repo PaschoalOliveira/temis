@@ -46,5 +46,43 @@ namespace temis.unitTest
 
                 NUnit.Framework.Assert.True(memberService.Object.FindAll().Count == 1);
         }
+
+        [Test]
+        public void ValidaRetornoPorId()
+        {            
+            Member member = new Member()
+            {
+                Id = 1,
+                Name = "Elayne",
+                LastName = "Natalia",
+                Age = 29,
+                Role = "Coder Trainee",
+                CPF = "111111111",
+
+            };
+
+            Member memberNew = new Member()
+            {
+                Id = 2,
+                Name = "Natalia",
+                LastName = "Elayne",
+                Age = 29,
+                Role = "Coder Trainee",
+                CPF = "00000000000",
+
+            };
+
+            List<Member> members = new List<Member>();
+            members.Add(member);
+            members.Add(memberNew);
+
+            var memberService = new Mock<IMemberService>();
+            memberService.Setup(p => p.FindById(member.Id)).Returns(member);
+            
+            NUnit.Framework.Assert.True(memberService.Object.FindById(member.Id) == member);
+
+        }
+
+        
    }
 }

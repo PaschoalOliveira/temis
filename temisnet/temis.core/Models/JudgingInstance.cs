@@ -7,6 +7,9 @@ namespace temis.core.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long JudgingInstanceId {get; set; }
 
+        [Column("level")]
+        public string level {get;set;}
+
         [ForeignKey("member_id")]
         public long MemberId {get; set; }
 
