@@ -35,7 +35,7 @@ namespace temis.api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionString = "Server=151.106.96.101;Port=3306;Database=u590093429_temis;Uid=u590093429_temisuser;Pwd=TemisUser1;";
+            string connectionString = "Server=151.106.96.101;Port=3306;Database=u590093429_temis;Uid=u590093429_temisuser;Pwd=TemisUser1;convert zero datetime=True;";
             services.AddDbContext<TemisContext>((options) => options.UseMySql(connectionString));
 
             services.AddScoped<IMemberRepository, MemberRepository>();
