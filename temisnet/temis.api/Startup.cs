@@ -2,18 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using temis.Core.DTO;
 using temis.Core.Interfaces;
+using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 using temis.Core.Services.Service;
+using temis.data.Data;
 using temis.Data.Repositories;
 
 namespace temis.api
@@ -30,16 +35,41 @@ namespace temis.api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionString = "Server=151.106.96.101;Port=3306;Database=u590093429_temis;Uid=u590093429_temisuser;Pwd=TemisUser1;";
+            services.AddDbContext<TemisContext>((options) => options.UseMySql(connectionString));
 
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IMemberRepository, MemberRepository>();
+            services.AddScoped<IMemberService, MemberService>();
 
-            
+            services.AddScoped<IJudgmentRepository, JudgmentRepository>();
+            services.AddScoped<IJudgmentService, JudgmentService>();
+
+            services.AddScoped<IProcessRepository, ProcessRepository>();
+            services.AddScoped<IProcessService, ProcessService>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "temis.api", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { 
+                    Title = "temis.api", 
+                    Version = "v1" ,
+                    Description = "Coder Trainee Training with ASP.NET 3.1",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Coder Trainee Training with ASP.NET 3.1 - Repository",
+                        Email = string.Empty,
+                        Url = new Uri("https://github.com/PaschoalOliveira/temis/tree/feature/dotnet"),
+                    }
+                });
             });
+
+            var config = new AutoMapper.MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Member, MemberDto>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddControllers().AddXmlDataContractSerializerFormatters();
         }
