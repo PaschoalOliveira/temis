@@ -33,9 +33,12 @@ namespace temis.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public List<Judgment> FindAll()
+        public PageResponse<Judgment> FindAll(PageRequest pReq)
         {
-            throw new NotImplementedException();
+            List<Judgment> judgments = new List<Judgment>();
+            judgments = context.Judgment.Where(p => true).ToList();
+            PageResponse<Judgment> pResponse = PageResponse<Judgment>.For(judgments, pReq, judgments.Count);
+            return pResponse;
         }
 
         public Judgment FindById(long id)

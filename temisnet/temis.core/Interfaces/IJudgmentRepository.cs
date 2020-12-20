@@ -7,7 +7,7 @@ namespace temis.Core.Interfaces
     {
         Judgment CreateJudgment(Judgment judgment);
         Judgment EditJudgment(Judgment judgment);
-        List<Judgment> FindAll();
+        PageResponse<Judgment> FindAll(PageRequest pReq);
         Judgment FindById(long id);
         void Delete(long Id);
     }

@@ -32,10 +32,9 @@ namespace temis.Core.Services.Service
             return judgmentNew;
         }
 
-        public List<Judgment> FindAll()
+        public PageResponse<Judgment> FindAll(PageRequest pReq)
         {
-            List<Judgment> list = new List<Judgment>();
-            list = _repository.FindAll();
+            PageResponse<Judgment> list = _repository.FindAll(pReq);
             return list;
         }
 
