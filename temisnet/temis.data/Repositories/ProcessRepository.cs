@@ -18,9 +18,10 @@ namespace temis.Data.Repositories
             context = ctx;
         }
 
-        public Process CreateProcess(Process member)
+        public Process CreateProcess(Process process)
         {
-            throw new NotImplementedException();
+            Process processNew = context.Process.Add(process).Entity;
+            return processNew;
         }
 
         public void Delete(long Id)
@@ -32,9 +33,12 @@ namespace temis.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public List<Member> FindAll()
+        public PageResponse<Process> FindAll(PageRequest pReq)
         {
-            throw new NotImplementedException();
+            List<Process> processes = new List<Process>();
+            processes = context.Process.ToList();
+            PageResponse<Process> pResponse = PageResponse<Process>.For(processes, pReq, processes.Count);
+            return pResponse;
         }
 
         public Process FindById(long id)

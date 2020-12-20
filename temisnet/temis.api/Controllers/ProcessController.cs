@@ -25,9 +25,11 @@ namespace temis.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get(int? page, int? limit, string name = "")
+        public IActionResult Get(int? page, int? limit, string description = "")
         {
-            return Ok("nao implementei");
+            PageRequest pReq = PageRequest.Of(page, limit);
+            PageResponse<Process> processes = _processService.FindAll(pReq);
+            return Ok(processes.Content);
         }
 
 

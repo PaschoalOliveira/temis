@@ -31,9 +31,9 @@ namespace temis.Core.Services.Service
             Process editedProcess = _repository.EditProcess(process);
             return editedProcess;
         }
-        public List<Process> FindAll()
+        public PageResponse<Process> FindAll(PageRequest pageRequest)
         {
-            List<Process> listProcess = new List<Process>();
+            PageResponse<Process> listProcess = _repository.FindAll(pageRequest);
             //listProcess = _repository.FindAll();
             return listProcess;
         }

@@ -7,7 +7,7 @@ namespace temis.Core.Interfaces
     {
          Process CreateProcess(Process member);
          Process EditProcess(Process member);
-         List<Member> FindAll();
+         PageResponse<Process> FindAll(PageRequest pageRequest);
          Process FindById(long id);
          void Delete(long Id);
     }

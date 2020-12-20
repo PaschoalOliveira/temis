@@ -36,7 +36,7 @@ namespace temis.Data.Repositories
         public PageResponse<Judgment> FindAll(PageRequest pReq)
         {
             List<Judgment> judgments = new List<Judgment>();
-            judgments = context.Judgment.Where(p => true).ToList();
+            judgments = context.Judgment.ToList();
             PageResponse<Judgment> pResponse = PageResponse<Judgment>.For(judgments, pReq, judgments.Count);
             return pResponse;
         }
