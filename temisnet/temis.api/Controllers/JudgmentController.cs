@@ -1,5 +1,7 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using temis.Api.Controllers.Models.Requests;
+using temis.Core.DTO;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 
@@ -10,10 +12,12 @@ namespace temis.Api.Controllers
     public class JudgmentController : ControllerBase
     {
          private IJudgmentService _judgmentService;
+         private IMapper _mapper;
 
-        public JudgmentController(IJudgmentService service)
+        public JudgmentController(IJudgmentService service, IMapper mapper)
         {
             _judgmentService = service;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
@@ -21,7 +25,9 @@ namespace temis.Api.Controllers
         {
 
             var judgment = _judgmentService.FindById(id);
-            return Ok(judgment);
+            var viewModel = _mapper.Map<JudgmentDto>(judgment);
+
+            return Ok(viewModel);
         }
 
         [HttpGet]
@@ -39,7 +45,8 @@ namespace temis.Api.Controllers
         {
 
             Judgment judgmentClient = _judgmentService.CreateJudgment(judgment);
-            if (judgmentClient != null) return Ok(judgmentClient);
+            var viewModel = _mapper.Map<JudgmentDto>(judgmentClient);
+            if (viewModel != null) return Ok(viewModel);
 
             return BadRequest("Duplicate id or could not insert this judgment.");
         }
@@ -49,6 +56,7 @@ namespace temis.Api.Controllers
         public IActionResult Put([FromBody] Judgment judgment)
         {
              _judgmentService.EditJudgment(judgment);
+            var viewModel = _mapper.Map<JudgmentDto>(judgment);
             return Ok(judgment);
         }
 

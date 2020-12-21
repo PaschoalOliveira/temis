@@ -66,6 +66,8 @@ namespace temis.api
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Member, MemberDto>();
+                cfg.CreateMap<Judgment, JudgmentDto>();
+                cfg.CreateMap<Process, ProcessDto>();
             });
 
             IMapper mapper = config.CreateMapper();

@@ -43,7 +43,8 @@ namespace temis.Data.Repositories
 
         public Judgment FindById(long id)
         {
-            throw new NotImplementedException();
+            Judgment judgment = context.Judgment.Where(p => p.JudgmentInstanceId == id).FirstOrDefault();
+            return judgment;
         }
     }
 }
