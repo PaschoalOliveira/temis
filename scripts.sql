@@ -19,9 +19,12 @@ create table team_member(
    member_id BIGINT NOT NULL,
    team_id BIGINT NOT NULL,
    foreign key (member_id) references member (id),
-   foreign key (team_id) references team (id)
+   foreign key (team_id) references team (id)w
+
+   UNICIDADE DE LIGAÇÃO 
 );
 
+//PK COMPOSTA
 create table judging_instance(
    id BIGINT NOT NULL AUTO_INCREMENT,
    member_id BIGINT,

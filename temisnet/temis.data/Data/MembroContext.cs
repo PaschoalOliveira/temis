@@ -8,6 +8,8 @@ namespace temis.data.Data
     public class MembroContext : DbContext
     {
         public DbSet<Member> Membros { get; set; }
+        public DbSet<Process> Process { get; set; }
+        
         public MembroContext(DbContextOptions<MembroContext> options) : base(options)
         {
             Database.EnsureCreated();

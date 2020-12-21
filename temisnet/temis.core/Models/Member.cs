@@ -22,7 +22,10 @@ namespace temis.Core.Models
         public virtual int Age { get; set; }
 
         [Column("cpf")]
-        public string CPF { get; set; }
+        public string Cpf { get; set; }
+
+        [Column("password")]
+        public string password { get; set; }
 
         public Member (long id, string name,  string lastName, int age, string role, string cpf)
         {
@@ -31,7 +34,7 @@ namespace temis.Core.Models
             this.Age = age;
             this.LastName = lastName;
             this.Role = role;
-            this.CPF = cpf;
+            this.Cpf = cpf;
 
         }
 
