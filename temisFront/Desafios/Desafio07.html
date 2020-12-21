@@ -4,8 +4,7 @@
 <head>
     <meta charset=utf-8 />
     <title>Verifique se o segundo elemento é "Chá". Faça o translate da página </title>
-    <script>
-    </script>
+    
 </head>
 
 <body>
@@ -16,6 +15,48 @@
             <li>Milk</li>
           </ul>          
     </form>
+
+    <button type="button" onclick="translatePage()">Translate</button>
+
+
+    <script type="text/javascript">
+        function translatePage() {
+            
+            console.log('Clicado!')
+
+            var li_1 = document.querySelector("body > form > ul > li:nth-child(1)").innerHTML
+            var li_2 = document.querySelector("body > form > ul > li:nth-child(2)").innerHTML
+            var li_3 = document.querySelector("body > form > ul > li:nth-child(3)").innerHTML
+            var transBtn = document.querySelector("body > button:nth-child(2)").innerHTML
+
+            
+            if(transBtn == "Translate") {
+                document.querySelector("body > button:nth-child(2)").innerHTML = "Traduzir"
+            } else {
+                document.querySelector("body > button:nth-child(2)").innerHTML = "Translate"
+            }
+
+            if(li_1 == 'Coffee') {
+                document.querySelector("body > form > ul > li:nth-child(1)").innerHTML = 'Café'
+            } else {
+                document.querySelector("body > form > ul > li:nth-child(1)").innerHTML = 'Coffee'
+            }
+
+            if(li_2 == 'Tea') {
+                document.querySelector("body > form > ul > li:nth-child(2)").innerHTML = 'Chá'
+            } else {
+                document.querySelector("body > form > ul > li:nth-child(2)").innerHTML = 'Tea'
+            }
+
+            if(li_3 == 'Milk') {
+                document.querySelector("body > form > ul > li:nth-child(3)").innerHTML = 'Leite'
+            } else {
+                document.querySelector("body > form > ul > li:nth-child(3)").innerHTML = 'Milk'
+            }
+
+        }
+    </script>
+
 </body>
 
 </html>
