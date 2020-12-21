@@ -13,7 +13,6 @@ namespace temis.Core.Models
         public PageResponse(List<T> content, int pageNumber, int pageLimit, int totalResult): this(content, PageRequest.Of(pageNumber, pageLimit), totalResult) { }
         public PageResponse(List<T> content, PageRequest pr, long totalResult)
         {
-            this.Content = content;
 
             Page page = new Page();
 
@@ -29,6 +28,7 @@ namespace temis.Core.Models
             page.First = page.Number == 1;
             page.Last = page.Number >= page.Total;
 
+            this.Content = content.Skip(page.Limit * (page.Number - 1)).Take(page.Limit).ToList();
             this.Page = page;
         }
         public static PageResponse<T> For(List<T> content, PageRequest pr, long totalResult) => new PageResponse<T>(content, pr, totalResult);

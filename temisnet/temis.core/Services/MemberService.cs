@@ -39,6 +39,12 @@ namespace temis.Core.Services.Service
             return member;
         }
 
+        public Member Validate(string cpf, string password)
+        {
+            Member member = _repository.Validate(cpf,password);
+            return member;
+        }
+
         public void EditPassword(long id, string password)
         {
             Member member = _repository.FindById(id);
