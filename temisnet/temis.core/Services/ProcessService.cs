@@ -31,6 +31,14 @@ namespace temis.Core.Services.Service
             Process editedProcess = _repository.EditProcess(process);
             return editedProcess;
         }
+        public Process ChangeStatus(Process process)
+        {
+            Process updateProcess = FindById(process.ProcessId);
+            updateProcess.Status = process.Status;
+            updateProcess.StatusUpdate = DateTime.Now;
+            
+            return _repository.ChangeStatus(updateProcess);
+        }
         public PageResponse<Process> FindAll(PageRequest pageRequest)
         {
             PageResponse<Process> listProcess = _repository.FindAll(pageRequest);

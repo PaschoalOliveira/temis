@@ -68,11 +68,22 @@ namespace temis.Api.Controllers
         }
 
 
-        [HttpPatch("edit")]
-        public IActionResult Patch([FromBody] EditPasswordRequest request)
+        [HttpPatch]
+        public IActionResult Patch([FromBody] ChangeStatusRequest request)
         {
+            Process process = _processService.FindById(request.Id);
 
-            return Ok("nao implementei");
+            if (process == null)
+            {
+                return NotFound("Process not found");
+            }
+
+            process.Status = request.Status;
+
+            _processService.ChangeStatus(process);
+
+            var viewModel = _mapper.Map<ProcessDto>(process);
+            return Ok(viewModel);
         }
 
 
