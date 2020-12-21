@@ -20,7 +20,8 @@ namespace temis.Data.Repositories
 
         public Judgment CreateJudgment(Judgment judgment)
         {
-            throw new NotImplementedException();
+            Judgment judgmentNew = context.Judgment.Add(judgment).Entity;
+            return judgmentNew;
         }
 
         public void Delete(long Id)
@@ -37,6 +38,7 @@ namespace temis.Data.Repositories
         {
             List<Judgment> judgments = new List<Judgment>();
             judgments = context.Judgment.ToList();
+            judgments = judgments.Skip(pReq.limit * pReq.number).Take(judgments.Count).ToList();
             PageResponse<Judgment> pResponse = PageResponse<Judgment>.For(judgments, pReq, judgments.Count);
             return pResponse;
         }
