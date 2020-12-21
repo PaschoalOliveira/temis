@@ -20,17 +20,37 @@ namespace temis.Data.Repositories
 
         public Judgment CreateJudgment(Judgment judgment)
         {
-            throw new NotImplementedException();
+             if (judgment != null)
+            {
+                context.Database.ExecuteSqlRaw($@"INSERT INTO judgment (date, veredict, process_id, judgment_instance_id)
+                                            VALUES (""{judgment.JudgmentDate}"", ""{judgment.Veredict}"", {judgment.ProcessId}, ""{judgment.JudgmentInstanceId}"");");
+            }
+
+            return context.Judgment.Where(p => p.ProcessId == judgment.ProcessId).FirstOrDefault();
         }
 
         public void Delete(long Id)
         {
-            throw new NotImplementedException();
+            Judgment judgment = FindById(Id);
+            context.Judgment.Remove(judgment);
+
+            context.SaveChanges();
         }
 
         public Judgment EditJudgment(Judgment judgment)
-        {
-            throw new NotImplementedException();
+        {                      
+            var judgmentDate = new MySqlParameter("@judgmentDate", judgment.JudgmentDate);
+            var judgmentVeredict = new MySqlParameter("@judgmentVeredict", judgment.Veredict);
+            var judgmentProcessId = new MySqlParameter("@judgmentProcessId", judgment.ProcessId);
+            var judgmentJudgmentInstanceId = new MySqlParameter("@judgmentJudgmentInstanceId", judgment.JudgmentInstanceId);
+
+            context.Database.ExecuteSqlRaw(
+                "UPDATE judgment SET date = @judgmentDate, veredict = @judgmentVeredict WHERE (process_id, judgment_instance_id) = (@judgmentProcessId, @judgmentJudgmentInstanceId)", 
+                judgmentDate, judgmentVeredict, judgmentProcessId, judgmentJudgmentInstanceId);
+            
+            Judgment judgmentNew = FindById(judgment.JudgmentInstanceId);
+            return judgmentNew;
+
         }
 
         public PageResponse<Judgment> FindAll(PageRequest pReq)
