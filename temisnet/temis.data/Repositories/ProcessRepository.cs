@@ -21,6 +21,7 @@ namespace temis.Data.Repositories
         public Process CreateProcess(Process process)
         {
             Process processNew = context.Process.Add(process).Entity;
+            context.SaveChanges();
             return processNew;
         }
 
@@ -33,18 +34,24 @@ namespace temis.Data.Repositories
             throw new NotImplementedException();
         }
 
+        public Process ChangeStatus(Process process)
+        {
+            context.Process.Update(process);
+            context.SaveChanges();
+            return process;
+        }
+
         public PageResponse<Process> FindAll(PageRequest pReq)
         {
             List<Process> processes = new List<Process>();
             processes = context.Process.ToList();
-            processes = processes.Skip(pReq.limit * pReq.number).Take(processes.Count).ToList();
             PageResponse<Process> pResponse = PageResponse<Process>.For(processes, pReq, processes.Count);
             return pResponse;
         }
 
         public Process FindById(long id)
         {
-            throw new NotImplementedException();
+            return context.Process.Where((p) => p.ProcessId == id).SingleOrDefault();
         }
     }
 }
