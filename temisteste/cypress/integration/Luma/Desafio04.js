@@ -8,7 +8,10 @@ describe('Desafio 04, Verifique se há o item Red do dropdown, selecione ele, cl
     it('Selecionar Red', () =>{
     cy.get('#colorSelect').select('Red')
     cy.get('input[type="button"]').click()
-    //.contains('Parabéns! Desafio 4 Concluído').should('be.visible')
+    cy.on('window:alert', (mensagem) => {
+        expect(mensagem).to.equal('Parabéns! Desafio 4 Concluído');
+        //verificar o alert aparecendo
+      })
     })
 })
 //OK

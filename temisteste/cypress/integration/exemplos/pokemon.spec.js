@@ -5,7 +5,7 @@ describe("Teste Dogs", ()=>{
         cy.request('GET', 'https://pokeapi.co/api/v2/pokemon/ditto/')
         .then((response) => {
             response.body.abilities.forEach(element => {
-                expect(element.name).to.have.property('name', 'teste') 
+                expect(element.ability).to.have.property('name', 'limber')
             }) 
         });
     })

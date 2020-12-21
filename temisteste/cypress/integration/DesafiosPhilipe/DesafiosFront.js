@@ -111,6 +111,9 @@ describe('Fazendo desafios',() =>{
 
     it("Desafio 7",() =>{
         cy.visit('http://127.0.0.1:5500/temis/temisFront/Desafios/Desafio07.html')
+        cy.get('form')
+            .rightclick()
+            .wait(1000)
 
     })
 
@@ -137,13 +140,9 @@ describe('Fazendo desafios',() =>{
 
     it("Desafio 9",() =>{
         cy.visit('http://127.0.0.1:5500/temis/temisFront/Desafios/Desafio09.html')
-        const stub = cy.stub()
-        cy.on('window:alert', stub)
-        cy.get('[value="Clique"]')
-            .click()
-            .then(() =>{
-                expect(stub.getCall(0)).to.be.calledWith("Você consegue verificar essa mensagem?")
-            })  
+        cy.on('window:alert', alerta =>{
+            expect(alerta).to.eq("Você consegue verificar essa mensagem?")
+        })
     })
 
     it("Desafio 10",() =>{
