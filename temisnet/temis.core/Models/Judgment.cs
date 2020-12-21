@@ -7,11 +7,9 @@ namespace temis.Core.Models
     public class Judgment
     {
 
-        [ForeignKey("judging_instance_id")]
         [Column("judging_instance_id")]
         public long JudgmentInstanceId {get; set; }
         
-        [ForeignKey("process_id")]
         [Column("process_id")]
         public long ProcessId {get; set; }
 
