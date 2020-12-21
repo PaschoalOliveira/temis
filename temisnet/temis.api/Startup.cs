@@ -30,6 +30,8 @@ namespace temis.api
 {
     public class Startup
     {
+        public static string Secret = "fedaf7d8863b48e197b9287d492b708e";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -53,6 +55,7 @@ namespace temis.api
             services.AddScoped<IProcessService, ProcessService>();
 
             services.AddControllers();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { 
@@ -67,7 +70,7 @@ namespace temis.api
                     }
                 });
                 
-                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
                     Name = "Authorization",
@@ -78,36 +81,25 @@ namespace temis.api
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
-                {
-                    new OpenApiSecurityScheme
                     {
-                        Reference = new OpenApiReference 
+                        new OpenApiSecurityScheme
                         {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer" 
+                            Reference = new OpenApiReference 
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer" 
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
                         },
-                        Scheme = "oauth2",
-                        Name = "Bearer",
-                        In = ParameterLocation.Header,
-                    },
-                    new List<string>() }
+                        new List<string>() }
                  });
 
             });
 
-            var config = new AutoMapper.MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Member, MemberDto>();
-                cfg.CreateMap<Judgment, JudgmentDto>();
-                cfg.CreateMap<Process, ProcessDto>();
-            });
+            var key = Encoding.ASCII.GetBytes(Secret);
 
-            IMapper mapper = config.CreateMapper();
-            services.AddSingleton(mapper);
-
-            services.AddControllers().AddXmlDataContractSerializerFormatters();
-
-            var key = Encoding.ASCII.GetBytes(Settings.Secret);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -125,6 +117,18 @@ namespace temis.api
                     ValidateAudience = false
                 };
             });
+
+            var config = new AutoMapper.MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Member, MemberDto>();
+                cfg.CreateMap<Judgment, JudgmentDto>();
+                cfg.CreateMap<Process, ProcessDto>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
+
+            services.AddControllers().AddXmlDataContractSerializerFormatters();
 
         }
 
