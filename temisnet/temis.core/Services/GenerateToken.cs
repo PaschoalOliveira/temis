@@ -1,6 +1,7 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using temis.api;
@@ -32,20 +33,18 @@ namespace Solutis.Services
 
         public static string GenerateMD5(string input)
         {
-            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
-            {
-                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
-                byte[] hashBytes = md5.ComputeHash(inputBytes);
+            MD5 md5Hasher = MD5.Create();
 
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < hashBytes.Length; i++)
-                {
-                    sb.Append(hashBytes[i].ToString("X2"));
-                }
-                return sb.ToString();
+            byte[] valorCriptografado = md5Hasher.ComputeHash(Encoding.Default.GetBytes(input));
+
+            StringBuilder strBuilder = new StringBuilder();
+
+            for (int i = 0; i < valorCriptografado.Length; i++)
+            {
+                strBuilder.Append(valorCriptografado[i].ToString("x2"));
 
             }
+            return strBuilder.ToString();
         }
-
     }
 }

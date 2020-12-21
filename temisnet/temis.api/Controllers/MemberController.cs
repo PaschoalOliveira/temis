@@ -47,7 +47,7 @@ namespace temis.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "juiz")]
+        [Authorize(Roles = "coder, advogado")]
         public IActionResult Get([FromRoute] long id)
         {
             var member = _memberService.FindById(id);
@@ -57,6 +57,7 @@ namespace temis.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "coder, advogado")]
         public IActionResult Get(int? page, int? limit, string name = "")
         {   
             PageRequest pageRequest = PageRequest.Of(page, limit);
@@ -76,6 +77,7 @@ namespace temis.Api.Controllers
         /// <response code="200">Usuário cadastrado</response>
         /// <response code="500">Erro interno</response>
         [HttpPost]
+        [Authorize(Roles = "")]
         public IActionResult Post([FromBody] Member member)
         {
             Member memberClient = _memberService.CreateMember(member);
@@ -91,6 +93,7 @@ namespace temis.Api.Controllers
         /// <response code="200">Alteração feita com sucesso</response>
         /// <response code="500">Erro interno</response>
         [HttpPut]
+        [Authorize(Roles = "")]
         public IActionResult  Put([FromBody] Member member)
         {
             _memberService.EditMember(member);
@@ -104,6 +107,7 @@ namespace temis.Api.Controllers
         /// <response code="200">Usuário cadastrado</response>
         /// <response code="500">Erro interno</response>
         [HttpPatch("edit")]
+        [Authorize(Roles = "")]
         public IActionResult Patch([FromBody]EditPasswordRequest request)
         {
             _memberService.EditPassword(request.Id, request.Password);
@@ -116,6 +120,7 @@ namespace temis.Api.Controllers
         /// <response code="200">Deleta um usuário cadastrado</response>
         /// <response code="500">Erro interno</response>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "")]
         public ActionResult Delete([FromRoute] long id)
         {
             bool memberNotFound = _memberService.FindById(id) == null;

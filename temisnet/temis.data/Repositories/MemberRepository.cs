@@ -27,7 +27,7 @@ namespace temis.Data.Repositories
             var user = users.Where(
                     x =>
                          x.Cpf == cpf &&
-                         x.password == password
+                         x.password == passwordGenerate
                          ).FirstOrDefault();
             return user;
         }
