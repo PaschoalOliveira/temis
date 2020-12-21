@@ -1,5 +1,9 @@
+using System;
+using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Solutis.Services;
 using temis.Api.Controllers.Models.Requests;
 using temis.Core.DTO;
 using temis.Core.Models;
@@ -17,6 +21,29 @@ namespace temis.Api.Controllers
         {
            _memberService = service;
            _mapper = mapper;
+        }
+
+        [HttpPost]
+        [Route("login")]
+        [AllowAnonymous]
+        public async Task<ActionResult<dynamic>> Authenticate([FromBody] Member member)
+        {
+            var user = _memberService.Validate(member.Cpf, member.password);
+
+         /*   if (member == null) return NotFound(new { message = "Username or password is invalid" });
+            var token = "";
+            await Task.Run(() => token = SecurityService.GenerateToken(member));
+
+            if (token == null) return Unauthorized("We were unable to generate your token");
+*/
+            return new
+            {
+                name = member.Name,
+                role = member.Role,
+                createToken = (DateTime.Today).ToString(),
+               // token = token
+            };
+
         }
 
         [HttpGet("{id}")]

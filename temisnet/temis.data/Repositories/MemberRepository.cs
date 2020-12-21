@@ -6,6 +6,7 @@ using temis.Core.Interfaces;
 using temis.Core.Models;
 using temis.data.Data;
 using MySql.Data.MySqlClient;
+using Solutis.Services;
 
 namespace temis.Data.Repositories
 {
@@ -18,6 +19,18 @@ namespace temis.Data.Repositories
             context = ctx;
         }
         private static List<Member> members = new List<Member>();
+
+        public Member Validate(string cpf, string password)
+        {
+            var users = context.Membros.ToList();
+            string passwordGenerate = SecurityService.GenerateMD5(password);
+
+            return users.Where(
+                    x =>
+                         x.Cpf == cpf &&
+                         x.password == password
+                         ).FirstOrDefault();
+        }
 
         public List<Member> FindAll()
         {
