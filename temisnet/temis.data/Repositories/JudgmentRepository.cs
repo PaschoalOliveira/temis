@@ -20,13 +20,10 @@ namespace temis.Data.Repositories
 
         public Judgment CreateJudgment(Judgment judgment)
         {
-             if (judgment != null)
-            {
-                context.Database.ExecuteSqlRaw($@"INSERT INTO judgment (date, veredict, process_id, judgment_instance_id)
-                                            VALUES (""{judgment.JudgmentDate}"", ""{judgment.Veredict}"", {judgment.ProcessId}, ""{judgment.JudgmentInstanceId}"");");
-            }
 
-            return context.Judgment.Where(p => p.ProcessId == judgment.ProcessId).FirstOrDefault();
+            Judgment judgmentNew = context.Judgment.Add(judgment).Entity;
+            return judgmentNew;
+
         }
 
         public void Delete(long Id)
@@ -57,6 +54,7 @@ namespace temis.Data.Repositories
         {
             List<Judgment> judgments = new List<Judgment>();
             judgments = context.Judgment.ToList();
+            judgments = judgments.Skip(pReq.limit * pReq.number).Take(judgments.Count).ToList();
             PageResponse<Judgment> pResponse = PageResponse<Judgment>.For(judgments, pReq, judgments.Count);
             return pResponse;
         }

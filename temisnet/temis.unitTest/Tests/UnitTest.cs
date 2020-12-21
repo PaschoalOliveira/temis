@@ -40,7 +40,7 @@ namespace temis.unitTest
                     {
                         Id = 1,
                         Age = 12,
-                        CPF = "01826252352"
+                        Cpf = "01826252352"
                     }
                 });
 
@@ -57,7 +57,7 @@ namespace temis.unitTest
                 LastName = "Natalia",
                 Age = 29,
                 Role = "Coder Trainee",
-                CPF = "111111111",
+                Cpf = "111111111",
 
             };
 
@@ -68,7 +68,7 @@ namespace temis.unitTest
                 LastName = "Elayne",
                 Age = 29,
                 Role = "Coder Trainee",
-                CPF = "00000000000",
+                Cpf = "00000000000",
 
             };
 

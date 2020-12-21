@@ -36,7 +36,7 @@ namespace temis.Data.Repositories
             if (member != null)
             {
                 context.Database.ExecuteSqlRaw($@"INSERT INTO member (name, last_name, age, role, cpf)
-                                            VALUES (""{member.Name}"", ""{member.LastName}"", {member.Age}, ""{member.Role}"", ""{member.CPF}"");");
+                                            VALUES (""{member.Name}"", ""{member.LastName}"", {member.Age}, ""{member.Role}"", ""{member.Cpf}"");");
             }
 
             return context.Membros.Where(p => p.Name == member.Name).FirstOrDefault();
@@ -49,7 +49,7 @@ namespace temis.Data.Repositories
             var memberName = new MySqlParameter("@memberName", member.Name);
             var memberLastName = new MySqlParameter("@memberLastName", member.LastName);
             var memberRole = new MySqlParameter("@memberRole", member.Role);
-            var memberCPF = new MySqlParameter("@memberCPF", member.CPF);
+            var memberCPF = new MySqlParameter("@memberCPF", member.Cpf);
 
             context.Database.ExecuteSqlRaw(
                 "UPDATE member SET age = @memberAge, name = @memberName, last_name = @memberLastName, role = @memberRole, cpf = @memberCPF WHERE id = @memberId", 

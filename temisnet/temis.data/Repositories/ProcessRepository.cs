@@ -37,6 +37,7 @@ namespace temis.Data.Repositories
         {
             List<Process> processes = new List<Process>();
             processes = context.Process.ToList();
+            processes = processes.Skip(pReq.limit * pReq.number).Take(processes.Count).ToList();
             PageResponse<Process> pResponse = PageResponse<Process>.For(processes, pReq, processes.Count);
             return pResponse;
         }

@@ -19,10 +19,16 @@ namespace temis.Core.Models
         [Column("create_date")]
         public DateTime CreationDate { get; set; }
 
+        [Column("number")]
+        public string Number;
+
         public Process()
         {
-            this.CreationDate = DateTime.Now;
-        }
+            Random random = new Random();
+            string convertRandom = random.ToString();
 
+            this.CreationDate = DateTime.Now;
+            this.Number = ($"{convertRandom}-{CreationDate}");
+        }
     }
 }
