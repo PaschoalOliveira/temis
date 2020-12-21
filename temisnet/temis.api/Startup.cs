@@ -18,8 +18,8 @@ using temis.Core.Interfaces;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 using temis.Core.Services.Service;
-using temis.data.Data;
-using temis.Data.Repositories;
+// using temis.data.Data;
+// using temis.Data.Repositories;
 using System.Reflection;
 using System.IO;
 using System.Text;
@@ -81,10 +81,16 @@ namespace temis.api
                 {
                     new OpenApiSecurityScheme
                     {
-                        Reference = new OpenApiReference {
+                        Reference = new OpenApiReference 
+                        {
                             Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer" }
-                    }, new List<string>() }
+                            Id = "Bearer" 
+                        },
+                        Scheme = "oauth2",
+                        Name = "Bearer",
+                        In = ParameterLocation.Header,
+                    },
+                    new List<string>() }
                  });
 
             });
@@ -101,6 +107,7 @@ namespace temis.api
 
             services.AddControllers().AddXmlDataContractSerializerFormatters();
 
+            var key = Encoding.ASCII.GetBytes(Settings.Secret);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -113,7 +120,7 @@ namespace temis.api
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Settings.Secret)),
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
@@ -135,6 +142,7 @@ namespace temis.api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
