@@ -20,7 +20,7 @@ namespace temis.data.Data
             builder.Entity<Member>().ToTable("member");
             builder.Entity<Member>().HasNoKey();
             builder.Entity<Member>().Property(t => t.Id).HasColumnName("Id");
-            builder.Entity<Judgment>().HasNoKey();
+            builder.Entity<Judgment>().HasKey(p => new {p.JudgmentInstanceId, p.ProcessId});
 
 
         }
