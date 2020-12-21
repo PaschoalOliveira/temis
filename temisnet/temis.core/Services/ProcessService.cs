@@ -51,5 +51,8 @@ namespace temis.Core.Services.Service
             Process process = _repository.FindById(id);
             return process;
         }
+
+        public Process FindByNumber(string processNumber) => _repository.FindByNumber(processNumber);
+        
     }
 }

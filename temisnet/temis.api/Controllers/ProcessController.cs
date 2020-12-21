@@ -37,6 +37,15 @@ namespace temis.Api.Controllers
             return Ok(processes.Content);
         }
 
+        [HttpGet("busca/{number}")]
+        public IActionResult Get(string number)
+        {
+            Process process = _processService.FindByNumber(number);
+            ProcessDto viewModel = _mapper.Map<ProcessDto>(process);
+
+            return Ok(viewModel);
+        }
+
 
         [HttpPost]
         public IActionResult Post([FromBody] Process process)

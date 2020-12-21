@@ -10,6 +10,7 @@ namespace temis.Core.Services.Interfaces
          Process ChangeStatus(Process process);
          PageResponse<Process> FindAll(PageRequest pReq);
          Process FindById(long id);
+         Process FindByNumber(string processNumber);
          void Delete(long Id);
     }
 }
