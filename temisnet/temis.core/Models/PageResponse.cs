@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace temis.Core.Models
 {
-    public class PageResponse<Member>
+    public class PageResponse<T>
     {
         public Page Page { get; set; }
-        public List<Member> Content { get; set; }
+        public List<T> Content { get; set; }
         public PageResponse() {}
-        public PageResponse(List<Member> content, int pageNumber, int pageLimit, int totalResult): this(content, PageRequest.Of(pageNumber, pageLimit), totalResult) { }
-        public PageResponse(List<Member> content, PageRequest pr, long totalResult)
+        public PageResponse(List<T> content, int pageNumber, int pageLimit, int totalResult): this(content, PageRequest.Of(pageNumber, pageLimit), totalResult) { }
+        public PageResponse(List<T> content, PageRequest pr, long totalResult)
         {
             this.Content = content;
 
@@ -31,7 +31,7 @@ namespace temis.Core.Models
 
             this.Page = page;
         }
-        public static PageResponse<Member> For(List<Member> content, PageRequest pr, long totalResult) => new PageResponse<Member>(content, pr, totalResult);
+        public static PageResponse<T> For(List<T> content, PageRequest pr, long totalResult) => new PageResponse<T>(content, pr, totalResult);
     
     }
 }

@@ -11,9 +11,9 @@ namespace temis.Data.Repositories
 {
     public class MemberRepository : IMemberRepository
     {
-        private readonly MembroContext context;
+        private readonly TemisContext context;
 
-        public MemberRepository(MembroContext ctx)
+        public MemberRepository(TemisContext ctx)
         {
             context = ctx;
         }

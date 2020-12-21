@@ -1,17 +1,18 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace temis.core.Models
+namespace temis.Core.Models
 {
+    [Table("judgment")]
     public class Judgment
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long JudgmentId {get; set; }
 
-        [ForeignKey("judgment_instance_id")]
+        [ForeignKey("judging_instance_id")]
+        [Column("judging_instance_id")]
         public long JudgmentInstanceId {get; set; }
         
         [ForeignKey("process_id")]
+        [Column("process_id")]
         public long ProcessId {get; set; }
 
         [Column("date")]

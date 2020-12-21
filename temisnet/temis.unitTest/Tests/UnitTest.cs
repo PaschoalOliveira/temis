@@ -77,9 +77,8 @@ namespace temis.unitTest
             members.Add(memberNew);
 
             var memberService = new Mock<IMemberService>();
-            memberService.Setup(p => p.FindById(member.Id)).Returns(member);
-            
-            NUnit.Framework.Assert.True(memberService.Object.FindById(member.Id) == member);
+            memberService.Setup(p => p.FindById(2)).Returns(member);
+            NUnit.Framework.Assert.True(memberService.Object.FindById(2) == member);
 
         }
 
