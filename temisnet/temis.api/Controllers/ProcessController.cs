@@ -1,5 +1,7 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using temis.Api.Controllers.Models.Requests;
+using temis.Core.DTO;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 
@@ -10,18 +12,21 @@ namespace temis.Api.Controllers
     public class ProcessController : ControllerBase
     {
         private IProcessService _processService;
+        private IMapper _mapper;
 
-        public ProcessController(IProcessService service)
+        public ProcessController(IProcessService service, IMapper mapper)
         {
             _processService = service;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
         public IActionResult Get([FromRoute] long id)
         {
             var process = _processService.FindById(id);
+            var viewModel = _mapper.Map<ProcessDto>(process);
 
-            return Ok(process);
+            return Ok(viewModel);
         }
 
         [HttpGet]
@@ -37,7 +42,9 @@ namespace temis.Api.Controllers
         public IActionResult Post([FromBody] Process process)
         {
             Process processClient = _processService.CreateProcess(process);
-            if (processClient != null) return Ok(processClient);
+            var viewModel = _mapper.Map<ProcessDto>(processClient);
+
+            if (viewModel != null) return Ok(viewModel);
 
             return BadRequest("Duplicate id or could not insert this process.");
         }
@@ -47,7 +54,8 @@ namespace temis.Api.Controllers
         public IActionResult Put([FromBody] Process process)
         {
             _processService.EditProcess(process);
-            return Ok(process);
+            var viewModel = _mapper.Map<ProcessDto>(process);
+            return Ok(viewModel);
         }
 
 
