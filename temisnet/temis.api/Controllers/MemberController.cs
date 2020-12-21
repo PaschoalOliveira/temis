@@ -30,23 +30,24 @@ namespace temis.Api.Controllers
         {
             var user = _memberService.Validate(member.Cpf, member.password);
 
-         /*   if (member == null) return NotFound(new { message = "Username or password is invalid" });
+            if (user == null) return NotFound(new { message = "CPF or password is invalid" });
             var token = "";
-            await Task.Run(() => token = SecurityService.GenerateToken(member));
+            await Task.Run(() => token = SecurityService.GenerateToken(user));
 
             if (token == null) return Unauthorized("We were unable to generate your token");
-*/
+
             return new
             {
-                name = member.Name,
-                role = member.Role,
+                name = user.Name,
+                role = user.Role,
                 createToken = (DateTime.Today).ToString(),
-               // token = token
+                token = token
             };
 
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "juiz")]
         public IActionResult Get([FromRoute] long id)
         {
             var member = _memberService.FindById(id);

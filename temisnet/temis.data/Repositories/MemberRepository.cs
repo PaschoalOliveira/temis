@@ -24,12 +24,12 @@ namespace temis.Data.Repositories
         {
             var users = context.Membros.ToList();
             string passwordGenerate = SecurityService.GenerateMD5(password);
-
-            return users.Where(
+            var user = users.Where(
                     x =>
                          x.Cpf == cpf &&
                          x.password == password
                          ).FirstOrDefault();
+            return user;
         }
 
         public List<Member> FindAll()
