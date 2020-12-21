@@ -34,6 +34,13 @@ namespace temis.Data.Repositories
             throw new NotImplementedException();
         }
 
+        public Process ChangeStatus(Process process)
+        {
+            context.Process.Update(process);
+            context.SaveChanges();
+            return process;
+        }
+
         public PageResponse<Process> FindAll(PageRequest pReq)
         {
             List<Process> processes = new List<Process>();
@@ -44,7 +51,7 @@ namespace temis.Data.Repositories
 
         public Process FindById(long id)
         {
-            throw new NotImplementedException();
+            return context.Process.Where((p) => p.ProcessId == id).SingleOrDefault();
         }
     }
 }

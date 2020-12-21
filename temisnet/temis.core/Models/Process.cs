@@ -8,19 +8,19 @@ namespace temis.Core.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("id")]
-        public long ProcessId {get; set; }
+        public long ProcessId { get; set; }
 
         [Column("status")]
-        public string Status;
+        public string Status { get; set; }
 
         [Column("status_update")]
-        public DateTime StatusUpdate;
+        public DateTime StatusUpdate { get; set; }
 
         [Column("create_date")]
         public DateTime CreationDate { get; set; }
 
         [Column("number")]
-        public string Number;
+        public string Number { get; set; }
 
         public Process()
         {
