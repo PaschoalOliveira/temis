@@ -37,11 +37,11 @@ namespace temis.Api.Controllers
             return Ok(processes.Content);
         }
 
-        [HttpGet("number")]
+        [HttpGet("busca/{number}")]
         public IActionResult Get(string number)
         {
-            var process = _processService.FindByNumber(number);
-            var viewModel = _mapper.Map<ProcessDto>(number);
+            Process process = _processService.FindByNumber(number);
+            ProcessDto viewModel = _mapper.Map<ProcessDto>(process);
 
             return Ok(viewModel);
         }
