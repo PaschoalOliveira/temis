@@ -55,7 +55,7 @@ namespace temis.Api.Controllers
         {
             _processService.EditProcess(process);
             var viewModel = _mapper.Map<ProcessDto>(process);
-            return Ok(process);
+            return Ok(viewModel);
         }
 
 
