@@ -50,35 +50,12 @@ namespace temis.unitTest
         [Test]
         public void ValidaRetornoPorId()
         {            
-            Member member = new Member()
-            {
-                Id = 1,
-                Name = "Elayne",
-                LastName = "Natalia",
-                Age = 29,
-                Role = "Coder Trainee",
-                Cpf = "111111111",
-
-            };
-
-            Member memberNew = new Member()
-            {
-                Id = 2,
-                Name = "Natalia",
-                LastName = "Elayne",
-                Age = 29,
-                Role = "Coder Trainee",
-                Cpf = "00000000000",
-
-            };
-
-            List<Member> members = new List<Member>();
-            members.Add(member);
-            members.Add(memberNew);
+            Member member = new Member(1,"teste","teste",12,"juiz","01826287523");
 
             var memberService = new Mock<IMemberService>();
-            memberService.Setup(p => p.FindById(2)).Returns(member);
-            NUnit.Framework.Assert.True(memberService.Object.FindById(2) == member);
+            memberService.Setup(p => p.FindById(1)).Returns(member);
+
+            NUnit.Framework.Assert.True(memberService.Object.FindById(1) == member);
 
         }
 
