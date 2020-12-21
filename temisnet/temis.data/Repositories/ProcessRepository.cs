@@ -46,5 +46,8 @@ namespace temis.Data.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public Process FindByNumber(string processNumber) => context.Process.AsNoTracking().FirstOrDefault(p => p.Number == processNumber);
+
     }
 }
