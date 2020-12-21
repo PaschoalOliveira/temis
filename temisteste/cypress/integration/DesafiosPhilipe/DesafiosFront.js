@@ -69,9 +69,11 @@ describe('Fazendo desafios',() =>{
                                                     .eq(contcolunas)
                                                     .invoke('text')
                                                     .then((valor)=>{
-                                                        cy.log(valor)
+                                                        expect(valor).to.be.eq(resultado.toString())
+                                                        resultado=0
                                                     })
                                                 contcolunas++
+                                                cont=0
                                             }
                                         })
                                 }
@@ -140,7 +142,7 @@ describe('Fazendo desafios',() =>{
         cy.get('[value="Clique"]')
             .click()
             .then(() =>{
-                expect(stub.getCall(0)).to.be.calledWith('Você consegue verificar essa mensagem?')
+                expect(stub.getCall(0)).to.be.calledWith("Você consegue verificar essa mensagem?")
             })  
     })
 
