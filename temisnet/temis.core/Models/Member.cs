@@ -26,7 +26,7 @@ namespace temis.Core.Models
         public string Cpf { get; set; }
 
         [Column("password")]
-        public string password { get; set; }
+        public string Password { get; set; }
 
         public Member (long id, string name,  string lastName, int age, string role, string cpf)
         {

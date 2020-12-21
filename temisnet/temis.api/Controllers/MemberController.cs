@@ -28,7 +28,7 @@ namespace temis.Api.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<dynamic>> Authenticate([FromBody] Member member)
         {
-            var user = _memberService.Validate(member.Cpf, member.password);
+            var user = _memberService.Validate(member.Cpf, member.Password);
 
             if (user == null) return NotFound(new { message = "CPF or password is invalid" });
             var token = "";
