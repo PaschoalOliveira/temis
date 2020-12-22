@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace temis.Core.Models
@@ -21,6 +22,11 @@ namespace temis.Core.Models
 
         [Column("number")]
         public string Number { get; set; }
+
+        [NotMapped]
+        [InverseProperty("Process")]
+        public IEnumerable<Judgment> Judgments {get; set;} 
+
 
         public Process()
         {

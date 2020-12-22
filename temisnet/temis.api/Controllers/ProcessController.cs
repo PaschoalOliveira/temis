@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using temis.Api.Controllers.Models.Requests;
@@ -23,8 +25,8 @@ namespace temis.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get([FromRoute] long id)
         {
-            var process = _processService.FindById(id);
-            var viewModel = _mapper.Map<ProcessDto>(process);
+            Process process = _processService.FindById(id);
+            ProcessDto viewModel = _mapper.Map<ProcessDto>(process);
 
             return Ok(viewModel);
         }
@@ -37,7 +39,7 @@ namespace temis.Api.Controllers
             return Ok(processes.Content);
         }
 
-        [HttpGet("busca/{number}")]
+        [HttpGet("number/{number}")]
         public IActionResult Get(string number)
         {
             Process process = _processService.FindByNumber(number);
