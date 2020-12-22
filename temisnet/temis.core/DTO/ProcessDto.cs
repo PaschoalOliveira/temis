@@ -19,7 +19,7 @@ namespace temis.Core.DTO
         [JsonConverter(typeof(JsonDateConverter))]
         public DateTime StatusUpdate { get; set; }
         
-        public IEnumerable<Judgment> Judgments {get; set;} 
+        public IEnumerable<JudgmentDto> Judgments {get; set;} 
 
     }
 }

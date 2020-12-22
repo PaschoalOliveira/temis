@@ -43,9 +43,9 @@ namespace temis.Api.Controllers
         public IActionResult Get(string number)
         {
             Process process = _processService.FindByNumber(number);
-            //ProcessDto viewModel = _mapper.Map<ProcessDto>(process);
+            ProcessDto viewModel = _mapper.Map<ProcessDto>(process);
 
-            return Ok(process);
+            return Ok(viewModel);
         }
 
 

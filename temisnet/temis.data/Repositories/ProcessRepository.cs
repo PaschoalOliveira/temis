@@ -54,7 +54,15 @@ namespace temis.Data.Repositories
             return context.Process.Where((p) => p.ProcessId == id).SingleOrDefault();
         }
 
-        public Process FindByNumber(string processNumber) => context.Process.AsNoTracking().FirstOrDefault(p => p.Number == processNumber);
+        public Process FindByNumber(string processNumber)
+        {
+            Process judgmetProcess = context.Process
+                                            .Where(p => p.Number == processNumber)
+                                            .Include(j => j.Judgments)
+                                            .FirstOrDefault();
+
+            return judgmetProcess;
+        } 
 
     }
 }
