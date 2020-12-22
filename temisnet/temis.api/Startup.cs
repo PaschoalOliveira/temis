@@ -25,6 +25,7 @@ using System.IO;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using temis.core.DTO;
 
 namespace temis.api
 {
@@ -123,6 +124,7 @@ namespace temis.api
                 cfg.CreateMap<Member, MemberDto>();
                 cfg.CreateMap<Judgment, JudgmentDto>();
                 cfg.CreateMap<Process, ProcessDto>();
+                cfg.CreateMap<PageResponse<Process>, PageProcessDto>();
             });
 
             IMapper mapper = config.CreateMapper();

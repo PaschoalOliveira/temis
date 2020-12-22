@@ -47,7 +47,7 @@ namespace temis.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "coder, advogado")]
+        //[Authorize(Roles = "coder, advogado")]
         public IActionResult Get([FromRoute] long id)
         {
             var member = _memberService.FindById(id);
@@ -57,7 +57,7 @@ namespace temis.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "coder, advogado")]
+        //[Authorize(Roles = "coder, advogado")]
         public IActionResult Get(int? page, int? limit, string name = "")
         {   
             PageRequest pageRequest = PageRequest.Of(page, limit);

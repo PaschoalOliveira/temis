@@ -8,7 +8,7 @@ namespace temis.Core.Interfaces
          Process CreateProcess(Process member);
          Process EditProcess(Process member);
          Process ChangeStatus(Process process);
-         PageResponse<Process> FindAll(PageRequest pageRequest);
+         PageResponse<Process> FindAll(string number, PageRequest pageRequest);
          Process FindById(long id);
          Process FindByNumber(string processNumber);
          void Delete(long Id);

@@ -42,9 +42,9 @@ namespace temis.Core.Services.Service
             
             return _repository.ChangeStatus(updateProcess);
         }
-        public PageResponse<Process> FindAll(PageRequest pageRequest)
+        public PageResponse<Process> FindAll(string number,PageRequest pageRequest)
         {
-            PageResponse<Process> listProcess = _repository.FindAll(pageRequest);
+            PageResponse<Process> listProcess = _repository.FindAll(number, pageRequest);
             //listProcess = _repository.FindAll();
             return listProcess;
         }
@@ -56,20 +56,6 @@ namespace temis.Core.Services.Service
         }
 
         public Process FindByNumber(string processNumber) => _repository.FindByNumber(processNumber);
-        // {
-        //   Process process = 
-        //   Judgment judgment =  _judgementRepository.FindByProcessId(process.ProcessId);
-
-        //   List<Object> listProcess = new List<object>
-        //   {
-        //       process,
-        //       judgment
-        //   };
-
-        //   return listProcess;
-        // } 
-
-
         
     }
 }

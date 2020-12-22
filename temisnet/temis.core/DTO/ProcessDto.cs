@@ -21,5 +21,7 @@ namespace temis.Core.DTO
         
         public IEnumerable<JudgmentDto> Judgments {get; set;} 
 
+        public PageResponse<Process> Processes {get; set;}
+
     }
 }

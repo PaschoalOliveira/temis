@@ -3,6 +3,7 @@ using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using temis.Api.Controllers.Models.Requests;
+using temis.core.DTO;
 using temis.Core.DTO;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
@@ -32,11 +33,12 @@ namespace temis.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get(int? page, int? limit, string description = "")
+        public IActionResult Get(int? page, int? limit, string number = "")
         {
             PageRequest pReq = PageRequest.Of(page, limit);
-            PageResponse<Process> processes = _processService.FindAll(pReq);
-            return Ok(processes.Content);
+            PageResponse<Process> processes = _processService.FindAll(number, pReq);
+            PageProcessDto viewModel = _mapper.Map<PageProcessDto>(processes);
+            return Ok(viewModel.Content);
         }
 
         [HttpGet("number/{number}")]
