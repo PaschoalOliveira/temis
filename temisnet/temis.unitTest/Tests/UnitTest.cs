@@ -82,6 +82,41 @@ namespace temis.unitTest
 
         }
 
-        
+        [Test]
+        public void ValidaDeletePorId()
+        {            
+            Member member = new Member()
+            {
+                Id = 1,
+                Name = "Elayne",
+                LastName = "Natalia",
+                Age = 29,
+                Role = "Coder Trainee",
+                CPF = "111111111",
+
+            };
+
+            Member memberNew = new Member()
+            {
+                Id = 2,
+                Name = "Natalia",
+                LastName = "Elayne",
+                Age = 29,
+                Role = "Coder Trainee",
+                CPF = "00000000000",
+
+            };
+
+            List<Member> members = new List<Member>();
+            members.Add(member);
+            members.Add(memberNew);
+
+            var memberService = new Mock<IMemberService>();
+            memberService.Setup(p => p.Delete(2));
+            memberService.Setup(f => f.FindAll())
+            .Returns(members);//FindAll()).Returns(members);
+            NUnit.Framework.Assert.True(memberService.Object.FindAll().Count == 1);
+
+        }
    }
 }
