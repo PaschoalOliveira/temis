@@ -21,39 +21,21 @@
 
     <script type="text/javascript">
         function translatePage() {
-            
-            console.log('Clicado!')
 
-            var li_1 = document.querySelector("body > form > ul > li:nth-child(1)").innerHTML
-            var li_2 = document.querySelector("body > form > ul > li:nth-child(2)").innerHTML
-            var li_3 = document.querySelector("body > form > ul > li:nth-child(3)").innerHTML
-            var transBtn = document.querySelector("body > button:nth-child(2)").innerHTML
+            var li_1 = document.querySelector("body > form > ul > li:nth-child(1)")
+            var li_2 = document.querySelector("body > form > ul > li:nth-child(2)")
+            var li_3 = document.querySelector("body > form > ul > li:nth-child(3)")
+            var transBtn = document.querySelector("body > button:nth-child(2)")
 
             
-            if(transBtn == "Translate") {
-                document.querySelector("body > button:nth-child(2)").innerHTML = "Traduzir"
-            } else {
-                document.querySelector("body > button:nth-child(2)").innerHTML = "Translate"
-            }
+            transBtn.innerHTML == "Translate" ? transBtn.innerHTML = "Traduzir" : transBtn.innerHTML = "Translate"
+    
+            li_1.innerHTML == 'Coffee' ? li_1.innerHTML = 'Café' : li_1.innerHTML = 'Coffee'
 
-            if(li_1 == 'Coffee') {
-                document.querySelector("body > form > ul > li:nth-child(1)").innerHTML = 'Café'
-            } else {
-                document.querySelector("body > form > ul > li:nth-child(1)").innerHTML = 'Coffee'
-            }
+            li_2.innerHTML == 'Tea' ? li_2.innerHTML = 'Chá' : li_2.innerHTML = 'Tea'
 
-            if(li_2 == 'Tea') {
-                document.querySelector("body > form > ul > li:nth-child(2)").innerHTML = 'Chá'
-            } else {
-                document.querySelector("body > form > ul > li:nth-child(2)").innerHTML = 'Tea'
-            }
-
-            if(li_3 == 'Milk') {
-                document.querySelector("body > form > ul > li:nth-child(3)").innerHTML = 'Leite'
-            } else {
-                document.querySelector("body > form > ul > li:nth-child(3)").innerHTML = 'Milk'
-            }
-
+            li_3.innerHTML == 'Milk' ? li_3.innerHTML = 'Leite' : li_3.innerHTML = 'Milk'
+            
         }
     </script>
 

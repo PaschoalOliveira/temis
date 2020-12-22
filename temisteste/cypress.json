@@ -1,6 +1,8 @@
 {
     "env": {
-        "TAGS": "not @ignore"
+        "TAGS": "not @ignore",
+        "Firstname": "David",
+        "Lastname": "Beckham"
     },
     "testFiles": "**/*.*"
 }
