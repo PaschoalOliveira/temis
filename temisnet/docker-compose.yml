@@ -1,0 +1,2 @@
+    environment:
+      - ASPNETCORE_URLS=https://+;http://+;
