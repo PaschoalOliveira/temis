@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "temis.core", "temis.core\te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "temis.data", "temis.data\temis.data.csproj", "{0E94F8E1-14FF-4351-9768-1797AA6C572E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "temis.unitTest", "temis.unitTest\temis.unitTest.csproj", "{064A917D-43FC-4E90-8E03-DA37D7A83CF1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
