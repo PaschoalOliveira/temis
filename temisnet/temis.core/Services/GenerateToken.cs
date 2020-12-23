@@ -9,7 +9,7 @@ using temis.Core.Models;
 
 namespace Solutis.Services
 {
-    public class SecurityService
+    public class GenerateToken
     {
         public static string GenerateMD5(string input)
         {

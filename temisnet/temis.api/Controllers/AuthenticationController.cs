@@ -13,9 +13,12 @@ namespace temis.Api.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private IMemberService _memberService;
+        private readonly IMemberService _memberService;
 
-        
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="memberService"></param>
         public AuthenticationController(IMemberService memberService)
         {
            _memberService = memberService; 
@@ -27,6 +30,7 @@ namespace temis.Api.Controllers
         /// <response code="204">No Content</response>
         /// <response code="400">Business logic error, see return message for more info</response>
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
+        
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult<dynamic>> Authenticate(string Cpf, string Password)
