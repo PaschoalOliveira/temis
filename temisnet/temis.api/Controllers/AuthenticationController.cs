@@ -39,7 +39,7 @@ namespace temis.Api.Controllers
 
             if (user == null) return NotFound(new { message = "CPF or password is invalid" });
             var token = "";
-            await Task.Run(() => token = TokenService.GenerateToken(user));
+            await Task.Run(() => token = AuthenticationHandler.CreateToken(user));
 
             if (token == null) return Unauthorized("We were unable to generate your token");
 
