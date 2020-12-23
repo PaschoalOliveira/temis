@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
-using temis.Core.Models;
+using temis.Api.Models.Convert;
 
 namespace temis.Api.Models.DTO
 {
@@ -12,12 +11,12 @@ namespace temis.Api.Models.DTO
         public string Number { get; set; }
         
         [DataType(DataType.Date)]
-    //    [JsonConverter(typeof(JsonDateConverter))]
+        [JsonConverter(typeof(JsonDateConverter))]
         public DateTime CreationDate { get; set; }
         public string Status { get; set; }
 
         [DataType(DataType.Date)]
-    //    [JsonConverter(typeof(JsonDateConverter))]
+        [JsonConverter(typeof(JsonDateConverter))]
         public DateTime StatusUpdate { get; set; }
         
         public IEnumerable<JudgmentDto> Judgments {get; set;} 

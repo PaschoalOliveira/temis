@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
+using temis.Api.Models.Convert;
 
 namespace temis.Api.Models.DTO
 {
@@ -10,7 +10,7 @@ namespace temis.Api.Models.DTO
     {
 
         [DataType(DataType.Date)]
-     //   [JsonConverter(typeof(JsonDateConverter))]
+        [JsonConverter(typeof(JsonDateConverter))]
         public DateTime JudgmentDate { get; set; }
         public string Veredict { get; set; }
 
