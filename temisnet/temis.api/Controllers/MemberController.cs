@@ -1,10 +1,7 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Solutis.Services;
 using temis.Api.Controllers.Models.Requests;
 using temis.Api.Models.DTO.MemberDto;
 using temis.Core.Models;
@@ -124,7 +121,7 @@ namespace temis.Api.Controllers
         /// <response code="400">Business logic error, see return message for more info</response>
         /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
-        
+
         [HttpPatch("edit")]
         [Authorize(Roles = "")]
         public IActionResult Patch([FromBody]EditPasswordRequest request)
