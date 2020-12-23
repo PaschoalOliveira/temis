@@ -142,7 +142,7 @@ namespace temis.Api.Controllers
         }
 
         /// <summary>
-        /// Judgment delete.
+        /// Processo delete.
         /// </summary>
         /// <remarks>
         /// Sample request:
