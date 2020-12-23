@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Solutis.Services;
+using temis.Api.Controllers.Models.Requests;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 namespace temis.Api.Controllers
@@ -27,7 +28,7 @@ namespace temis.Api.Controllers
         /// <param name="Cpf"></param>
         /// <param name="Password"></param>
         [HttpPost]
-        public async Task<ActionResult<dynamic>> Authenticate([FromBody] Member member)
+        public async Task<ActionResult<dynamic>> Authenticate([FromBody] ValidationRequest member)
         {
             var user = _memberService.Validate(member.Cpf, member.Password);
 
