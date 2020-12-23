@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,7 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using temis.Core.DTO;
 using temis.Core.Interfaces;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
@@ -25,6 +23,8 @@ using System.IO;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using temis.Api.AutoMapper;
+using AutoMapper;
 
 namespace temis.api
 {
@@ -118,12 +118,13 @@ namespace temis.api
                 };
             });
 
+
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Member, MemberDto>();
-                cfg.CreateMap<Judgment, JudgmentDto>();
-                cfg.CreateMap<Process, ProcessDto>();
+                cfg.AddProfile(new AutoMapperProfile());
+    
             });
+
 
             IMapper mapper = config.CreateMapper();
             services.AddSingleton(mapper);

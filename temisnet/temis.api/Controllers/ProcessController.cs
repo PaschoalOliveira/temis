@@ -3,7 +3,7 @@ using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using temis.Api.Controllers.Models.Requests;
-using temis.Core.DTO;
+using temis.Api.Models.DTO.ProcessDto;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 

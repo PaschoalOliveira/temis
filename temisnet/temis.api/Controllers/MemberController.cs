@@ -1,28 +1,43 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Solutis.Services;
 using temis.Api.Controllers.Models.Requests;
-using temis.Core.DTO;
+using temis.Api.Models.DTO.MemberDto;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 namespace temis.Api.Controllers
 {
-    [ApiController]
+    /// <summary>
+    /// MemberController
+    /// </summary>
     [Route("/api/member")]
+    [ApiController]
+    [ExcludeFromCodeCoverage]
     public class MemberController : ControllerBase
     {
         private IMemberService _memberService;
         private IMapper _mapper;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="service"></param>
+        /// <param name="mapper"></param>
         public MemberController(IMemberService service, IMapper mapper)
         {
            _memberService = service;
            _mapper = mapper;
         }
 
+        /// <summary>
+        /// Login
+        /// </summary>
+        /// <param name="Cpf"></param>
+        /// <param name="Password"></param>
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
@@ -46,14 +61,19 @@ namespace temis.Api.Controllers
 
         }
 
+        /// <summary>
+        /// Get member by id number
+        /// </summary>
+        /// <param name="idMember"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
-        [Authorize(Roles = "coder, advogado")]
+       // [Authorize(Roles = "coder, advogado")]
         public IActionResult Get([FromRoute] long id)
         {
             var member = _memberService.FindById(id);
-            var viewModel = _mapper.Map<MemberDto>(member);
+          //  var viewModel = _mapper.Map<MemberDto>(member);
 
-            return Ok(viewModel);
+            return Ok( _mapper.Map<MemberDto>(member));
         }
 
         [HttpGet]

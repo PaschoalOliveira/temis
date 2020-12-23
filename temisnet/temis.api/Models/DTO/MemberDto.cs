@@ -1,5 +1,6 @@
 
-namespace temis.Core.DTO
+
+namespace temis.Api.Models.DTO.MemberDto
 {
     public class MemberDto
     {
