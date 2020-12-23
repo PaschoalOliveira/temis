@@ -1,5 +1,7 @@
 
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace temis.Api.Models.DTO.MemberDto
 {
     public class MemberDto

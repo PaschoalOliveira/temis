@@ -13,11 +13,13 @@ namespace temis.unitTest
     {
 
         Mock<IMemberService> mockMemberService;
+        //Mock<TokenService> mockTokenService;
 
         [SetUp]
         public void Setup()
         {
             mockMemberService = new Mock<IMemberService>();
+          //  mockTokenService = new  Mock<TokenService>();
         }
 
         [Test]

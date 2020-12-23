@@ -8,9 +8,9 @@ using temis.Core.Models;
 
 namespace temis.Core.Services.Service
 {
-    public static class TokenService
+    public  class TokenService
     {
-        public static string GenerateToken(Member member)
+        public string GenerateToken(Member member)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Settings.Secret);

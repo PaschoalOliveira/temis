@@ -34,39 +34,12 @@ namespace temis.Api.Controllers
         }
 
         /// <summary>
-        /// Login
-        /// </summary>
-        /// <param name="Cpf"></param>
-        /// <param name="Password"></param>
-        [HttpPost]
-        [Route("login")]
-        [AllowAnonymous]
-        public async Task<ActionResult<dynamic>> Authenticate([FromBody] Member member)
-        {
-            var user = _memberService.Validate(member.Cpf, member.Password);
-
-            if (user == null) return NotFound(new { message = "CPF or password is invalid" });
-            var token = "";
-            await Task.Run(() => token = SecurityService.GenerateToken(user));
-
-            if (token == null) return Unauthorized("We were unable to generate your token");
-
-            return new
-            {
-                name = user.Name,
-                role = user.Role,
-                createToken = (DateTime.Today).ToString(),
-                token = token
-            };
-
-        }
-
-        /// <summary>
         /// Get member by id number
         /// </summary>
         /// <param name="idMember"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
+        [Authorize(Roles = "coder, advogado")]
         public IActionResult Get([FromRoute] long id)
         {
             var member = _memberService.FindById(id);

@@ -119,15 +119,9 @@ namespace temis.api
             });
 
 
-            var config = new AutoMapper.MapperConfiguration(cfg =>
-            {
+            IMapper mapper = new AutoMapper.MapperConfiguration(cfg => cfg.AddProfile(new AutoMapperProfile())).CreateMapper();
 
-                cfg.AddProfile(new AutoMapperProfile());
-
-            });
-
-
-            IMapper mapper = config.CreateMapper();
+           // IMapper mapper = config.CreateMapper();
             services.AddSingleton(mapper);
 
             services.AddControllers().AddXmlDataContractSerializerFormatters();
