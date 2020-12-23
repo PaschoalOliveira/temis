@@ -121,8 +121,9 @@ namespace temis.api
 
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
+
                 cfg.AddProfile(new AutoMapperProfile());
-    
+
             });
 
 

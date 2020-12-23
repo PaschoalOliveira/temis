@@ -10,6 +10,7 @@ namespace temis.Api.AutoMapper
             MemberMapper.Map(this);
             JudgmentMapper.Map(this);
             ProcessMapper.Map(this);
+            PageProcessMapper.Map(this);
         }
     }
 }

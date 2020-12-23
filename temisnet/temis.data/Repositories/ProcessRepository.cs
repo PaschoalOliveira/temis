@@ -40,14 +40,20 @@ namespace temis.Data.Repositories
             return process;
         }
 
-        public PageResponse<Process> FindAll(PageRequest pReq)
+        public PageResponse<Process> FindAll(string number, PageRequest pageRequest)
         {
-            List<Process> processes = new List<Process>();
-            processes = context.Process.ToList();
-            processes = processes.Skip(pReq.limit * pReq.number).Take(processes.Count).ToList();
-            PageResponse<Process> pResponse = PageResponse<Process>.For(processes, pReq, processes.Count);
-            return pResponse;
+            IQueryable<Process> query = context.Process.Where(
+                                    i => 
+                                    i.Number.Contains(number)
+                                    ).Include(j => j.Judgments)
+                                     .OrderBy(u => u.StatusUpdate);
+
+            List<Process> filtredProcess;
+            filtredProcess = PaginationRepository<Process>.For(query, pageRequest).ToList();
+            return PageResponse<Process>.For(filtredProcess, pageRequest, query.Count());
         }
+
+           
 
         public Process FindById(long id)
         {

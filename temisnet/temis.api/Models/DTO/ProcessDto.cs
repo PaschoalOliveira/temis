@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using temis.Core.Models;
 
-namespace temis.Api.Models.DTO.ProcessDto
+namespace temis.Api.Models.DTO
 {
     public class ProcessDto
     {
@@ -18,7 +19,7 @@ namespace temis.Api.Models.DTO.ProcessDto
     //    [JsonConverter(typeof(JsonDateConverter))]
         public DateTime StatusUpdate { get; set; }
         
-     //  public IEnumerable<JudgmentDto> Judgments {get; set;} 
+        public IEnumerable<JudgmentDto> Judgments {get; set;} 
 
     }
 }

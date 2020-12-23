@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace temis.Api.Models.DTO.JudgmentDto
+namespace temis.Api.Models.DTO
 {
     public class JudgmentDto
     {

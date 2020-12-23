@@ -1,7 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using temis.Api.Controllers.Models.Requests;
-using temis.Api.Models.DTO.JudgmentDto;
+using temis.Api.Models.DTO;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 

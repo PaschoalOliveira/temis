@@ -1,5 +1,5 @@
 using AutoMapper;
-using temis.Api.Models.DTO.ProcessDto;
+using temis.Api.Models.DTO;
 using temis.Core.Models;
 
 namespace temis.Api.AutoMapper.Mapper.MemberMapper

@@ -67,17 +67,15 @@ namespace temis.Api.Controllers
         /// <param name="idMember"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-       // [Authorize(Roles = "coder, advogado")]
         public IActionResult Get([FromRoute] long id)
         {
             var member = _memberService.FindById(id);
-          //  var viewModel = _mapper.Map<MemberDto>(member);
 
             return Ok( _mapper.Map<MemberDto>(member));
         }
 
         [HttpGet]
-        [Authorize(Roles = "coder, advogado")]
+        //[Authorize(Roles = "coder, advogado")]
         public IActionResult Get(int? page, int? limit, string name = "")
         {   
             PageRequest pageRequest = PageRequest.Of(page, limit);
