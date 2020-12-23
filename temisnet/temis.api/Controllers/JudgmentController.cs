@@ -7,18 +7,42 @@ using temis.Core.Services.Interfaces;
 
 namespace temis.Api.Controllers
 {
+    /// <summary>
+    /// JudgmentController
+    /// </summary>
     [ApiController]
     [Route("/api/judgment")]
     public class JudgmentController : ControllerBase
     {
-         private IJudgmentService _judgmentService;
+         private readonly IJudgmentService _judgmentService;
          private IMapper _mapper;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="judgmentService"></param>
+        /// <param name="mapper"></param>
         public JudgmentController(IJudgmentService service, IMapper mapper)
         {
             _judgmentService = service;
             _mapper = mapper;
         }
+
+        /// <summary>
+        /// Returns judgment.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/judgment/{id}
+        ///     
+        /// </remarks>  
+        /// <returns>Search Results</returns>
+        /// <response code="200">Success</response>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Business logic error, see return message for more info</response>
+        /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpGet("{id}")]
         public IActionResult Get([FromRoute] long id)
@@ -30,6 +54,22 @@ namespace temis.Api.Controllers
             return Ok(viewModel);
         }
 
+        /// <summary>
+        /// Returns all judgment.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET /api/judgment
+        ///     
+        /// </remarks>  
+        /// <returns>Search Results</returns>
+        /// <response code="200">Success</response>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Business logic error, see return message for more info</response>
+        /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
+
         [HttpGet]
         public IActionResult Get(int? page, int? limit)
         {
@@ -39,7 +79,21 @@ namespace temis.Api.Controllers
             return Ok(judgments.Content);
         }
 
-
+        /// <summary>
+        /// Returns create judgment.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /api/judgment
+        ///     
+        /// </remarks>  
+        /// <returns>Search Results</returns>
+        /// <response code="200">Success</response>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Business logic error, see return message for more info</response>
+        /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
         [HttpPost]
         public IActionResult Post([FromBody] Judgment judgment)
         {
@@ -51,6 +105,21 @@ namespace temis.Api.Controllers
             return BadRequest("Duplicate id or could not insert this judgment.");
         }
 
+        /// <summary>
+        /// Returns judgment edit.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     PUT /api/judgment
+        ///     
+        /// </remarks>  
+        /// <returns>Search Results</returns>
+        /// <response code="200">Success</response>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Business logic error, see return message for more info</response>
+        /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpPut]
         public IActionResult Put([FromBody] Judgment judgment)
@@ -60,6 +129,20 @@ namespace temis.Api.Controllers
             return Ok(judgment);
         }
 
+        /// <summary>
+        /// Judgment delete.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     Pacth /api/judgment/
+        ///     
+        /// </remarks>  
+        /// <response code="200">Success</response>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Business logic error, see return message for more info</response>
+        /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpPatch("edit")]
         public IActionResult Patch([FromBody] EditPasswordRequest request)
@@ -68,6 +151,20 @@ namespace temis.Api.Controllers
             return Ok("nao implementei");
         }
 
+        /// <summary>
+        /// Judgment delete.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     Delete /api/judgment/{id}
+        ///     
+        /// </remarks>  
+        /// <response code="200">Success</response>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Business logic error, see return message for more info</response>
+        /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpDelete("{id}")]
         public ActionResult Delete([FromRoute] long id)

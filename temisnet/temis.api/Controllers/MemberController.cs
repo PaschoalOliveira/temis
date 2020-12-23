@@ -19,7 +19,7 @@ namespace temis.Api.Controllers
     [ExcludeFromCodeCoverage]
     public class MemberController : ControllerBase
     {
-        private IMemberService _memberService;
+        private readonly IMemberService _memberService;
         private IMapper _mapper;
 
         /// <summary>
@@ -38,6 +38,12 @@ namespace temis.Api.Controllers
         /// </summary>
         /// <param name="idMember"></param>
         /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Business logic error, see return message for more info</response>
+        /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
+
         [HttpGet("{id}")]
         [Authorize(Roles = "coder, advogado")]
         public IActionResult Get([FromRoute] long id)
@@ -46,6 +52,16 @@ namespace temis.Api.Controllers
 
             return Ok( _mapper.Map<MemberDto>(member));
         }
+
+        /// <summary>
+        /// Get all member
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Business logic error, see return message for more info</response>
+        /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpGet]
         //[Authorize(Roles = "coder, advogado")]
@@ -62,11 +78,15 @@ namespace temis.Api.Controllers
             return Ok(_memberService.FindAll());
         }
 
-         /// <summary>
+        /// <summary>
         /// Cria um usuário
         /// </summary>
-        /// <response code="200">Usuário cadastrado</response>
-        /// <response code="500">Erro interno</response>
+        /// <response code="200">Success</response>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Business logic error, see return message for more info</response>
+        /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
+
         [HttpPost]
         [Authorize(Roles = "")]
         public IActionResult Post([FromBody] Member member)
@@ -81,8 +101,12 @@ namespace temis.Api.Controllers
         /// <summary>
         /// Altera um usuário cadastrado
         /// </summary>
-        /// <response code="200">Alteração feita com sucesso</response>
-        /// <response code="500">Erro interno</response>
+        /// <response code="200">Success</response>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Business logic error, see return message for more info</response>
+        /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
+
         [HttpPut]
         [Authorize(Roles = "")]
         public IActionResult  Put([FromBody] Member member)
@@ -95,8 +119,12 @@ namespace temis.Api.Controllers
         /// <summary>
         /// Altera parcialmente o usuário
         /// </summary>
-        /// <response code="200">Usuário cadastrado</response>
-        /// <response code="500">Erro interno</response>
+        /// <response code="200">Success</response>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Business logic error, see return message for more info</response>
+        /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
+        
         [HttpPatch("edit")]
         [Authorize(Roles = "")]
         public IActionResult Patch([FromBody]EditPasswordRequest request)
@@ -106,10 +134,20 @@ namespace temis.Api.Controllers
         }
 
         /// <summary>
-        /// Deleta um usuário
+        /// Judgment delete.
         /// </summary>
-        /// <response code="200">Deleta um usuário cadastrado</response>
-        /// <response code="500">Erro interno</response>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     Delete /api/Member/{id}
+        ///     
+        /// </remarks>  
+        /// <response code="200">Success</response>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Business logic error, see return message for more info</response>
+        /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
+
         [HttpDelete("{id}")]
         [Authorize(Roles = "")]
         public ActionResult Delete([FromRoute] long id)
