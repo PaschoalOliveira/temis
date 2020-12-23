@@ -1,12 +1,7 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Solutis.Services;
-using temis.Api.Controllers.Models.Requests;
-using temis.Api.Models.DTO.MemberDto;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 namespace temis.Api.Controllers
@@ -38,7 +33,7 @@ namespace temis.Api.Controllers
 
             if (user == null) return NotFound(new { message = "CPF or password is invalid" });
             var token = "";
-            await Task.Run(() => token = SecurityService.GenerateToken(user));
+            await Task.Run(() => token = _memberService.GenerateToken(user));
 
             if (token == null) return Unauthorized("We were unable to generate your token");
 
@@ -46,7 +41,8 @@ namespace temis.Api.Controllers
             {
                 name = user.Name,
                 role = user.Role,
-                createToken = (DateTime.Today).ToString(),
+                createToken = (DateTime.Now).ToString(),
+                validToken = (DateTime.Now).AddHours(1).ToString(),
                 token = token
             };
 

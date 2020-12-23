@@ -13,5 +13,6 @@ namespace temis.Core.Services.Interfaces
          void Delete(long Id);
          Member Validate(string cpf, string password);
          PageResponse<Member> Filter (string name, PageRequest pageRequest);
+         string GenerateToken(Member member);
     }
 }

@@ -13,13 +13,12 @@ namespace temis.unitTest
     {
 
         Mock<IMemberService> mockMemberService;
-        //Mock<TokenService> mockTokenService;
+        private IMemberService _userService;
 
         [SetUp]
         public void Setup()
         {
             mockMemberService = new Mock<IMemberService>();
-          //  mockTokenService = new  Mock<TokenService>();
         }
 
         [Test]
@@ -85,6 +84,16 @@ namespace temis.unitTest
             mockMemberService.Setup(p => p.Validate(cpf,password)).Returns(member);
             NUnit.Framework.Assert.True(mockMemberService.Object.Validate(member.Cpf,member.Password) == member);
 
+        }
+
+        
+        [Test]
+        public void GenerateTokenSuccess()
+        {
+            Member member = new Member(1,"teste","teste",12,"role","cpf", "password");
+
+           // var result = _userService.GenerateToken(member).Returns(teste);
+          //  Assert.IsNotNull(result);
         }
         
    }
