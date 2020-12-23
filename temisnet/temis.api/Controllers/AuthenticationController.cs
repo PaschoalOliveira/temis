@@ -33,7 +33,7 @@ namespace temis.Api.Controllers
         
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult<dynamic>> Authenticate(string Cpf, string Password)
+        public async Task<ActionResult<dynamic>> Authenticate(string Cpf, string Password) // https://localhost:5001/api/login/?Cpf=111111111&Password=teste
         {
             var user = _memberService.Validate(Cpf, Password);
 
