@@ -87,14 +87,7 @@ namespace temis.unitTest
         }
 
         
-        [Test]
-        public void GenerateTokenSuccess()
-        {
-            Member member = new Member(1,"teste","teste",12,"role","cpf", "password");
-
-           // var result = _userService.GenerateToken(member).Returns(teste);
-          //  Assert.IsNotNull(result);
-        }
+      
         
    }
 }

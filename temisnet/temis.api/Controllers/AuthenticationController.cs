@@ -1,14 +1,13 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Solutis.Services;
-using temis.Api.Controllers.Models.Requests;
-using temis.Core.Models;
+using temis.Api.Security;
 using temis.Core.Services.Interfaces;
 namespace temis.Api.Controllers
 {
     /// <summary>
-    /// MemberController
+    /// AuthenticationController
     /// </summary>
     [Route("/api/login")]
     [ApiController]
@@ -22,19 +21,21 @@ namespace temis.Api.Controllers
            _memberService = memberService; 
         }
 
-        /// <summary>
-        /// Login
-        /// </summary>
         /// <param name="Cpf"></param>
         /// <param name="Password"></param>
+        /// <response code="200">Success</response>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Business logic error, see return message for more info</response>
+        /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
         [HttpPost]
-        public async Task<ActionResult<dynamic>> Authenticate([FromBody] ValidationRequest member)
+        [AllowAnonymous]
+        public async Task<ActionResult<dynamic>> Authenticate(string Cpf, string Password)
         {
-            var user = _memberService.Validate(member.Cpf, member.Password);
+            var user = _memberService.Validate(Cpf, Password);
 
             if (user == null) return NotFound(new { message = "CPF or password is invalid" });
             var token = "";
-            await Task.Run(() => token = _memberService.GenerateToken(user));
+            await Task.Run(() => token = TokenService.GenerateToken(user));
 
             if (token == null) return Unauthorized("We were unable to generate your token");
 

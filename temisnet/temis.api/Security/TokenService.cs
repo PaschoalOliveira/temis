@@ -6,11 +6,11 @@ using Microsoft.IdentityModel.Tokens;
 using temis.api;
 using temis.Core.Models;
 
-namespace temis.Core.Services.Service
+namespace temis.Api.Security
 {
-    public  class TokenService
+    public static class TokenService
     {
-        public string GenerateToken(Member member)
+        public static string GenerateToken(Member member)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
