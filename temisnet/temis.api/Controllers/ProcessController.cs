@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using temis.Api.Controllers.Models.Requests;
 using temis.Api.Models.DTO;
+using temis.Api.Models.ViewModel;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 namespace temis.Api.Controllers
@@ -41,10 +42,13 @@ namespace temis.Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get([FromRoute] long id)
         {
-            Process process = _processService.FindById(id);
-            ProcessDto viewModel = _mapper.Map<ProcessDto>(process);
+           // Process process = _processService.FindById(id);
+            //ProcessDto viewModel = _mapper.Map<ProcessDto>(process);
 
-            return Ok(viewModel);
+            //return Ok(viewModel);
+
+            var processEntity = _processService.FindById(id);
+            return Ok(_mapper.Map<ProcessViewModel>(processEntity));
         }
 
         /// <summary>
@@ -87,14 +91,15 @@ namespace temis.Api.Controllers
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpPost]
-        public IActionResult Post([FromBody] Process process)
+        public IActionResult Post([FromBody] ProcessDto process)
         {
-            Process processClient = _processService.CreateProcess(process);
-            var viewModel = _mapper.Map<ProcessDto>(processClient);
+          //  Process processClient = _processService.CreateProcess(process);
+          //  var viewModel = _mapper.Map<ProcessDto>(processClient);
+          //  if (viewModel != null) return Ok(viewModel);
+          //  return BadRequest("Duplicate id or could not insert this process.");
 
-            if (viewModel != null) return Ok(viewModel);
-
-            return BadRequest("Duplicate id or could not insert this process.");
+            var processEntity = _processService.CreateProcess(_mapper.Map<Process>(process));
+            return Ok(_mapper.Map<ProcessViewModel>(processEntity));
         }
 
         /// <summary>
@@ -109,9 +114,12 @@ namespace temis.Api.Controllers
         [HttpPut]
         public IActionResult Put([FromBody] Process process)
         {
-            _processService.EditProcess(process);
-            var viewModel = _mapper.Map<ProcessDto>(process);
-            return Ok(viewModel);
+          //  _processService.EditProcess(process);
+           // var viewModel = _mapper.Map<ProcessDto>(process);
+          //  return Ok(viewModel);
+
+            var processEntity = _processService.EditProcess(_mapper.Map<Process>(process));
+            return Ok(_mapper.Map<ProcessViewModel>(processEntity));
         }
 
         /// <summary>
