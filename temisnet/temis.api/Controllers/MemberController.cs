@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using temis.Api.Controllers.Models.Requests;
 using temis.Api.Models.DTO.MemberDto;
+using temis.Api.Models.DTO.ViewModel;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 namespace temis.Api.Controllers
@@ -45,9 +46,8 @@ namespace temis.Api.Controllers
         [Authorize(Roles = "coder, advogado")]
         public IActionResult Get([FromRoute] long id)
         {
-            var member = _memberService.FindById(id);
-
-            return Ok( _mapper.Map<MemberDto>(member));
+            var userEntity = _memberService.FindById(id);
+            return Ok(_mapper.Map<MemberViewModel>(userEntity));
         }
 
         /// <summary>
@@ -85,14 +85,10 @@ namespace temis.Api.Controllers
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpPost]
-        [Authorize(Roles = "")]
-        public IActionResult Post([FromBody] Member member)
+        public IActionResult Post([FromBody] MemberDto member)
         {
-            Member memberClient = _memberService.CreateMember(member);
-            var viewModel = _mapper.Map<MemberDto>(memberClient);
-            if (memberClient != null) return Ok(viewModel);
-
-            return BadRequest("Duplicate id or could not insert this member.");
+            var userEntity = _memberService.CreateMember(_mapper.Map<Member>(member));
+            return Ok(_mapper.Map<MemberViewModel>(userEntity));
         }
 
         /// <summary>
@@ -106,11 +102,11 @@ namespace temis.Api.Controllers
 
         [HttpPut]
         [Authorize(Roles = "")]
-        public IActionResult  Put([FromBody] Member member)
+        public IActionResult  Put([FromBody] MemberDto member)
         {
-            _memberService.EditMember(member);
-            var viewModel = _mapper.Map<MemberDto>(member);
-            return Ok(viewModel);
+            
+            var userEntity = _memberService.EditMember(_mapper.Map<Member>(member));
+            return Ok(_mapper.Map<MemberViewModel>(userEntity));
         }
 
         /// <summary>

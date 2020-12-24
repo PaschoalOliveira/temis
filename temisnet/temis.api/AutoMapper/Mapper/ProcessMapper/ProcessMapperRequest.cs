@@ -9,7 +9,7 @@ namespace temis.Api.AutoMapper.Mapper.MemberMapper
         public static void Map(Profile profile)
         {
             if (profile != null)
-                profile.CreateMap<Process, ProcessDto>();
+                profile.CreateMap<ProcessDto, Process>();
         }
 
     }
