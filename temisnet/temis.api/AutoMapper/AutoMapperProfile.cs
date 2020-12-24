@@ -11,9 +11,9 @@ namespace temis.Api.AutoMapper
             JudgmentMapperRequest.Map(this);
             ProcessMapperRequest.Map(this);
             PageProcessMapperRequest.Map(this);
-             MemberMapperResponse.Map(this);
-             JudgmentMapperResponse.Map(this);
-              ProcessMapperResponse.Map(this);
+            MemberMapperResponse.Map(this);
+            JudgmentMapperResponse.Map(this);
+            ProcessMapperResponse.Map(this);
             PageProcessMapperResponse.Map(this);
         }
     }
