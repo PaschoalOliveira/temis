@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using temis.Api.Controllers.Models.Requests;
-using temis.Core.DTO;
+using temis.Api.Models.DTO;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 

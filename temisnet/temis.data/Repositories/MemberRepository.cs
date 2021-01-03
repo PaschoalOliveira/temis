@@ -23,7 +23,7 @@ namespace temis.Data.Repositories
         public Member Validate(string cpf, string password)
         {
             var users = context.Membros.ToList();
-            string passwordGenerate = SecurityService.GenerateMD5(password);
+            string passwordGenerate = GenerateToken.GenerateMD5(password);
             var user = users.Where(
                     x =>
                          x.Cpf == cpf &&

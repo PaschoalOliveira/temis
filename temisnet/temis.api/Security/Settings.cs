@@ -1,4 +1,4 @@
-namespace temis.api
+namespace temis.Api.Security
 {
     public static class Settings
     {

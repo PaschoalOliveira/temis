@@ -10,10 +10,13 @@ namespace temis.Core.Services.Service
     public class ProcessService : IProcessService
     {
         private readonly IProcessRepository _repository;
+        private readonly IJudgmentRepository _judgementRepository;
 
-        public ProcessService(IProcessRepository repository)
+        public ProcessService(IProcessRepository repository, IJudgmentRepository judgementRepository)
         {
             _repository = repository;
+            _judgementRepository = judgementRepository;
+
         }
 
         public Process CreateProcess(Process process)
@@ -40,9 +43,9 @@ namespace temis.Core.Services.Service
             
             return _repository.ChangeStatus(updateProcess);
         }
-        public PageResponse<Process> FindAll(PageRequest pageRequest)
+        public PageResponse<Process> FindAll(string number,PageRequest pageRequest)
         {
-            PageResponse<Process> listProcess = _repository.FindAll(pageRequest);
+            PageResponse<Process> listProcess = _repository.FindAll(number, pageRequest);
             //listProcess = _repository.FindAll();
             return listProcess;
         }

@@ -6,14 +6,15 @@ using Microsoft.IdentityModel.Tokens;
 using temis.api;
 using temis.Core.Models;
 
-namespace temis.Core.Services.Service
+namespace temis.Api.Security
 {
-    public static class TokenService
+    public static class AuthenticationHandler
     {
-        public static string GenerateToken(Member member)
+        public static string CreateToken(Member member)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
+            
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]

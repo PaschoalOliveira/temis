@@ -1,7 +1,10 @@
 
-namespace temis.Core.DTO
+
+using System.Diagnostics.CodeAnalysis;
+
+namespace temis.Api.Models.DTO.ViewModel
 {
-    public class MemberDto
+    public class MemberViewModel
     {
         public string Name { get; set; }
         public string LastName { get; set; }

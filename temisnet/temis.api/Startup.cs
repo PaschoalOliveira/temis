@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,7 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using temis.Core.DTO;
 using temis.Core.Interfaces;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
@@ -25,6 +23,8 @@ using System.IO;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using temis.Api.AutoMapper;
+using AutoMapper;
 
 namespace temis.api
 {
@@ -42,7 +42,8 @@ namespace temis.api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionString = "Server=151.106.96.101;Port=3306;Database=u590093429_temis;Uid=u590093429_temisuser;Pwd=TemisUser1;convert zero datetime=True;";
+            var connectionString = Configuration["MySQLConnection:MySQLConnectionString"];
+            
             services.AddDbContext<TemisContext>((options) => options.UseMySql(connectionString));
 
             services.AddScoped<IMemberRepository, MemberRepository>();
@@ -118,14 +119,10 @@ namespace temis.api
                 };
             });
 
-            var config = new AutoMapper.MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Member, MemberDto>();
-                cfg.CreateMap<Judgment, JudgmentDto>();
-                cfg.CreateMap<Process, ProcessDto>();
-            });
 
-            IMapper mapper = config.CreateMapper();
+            IMapper mapper = new AutoMapper.MapperConfiguration(cfg => cfg.AddProfile(new AutoMapperProfile())).CreateMapper();
+
+           // IMapper mapper = config.CreateMapper();
             services.AddSingleton(mapper);
 
             services.AddControllers().AddXmlDataContractSerializerFormatters();
