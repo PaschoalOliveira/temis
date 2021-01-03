@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using temis.Core.Interfaces;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
@@ -42,6 +43,13 @@ namespace temis.Core.Services.Service
         public PageResponse<Process> FindAll(PageRequest pageRequest)
         {
             PageResponse<Process> listProcess = _repository.FindAll(pageRequest);
+            //listProcess = _repository.FindAll();
+            return listProcess;
+        }
+
+        public async Task<PageResponse<Process>> FindAllAsync(PageRequest pageRequest)
+        {
+            PageResponse<Process> listProcess =  await _repository.FindAllAsync(pageRequest);
             //listProcess = _repository.FindAll();
             return listProcess;
         }

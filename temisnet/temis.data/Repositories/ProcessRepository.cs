@@ -6,6 +6,7 @@ using temis.Core.Interfaces;
 using temis.Core.Models;
 using temis.data.Data;
 using MySql.Data.MySqlClient;
+using System.Threading.Tasks;
 
 namespace temis.Data.Repositories
 {
@@ -45,6 +46,16 @@ namespace temis.Data.Repositories
         {
             List<Process> processes = new List<Process>();
             processes = context.Process.ToList();
+            PageResponse<Process> pResponse = PageResponse<Process>.For(processes, pReq, processes.Count);
+            return pResponse;
+        }
+
+        public async Task<PageResponse<Process>> FindAllAsync(PageRequest pReq)
+        {
+            List<Process> processes = new List<Process>();
+            
+            processes = await context.Process.ToListAsync();
+            
             PageResponse<Process> pResponse = PageResponse<Process>.For(processes, pReq, processes.Count);
             return pResponse;
         }

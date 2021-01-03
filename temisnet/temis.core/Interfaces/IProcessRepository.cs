@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using temis.Core.Models;
 
 namespace temis.Core.Interfaces
@@ -9,6 +10,9 @@ namespace temis.Core.Interfaces
          Process EditProcess(Process member);
          Process ChangeStatus(Process process);
          PageResponse<Process> FindAll(PageRequest pageRequest);
+
+         Task<PageResponse<Process>> FindAllAsync(PageRequest pageRequest);
+
          Process FindById(long id);
          Process FindByNumber(string processNumber);
          void Delete(long Id);

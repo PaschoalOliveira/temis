@@ -8,10 +8,11 @@ using temis.Api.Controllers.Models.Requests;
 using temis.Core.DTO;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
-namespace temis.Api.Controllers
+
+namespace temis.Api.v1.Controllers
 {
     [ApiController]
-    [Route("/api/member")]
+    [Route("api/v1/member")]
     public class MemberController : ControllerBase
     {
         private IMemberService _memberService;

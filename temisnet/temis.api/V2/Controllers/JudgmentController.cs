@@ -5,10 +5,10 @@ using temis.Core.DTO;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 
-namespace temis.Api.Controllers
+namespace temis.Api.v2.Controllers
 {
     [ApiController]
-    [Route("/api/judgment")]
+    [Route("/api/v2/judgment")]
     public class JudgmentController : ControllerBase
     {
          private IJudgmentService _judgmentService;

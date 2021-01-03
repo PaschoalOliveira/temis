@@ -1,3 +1,5 @@
+using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using temis.Api.Controllers.Models.Requests;
@@ -5,10 +7,10 @@ using temis.Core.DTO;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 
-namespace temis.Api.Controllers
+namespace temis.Api.v2.Controllers
 {
     [ApiController]
-    [Route("/api/process")]
+    [Route("/api/v2/process")]
     public class ProcessController : ControllerBase
     {
         private IProcessService _processService;
@@ -30,10 +32,13 @@ namespace temis.Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get(int? page, int? limit, string description = "")
+        public async Task<IActionResult> Get(int? page, int? limit, string description = "")
         {
             PageRequest pReq = PageRequest.Of(page, limit);
-            PageResponse<Process> processes = _processService.FindAll(pReq);
+
+            Thread.Sleep(2000);
+
+            PageResponse<Process> processes = await _processService.FindAllAsync(pReq);
             return Ok(processes.Content);
         }
 
