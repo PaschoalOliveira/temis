@@ -13,7 +13,7 @@ namespace temis.api
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>().UseUrls("http://192.168.0.32:5000","https://192.168.0.32:5001");
+                    webBuilder.UseStartup<Startup>().UseUrls("http://127.0.0.1:5000","https://127.0.0.1:5001");
                 });
     }
 }
