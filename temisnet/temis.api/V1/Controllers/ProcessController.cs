@@ -73,7 +73,8 @@ namespace temis.Api.v1.Controllers
             Thread.Sleep(2000);
             
             PageResponse<Process> processes = _processService.FindAll(number, pReq);
-            return Ok(processes.Content);
+            PageProcessDto viewModel = _mapper.Map<PageProcessDto>(processes);
+            return Ok(viewModel);
         }
 
 

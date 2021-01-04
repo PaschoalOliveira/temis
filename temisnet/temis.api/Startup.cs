@@ -25,6 +25,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using temis.Api.AutoMapper;
 using AutoMapper;
+using temis.Api.Models.DTO;
+using temis.Api.Models.DTO.MemberDto;
+using temis.Api.AutoMapper.Mapper.MemberMapper;
 
 namespace temis.api
 {
@@ -120,9 +123,21 @@ namespace temis.api
             });
 
 
-            IMapper mapper = new AutoMapper.MapperConfiguration(cfg => cfg.AddProfile(new AutoMapperProfile())).CreateMapper();
+            // var config = new MapperConfiguration(cfg => {
+            //     cfg.AddMaps( new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly } );
+            // });
+            // IMapper mapper = config.CreateMapper();
 
-           // IMapper mapper = config.CreateMapper();
+            var config = new AutoMapper.MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Member, MemberDto>();
+                cfg.CreateMap<Judgment, JudgmentDto>();
+                cfg.CreateMap<Process, ProcessDto>();
+                cfg.CreateMap<PageResponse<Process>, PageProcessDto>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+
             services.AddSingleton(mapper);
 
             services.AddControllers().AddXmlDataContractSerializerFormatters();

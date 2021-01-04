@@ -9,10 +9,10 @@ namespace temis.Core.Models
     {
         protected internal static readonly int DefaultPageLimit = 3;
         protected internal static readonly List<int> PageLimits = new List<int> { 10, 20, 30, 50, 100 };
-        public int Number { get; set; }
-        public int Limit;
-        public int number { get { return number; } }
-        public int limit { get { return limit; } }
+        private int number;
+        private int limit;
+        public int Number { get { return number; } }
+        public int Limit { get { return limit; } }
 
         public PageRequest() { }
 
@@ -32,15 +32,15 @@ namespace temis.Core.Models
         {
             PageRequest pr = new PageRequest();
 
-            pr.Number = number < 1 ? 1 : number;
+            pr.number = number < 1 ? 1 : number;
 
             if (pr.ValidPageLimit(limit))
             {
-                pr.Limit = limit;
+                pr.limit = limit;
             }
             else
             {
-                pr.Limit = DefaultPageLimit;
+                pr.limit = DefaultPageLimit;
             }
 
             return pr;
