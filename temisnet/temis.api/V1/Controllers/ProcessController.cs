@@ -1,6 +1,8 @@
+using System;
 using System.Threading;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using temis.Api.Controllers.Models.Requests;
 using temis.Api.Models.DTO;
 using temis.Api.Models.ViewModel;
@@ -18,6 +20,7 @@ namespace temis.Api.v1.Controllers
     public class ProcessController : ControllerBase
     {
         private readonly IProcessService _processService;
+        private readonly IMemoryCache _cache;
         private IMapper _mapper;
 
         /// <summary>
@@ -25,10 +28,11 @@ namespace temis.Api.v1.Controllers
         /// </summary>
         /// <param name="processService"></param>
         /// <param name="mapper"></param>
-        public ProcessController(IProcessService service, IMapper mapper)
+        public ProcessController(IProcessService service, IMapper mapper, IMemoryCache cache)
         {
             _processService = service;
             _mapper = mapper;
+            _cache = cache;
         }
 
         /// <summary>
@@ -68,13 +72,20 @@ namespace temis.Api.v1.Controllers
         [HttpGet]
         public IActionResult Get(int? page, int? limit, string number = "")
         {
-            PageRequest pReq = PageRequest.Of(page, limit);
-            
-            Thread.Sleep(2000);
-            
-            PageResponse<Process> processes = _processService.FindAll(number, pReq);
-            PageProcessDto viewModel = _mapper.Map<PageProcessDto>(processes);
-            return Ok(viewModel);
+            var cacheEntry = _cache.GetOrCreate("Key", entry =>
+            {
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(10);
+                    entry.SetPriority(CacheItemPriority.High);
+
+                PageRequest pReq = PageRequest.Of(page, limit);
+                
+                Thread.Sleep(10000);
+                
+                PageResponse<Process> processes = _processService.FindAll(number, pReq);
+                PageProcessDto viewModel = _mapper.Map<PageProcessDto>(processes);
+                return Ok(viewModel);
+            });
+                    return cacheEntry;
         }
 
 

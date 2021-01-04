@@ -140,6 +140,8 @@ namespace temis.api
 
             services.AddSingleton(mapper);
 
+            services.AddMemoryCache();
+
             services.AddControllers().AddXmlDataContractSerializerFormatters();
 
         }

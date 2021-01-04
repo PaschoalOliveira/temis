@@ -11,5 +11,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\temis.core\temis.core.csproj" />
+    <ProjectReference Include="..\temis.api\temis.api.csproj" />
   </ItemGroup>
 </Project>
