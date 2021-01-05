@@ -99,7 +99,7 @@ namespace temis.Api.v1.Controllers
         } */
 
         [HttpPost]
-        public IActionResult Post([FromBody] Member member)
+        public ActionResult<Member> Post([FromBody] Member member)
         {
             var userEntity = _memberService.CreateMember(member);
             return Ok(userEntity);

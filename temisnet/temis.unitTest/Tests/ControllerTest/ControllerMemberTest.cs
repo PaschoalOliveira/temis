@@ -21,21 +21,20 @@ namespace temis.unitTest
             _service = new Mock<IMemberService>();
         }
 
-       /*
         [Test]
-        public void DeleteMember()
+        public void CreateMember()
         {
             Member member = new Member(1,"teste","teste",12,"juiz","01826287523","senha");
 
-            _service.Expect(s => s.CreateMember(member)).Returns(member);
+            _service.Setup(s => s.CreateMember(member)).Returns(member);
             var controller = new MemberController(_service.Object);
 
-            // OkObjectResult okresult = controller.Post(member) as OkObjectResult;
-            var okresult = controller.Post(member);
+            var result = controller.Post(member);
+            OkObjectResult okResult = result.Result as OkObjectResult;
 
-          //  NUnit.Framework.Assert.True(_service.Object.CreateMember(member) == okresult);
             Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
-        } */
+            Assert.AreEqual(((Member)okResult.Value).Id, member.Id);
+        }
         
     }
  }
