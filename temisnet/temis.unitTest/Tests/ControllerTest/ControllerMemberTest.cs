@@ -1,40 +1,52 @@
-using System;
-using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
-using temis.Core.Services.Service;
 using temis.Api.v1.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using temis.unitTest.Tests.Settings.Seeds;
+using AutoMapper;
 
 namespace temis.unitTest
- {
-     public class ControllerMemberTest
+{
+    public class ControllerMemberTest
      {
 
         Mock<IMemberService> _service;
+        
+        public MemberController _controller;
+
+        public IMapper _mapper;
 
         [SetUp]
         public void Setup()
         {
             _service = new Mock<IMemberService>();
+            _controller = new MemberController(_service.Object, _mapper);
         }
 
         [Test]
-        public void CreateMember()
+        public void CreateMemberReturnOk()
         {
-            Member member = new Member(1,"teste","teste",12,"juiz","01826287523","senha");
-
-            _service.Setup(s => s.CreateMember(member)).Returns(member);
-            var controller = new MemberController(_service.Object);
-
-            var result = controller.Post(member);
+            _service.Setup(s => s.CreateMember(It.IsAny<Member>())).Returns(MemberSeed.Post());
+            
+            var result = _controller.Post(It.IsAny<Member>());
             OkObjectResult okResult = result.Result as OkObjectResult;
 
             Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
-            Assert.AreEqual(((Member)okResult.Value).Id, member.Id);
+            Assert.AreEqual(((Member)okResult.Value).Id, MemberSeed.Post().Id);
         }
-        
+
+        [Test]
+        public void CreateMemberNoContent()
+        {
+            _service.Setup(s => s.CreateMember(It.IsAny<Member>())).Returns((Member)null);
+            
+            var result = _controller.Post(It.IsAny<Member>());
+            
+            Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
+            Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
+        }
+                
     }
  }

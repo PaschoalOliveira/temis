@@ -33,10 +33,6 @@ namespace temis.Api.v1.Controllers
            _mapper = mapper;
         }
 
-        public MemberController(IMemberService service)
-        {
-           _memberService = service;
-        }
 
         /// <summary>
         /// Get member by id number
@@ -101,7 +97,12 @@ namespace temis.Api.v1.Controllers
         [HttpPost]
         public ActionResult<Member> Post([FromBody] Member member)
         {
-            var userEntity = _memberService.CreateMember(member);
+            Member userEntity = _memberService.CreateMember(member);
+            if (userEntity == null)
+            {
+               return NoContent();
+            }
+            
             return Ok(userEntity);
         } 
 
@@ -116,7 +117,7 @@ namespace temis.Api.v1.Controllers
 
         [HttpPut]
         [Authorize(Roles = "")]
-        public IActionResult  Put([FromBody] MemberDto member)
+        public IActionResult Put([FromBody] MemberDto member)
         {
             
             var userEntity = _memberService.EditMember(_mapper.Map<Member>(member));
