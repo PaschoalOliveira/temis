@@ -28,6 +28,7 @@ namespace temis.Api.v1.Controllers
         /// </summary>
         /// <param name="processService"></param>
         /// <param name="mapper"></param>
+
         public ProcessController(IProcessService service, IMapper mapper, IMemoryCache cache)
         {
             _processService = service;
@@ -49,13 +50,13 @@ namespace temis.Api.v1.Controllers
         [HttpGet("{id}")]
         public IActionResult Get([FromRoute] long id)
         {
-           // Process process = _processService.FindById(id);
-            //ProcessDto viewModel = _mapper.Map<ProcessDto>(process);
+            Process process = _processService.FindById(id);
+            ProcessDto viewModel = _mapper.Map<ProcessDto>(process);
 
-            //return Ok(viewModel);
+            return Ok(viewModel);
 
-            var processEntity = _processService.FindById(id);
-            return Ok(_mapper.Map<ProcessViewModel>(processEntity));
+           // var processEntity = _processService.FindById(id);
+           // return Ok(_mapper.Map<ProcessViewModel>(processEntity));
         }
 
         /// <summary>
@@ -74,12 +75,12 @@ namespace temis.Api.v1.Controllers
         {
             var cacheEntry = _cache.GetOrCreate("Key", entry =>
             {
-                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(10);
-                    entry.SetPriority(CacheItemPriority.High);
+                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(10); // tempo de expiração
+                entry.SetPriority(CacheItemPriority.High);
 
                 PageRequest pReq = PageRequest.Of(page, limit);
                 
-                Thread.Sleep(10000);
+             //   Thread.Sleep(10000); // delay
                 
                 PageResponse<Process> processes = _processService.FindAll(number, pReq);
                 PageProcessDto viewModel = _mapper.Map<PageProcessDto>(processes);

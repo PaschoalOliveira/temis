@@ -1,43 +1,41 @@
-// using System;
-// using System.Collections.Generic;
-// using Moq;
-// using NUnit.Framework;
-// using temis.Core.Models;
-// using temis.Core.Services.Interfaces;
-// using  temis.Core.Services.Service;
-// using temis.Api.v1.Controllers;
+using System;
+using System.Collections.Generic;
+using Moq;
+using NUnit.Framework;
+using temis.Core.Models;
+using temis.Core.Services.Interfaces;
+using temis.Core.Services.Service;
+using temis.Api.v1.Controllers;
+using Microsoft.AspNetCore.Mvc;
 
+namespace temis.unitTest
+ {
+     public class ControllerMemberTest
+     {
 
-// namespace temis.unitTest
-// {
-//     public class ControllerMemberTest
-//     {
+        Mock<IMemberService> _service;
 
-//         // Mock<MemberController> mockMemberController;
-//         // private IMemberService _userService;
+        [SetUp]
+        public void Setup()
+        {
+            _service = new Mock<IMemberService>();
+        }
 
-//         [SetUp]
-//         public void Setup()
-//         {
-//             mockMemberService = new Mock<IMemberService>();
-//         }
+       /*
+        [Test]
+        public void DeleteMember()
+        {
+            Member member = new Member(1,"teste","teste",12,"juiz","01826287523","senha");
 
-//         [Test]
-//         public void DeleteReturnsOk()
-//         {
-//             // Arrange
-//             var mockRepository = new Mock<IMemberRepository>();
-//             var controller = new Products2Controller(mockRepository.Object);
+            _service.Expect(s => s.CreateMember(member)).Returns(member);
+            var controller = new MemberController(_service.Object);
 
-//             // Act
-//             IHttpActionResult actionResult = controller.Delete(10);
+            // OkObjectResult okresult = controller.Post(member) as OkObjectResult;
+            var okresult = controller.Post(member);
 
-//             // Assert
-//             Assert.IsInstanceOfType(actionResult, typeof(OkResult));
-//         }
-
-   
-      
+          //  NUnit.Framework.Assert.True(_service.Object.CreateMember(member) == okresult);
+            Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
+        } */
         
-//    }
-// }
+    }
+ }

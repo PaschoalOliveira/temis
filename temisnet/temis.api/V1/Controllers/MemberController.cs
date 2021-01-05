@@ -33,6 +33,11 @@ namespace temis.Api.v1.Controllers
            _mapper = mapper;
         }
 
+        public MemberController(IMemberService service)
+        {
+           _memberService = service;
+        }
+
         /// <summary>
         /// Get member by id number
         /// </summary>
@@ -86,12 +91,19 @@ namespace temis.Api.v1.Controllers
         /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
-        [HttpPost]
+    /*    [HttpPost]
         public IActionResult Post([FromBody] MemberDto member)
         {
             var userEntity = _memberService.CreateMember(_mapper.Map<Member>(member));
             return Ok(_mapper.Map<MemberViewModel>(userEntity));
-        }
+        } */
+
+        [HttpPost]
+        public IActionResult Post([FromBody] Member member)
+        {
+            var userEntity = _memberService.CreateMember(member);
+            return Ok(userEntity);
+        } 
 
         /// <summary>
         /// Altera um usuário cadastrado

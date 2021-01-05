@@ -10,7 +10,11 @@ namespace temis.Api.AutoMapper.Mapper.MemberMapper
         public static void Map(Profile profile)
         {
             if (profile != null)
-                profile.CreateMap<PageResponse<Process>, PageProcessDto>();
+            {
+               // profile.CreateMap<Process, ProcessDto>();
+                //profile.CreateMap<PageResponse<Process>, PageProcessDto>();
+                profile.CreateMap(typeof(PageResponse<>), typeof(PageProcessDto));
+            }
         }
 
 

@@ -7,6 +7,5 @@ namespace temis.Api.Models.DTO
     public class PageProcessDto
     {
         public List<ProcessDto> Content { get; set; }
-
     }
 }
