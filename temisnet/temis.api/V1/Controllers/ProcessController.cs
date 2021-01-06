@@ -89,16 +89,6 @@ namespace temis.Api.v1.Controllers
                     return cacheEntry;
         }
 
-
-        [HttpGet("number/{number}")]
-        public IActionResult Get(string number)
-        {
-            Process process = _processService.FindByNumber(number);
-            ProcessDto viewModel = _mapper.Map<ProcessDto>(process);
-
-            return Ok(viewModel);
-        }
-
         /// <summary>
         /// Cria um processo
         /// </summary>
