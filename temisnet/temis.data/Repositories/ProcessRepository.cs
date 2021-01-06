@@ -21,19 +21,17 @@ namespace temis.Data.Repositories
 
         public Process CreateProcess(Process process)
         {
-            Process processNew = context.Process.Add(process).Entity;
-            return processNew;
+            process.Status = "inicializado";
+            context.Process.Add(process);
+            context.SaveChanges();
+            return process;
         }
 
         public void Delete(long Id)
         {
             throw new NotImplementedException();
         }
-        public Process EditProcess(Process member)
-        {
-            throw new NotImplementedException();
-        }
-
+      
         public Process ChangeStatus(Process process)
         {
             context.Process.Update(process);
@@ -69,15 +67,6 @@ namespace temis.Data.Repositories
             return context.Process.Where((p) => p.ProcessId == id).SingleOrDefault();
         }
 
-        public Process FindByNumber(string processNumber)
-        {
-            Process judgmetProcess = context.Process
-                                            .Where(p => p.Number == processNumber)
-                                            .Include(j => j.Judgments)
-                                            .FirstOrDefault();
-
-            return judgmetProcess;
-        } 
-
+      
     }
 }

@@ -28,6 +28,7 @@ using AutoMapper;
 using temis.Api.Models.DTO;
 using temis.Api.Models.DTO.MemberDto;
 using temis.Api.AutoMapper.Mapper.MemberMapper;
+using temis.api.Requests;
 
 namespace temis.api
 {
@@ -147,7 +148,10 @@ namespace temis.api
                 cfg.CreateMap<Member, MemberDto>();
                 cfg.CreateMap<Judgment, JudgmentDto>();
                 cfg.CreateMap<Process, ProcessDto>();
+                cfg.CreateMap<Process, CreateProcessRequest>();
+                cfg.CreateMap<CreateProcessRequest, Process>();
                 cfg.CreateMap<PageResponse<Process>, PageProcessDto>();
+                
             });
 
             IMapper mapper = config.CreateMapper();

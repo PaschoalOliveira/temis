@@ -30,11 +30,6 @@ namespace temis.Core.Services.Service
             _repository.Delete(id);
         }
 
-        public Process EditProcess(Process process)
-        {
-            Process editedProcess = _repository.EditProcess(process);
-            return editedProcess;
-        }
         public Process ChangeStatus(Process process)
         {
             Process updateProcess = FindById(process.ProcessId);
@@ -46,14 +41,14 @@ namespace temis.Core.Services.Service
         public PageResponse<Process> FindAll(string number,PageRequest pageRequest)
         {
             PageResponse<Process> listProcess = _repository.FindAll(number, pageRequest);
-            //listProcess = _repository.FindAll();
+            
             return listProcess;
         }
 
         public async Task<PageResponse<Process>> FindAllAsync(PageRequest pageRequest)
         {
             PageResponse<Process> listProcess =  await _repository.FindAllAsync(pageRequest);
-            //listProcess = _repository.FindAll();
+            
             return listProcess;
         }
 
@@ -63,7 +58,6 @@ namespace temis.Core.Services.Service
             return process;
         }
 
-        public Process FindByNumber(string processNumber) => _repository.FindByNumber(processNumber);
-        
+              
     }
 }

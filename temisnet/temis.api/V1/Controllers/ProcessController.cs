@@ -3,6 +3,7 @@ using System.Threading;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using temis.api.Requests;
 using temis.Api.Controllers.Models.Requests;
 using temis.Api.Models.DTO;
 using temis.Api.Models.ViewModel;
@@ -31,28 +32,6 @@ namespace temis.Api.v1.Controllers
             _processService = service;
             _mapper = mapper;
             _cache = cache;
-        }
-
-        /// <summary>
-        /// Get process by id number
-        /// </summary>
-        /// <returns></returns>
-        /// <response code="200">Success</response>
-        /// <response code="204">No Content</response>
-        /// <response code="400">Business logic error, see return message for more info</response>
-        /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
-        /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
-
-        [HttpGet("{id}")]
-        public IActionResult Get([FromRoute] long id)
-        {
-            Process process = _processService.FindById(id);
-            ProcessDto viewModel = _mapper.Map<ProcessDto>(process);
-
-            return Ok(viewModel);
-
-           // var processEntity = _processService.FindById(id);
-           // return Ok(_mapper.Map<ProcessViewModel>(processEntity));
         }
 
         /// <summary>
@@ -94,35 +73,15 @@ namespace temis.Api.v1.Controllers
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpPost]
-        public IActionResult Post([FromBody] ProcessDto process)
+        public IActionResult Post([FromBody]CreateProcessRequest request)
         {
-          //  Process processClient = _processService.CreateProcess(process);
-          //  var viewModel = _mapper.Map<ProcessDto>(processClient);
-          //  if (viewModel != null) return Ok(viewModel);
-          //  return BadRequest("Duplicate id or could not insert this process.");
 
-            var processEntity = _processService.CreateProcess(_mapper.Map<Process>(process));
-            return Ok(_mapper.Map<ProcessViewModel>(processEntity));
-        }
+            Process processMap = _mapper.Map<Process>(request);
+            Process processEntity = _processService.CreateProcess(processMap);
 
-        /// <summary>
-        /// Altera um processo cadastrado
-        /// </summary>
-        /// <response code="200">Success</response>
-        /// <response code="204">No Content</response>
-        /// <response code="400">Business logic error, see return message for more info</response>
-        /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
-        /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
+            if(processEntity == null) return NoContent();
 
-        [HttpPut]
-        public IActionResult Put([FromBody] Process process)
-        {
-          //  _processService.EditProcess(process);
-           // var viewModel = _mapper.Map<ProcessDto>(process);
-          //  return Ok(viewModel);
-
-            var processEntity = _processService.EditProcess(_mapper.Map<Process>(process));
-            return Ok(_mapper.Map<ProcessViewModel>(processEntity));
+            return Ok(_mapper.Map<ProcessDto>(processEntity));
         }
 
         /// <summary>
