@@ -76,6 +76,7 @@ namespace temis.api
                     Title = "temis.api", 
                     Version = "v1" ,
                     Description = "Coder Trainee Training with ASP.NET 3.1",
+                    
                     Contact = new OpenApiContact
                     {
                         Name = "Coder Trainee Training with ASP.NET 3.1 - Repository",
@@ -83,6 +84,9 @@ namespace temis.api
                         Url = new Uri("https://github.com/PaschoalOliveira/temis/tree/feature/dotnet"),
                     }
                 });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
                 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
