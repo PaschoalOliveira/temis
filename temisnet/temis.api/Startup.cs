@@ -60,6 +60,16 @@ namespace temis.api
 
             services.AddControllers();
             
+            services.AddCors(options =>
+                {
+                    options.AddPolicy("AnyOrigin", builder =>
+                    {
+                        builder
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod();
+                    });
+                });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { 
@@ -155,6 +165,8 @@ namespace temis.api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "temis.api v1"));
             }
+
+            app.UseCors("AnyOrigin");
 
             app.UseHttpsRedirection();
 
