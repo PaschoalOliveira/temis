@@ -75,11 +75,7 @@ namespace temis.Api.v2.Controllers
             return Ok(_memberService.FindAll());
         }
 
-         /// <summary>
-        /// Cria um usuário
-        /// </summary>
-        /// <response code="200">Usuário cadastrado</response>
-        /// <response code="500">Erro interno</response>
+  
         [HttpPost]
         [Authorize(Roles = "")]
         public IActionResult Post([FromBody] Member member)
@@ -91,11 +87,7 @@ namespace temis.Api.v2.Controllers
             return BadRequest("Duplicate id or could not insert this member.");
         }
 
-        /// <summary>
-        /// Altera um usuário cadastrado
-        /// </summary>
-        /// <response code="200">Alteração feita com sucesso</response>
-        /// <response code="500">Erro interno</response>
+
         [HttpPut]
         [Authorize(Roles = "")]
         public IActionResult  Put([FromBody] Member member)
@@ -105,11 +97,7 @@ namespace temis.Api.v2.Controllers
             return Ok(viewModel);
         }
 
-        /// <summary>
-        /// Altera parcialmente o usuário
-        /// </summary>
-        /// <response code="200">Usuário cadastrado</response>
-        /// <response code="500">Erro interno</response>
+
         [HttpPatch("edit")]
         [Authorize(Roles = "")]
         public IActionResult Patch([FromBody]EditPasswordRequest request)
@@ -118,11 +106,7 @@ namespace temis.Api.v2.Controllers
             return Ok();
         }
 
-        /// <summary>
-        /// Deleta um usuário
-        /// </summary>
-        /// <response code="200">Deleta um usuário cadastrado</response>
-        /// <response code="500">Erro interno</response>
+    
         [HttpDelete("{id}")]
         [Authorize(Roles = "")]
         public ActionResult Delete([FromRoute] long id)

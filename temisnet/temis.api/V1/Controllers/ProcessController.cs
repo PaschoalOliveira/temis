@@ -26,9 +26,6 @@ namespace temis.Api.v1.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="processService"></param>
-        /// <param name="mapper"></param>
-
         public ProcessController(IProcessService service, IMapper mapper, IMemoryCache cache)
         {
             _processService = service;
@@ -39,7 +36,6 @@ namespace temis.Api.v1.Controllers
         /// <summary>
         /// Get process by id number
         /// </summary>
-        /// <param name="idMember"></param>
         /// <returns></returns>
         /// <response code="200">Success</response>
         /// <response code="204">No Content</response>
@@ -62,7 +58,6 @@ namespace temis.Api.v1.Controllers
         /// <summary>
         /// Get all process
         /// </summary>
-        /// <param name="idMember"></param>
         /// <returns></returns>
         /// <response code="200">Success</response>
         /// <response code="204">No Content</response>
@@ -80,7 +75,7 @@ namespace temis.Api.v1.Controllers
 
                 PageRequest pReq = PageRequest.Of(page, limit);
                 
-             //   Thread.Sleep(10000); // delay
+                Thread.Sleep(10000); 
                 
                 PageResponse<Process> processes = _processService.FindAll(number, pReq);
                 PageProcessDto viewModel = _mapper.Map<PageProcessDto>(processes);

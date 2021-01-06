@@ -21,7 +21,6 @@ namespace temis.Api.v1.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="judgmentService"></param>
         /// <param name="mapper"></param>
         public JudgmentController(IJudgmentService service, IMapper mapper)
         {

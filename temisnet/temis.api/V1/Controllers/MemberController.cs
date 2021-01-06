@@ -26,8 +26,27 @@ namespace temis.Api.v1.Controllers
         /// <param name="mapper"></param>
         public MemberController(IMemberService service, IMapper mapper)
         {
-            _memberService = service;
-            _mapper = mapper;
+           _memberService = service;
+           _mapper = mapper;
+        }
+
+
+        /// <summary>
+        /// Get member by id number
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">Success</response>
+        /// <response code="204">No Content</response>
+        /// <response code="400">Business logic error, see return message for more info</response>
+        /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
+
+        [HttpGet("{id}")]
+        //[Authorize(Roles = "")]
+        public IActionResult Get([FromRoute] long id)
+        {
+            var userEntity = _memberService.FindById(id);
+            return Ok(_mapper.Map<MemberDto>(userEntity));
         }
 
         /// <summary>
@@ -40,7 +59,7 @@ namespace temis.Api.v1.Controllers
         /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
         [HttpGet]
-        [Authorize(Roles = "coder, advogado")]
+        //[Authorize(Roles = "")]
         public IActionResult Get(int? page, int? limit, string name = "")
         {
             PageRequest pageRequest = PageRequest.Of(page, limit);
@@ -55,7 +74,7 @@ namespace temis.Api.v1.Controllers
         }
 
         /// <summary>
-        /// Cria um usuário
+        /// Create member
         /// </summary>
         /// <response code="200">Success</response>
         /// <response code="204">No Content</response>
@@ -63,6 +82,7 @@ namespace temis.Api.v1.Controllers
         /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
         [HttpPost]
+        //[Authorize(Roles = "")]
         public ActionResult<Member> Post([FromBody] Member member)
         {
             Member userEntity = _memberService.CreateMember(member);
@@ -75,23 +95,24 @@ namespace temis.Api.v1.Controllers
         }
 
         /// <summary>
-        /// Altera parcialmente o usuário
+        /// Partially changes the user
         /// </summary>
         /// <response code="200">Success</response>
         /// <response code="204">No Content</response>
         /// <response code="400">Business logic error, see return message for more info</response>
         /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
-        [HttpPatch]
-        [Authorize(Roles = "")]
-        public IActionResult Patch([FromBody] EditPasswordRequest request)
+
+        [HttpPatch("edit")]
+        //[Authorize(Roles = "")]
+        public IActionResult Patch([FromBody]EditPasswordRequest request)
         {
             _memberService.EditPassword(request.Id, request.Password);
             return Ok();
         }
 
         /// <summary>
-        /// Judgment delete.
+        /// Member delete.
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -105,7 +126,7 @@ namespace temis.Api.v1.Controllers
         /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "")]
+        //[Authorize(Roles = "")]
         public ActionResult Delete([FromRoute] long id)
         {
             bool memberNotFound = _memberService.FindById(id) == null;

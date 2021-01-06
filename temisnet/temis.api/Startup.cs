@@ -60,12 +60,23 @@ namespace temis.api
 
             services.AddControllers();
             
+            services.AddCors(options =>
+                {
+                    options.AddPolicy("AnyOrigin", builder =>
+                    {
+                        builder
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod();
+                    });
+                });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { 
                     Title = "temis.api", 
                     Version = "v1" ,
                     Description = "Coder Trainee Training with ASP.NET 3.1",
+                    
                     Contact = new OpenApiContact
                     {
                         Name = "Coder Trainee Training with ASP.NET 3.1 - Repository",
@@ -73,6 +84,9 @@ namespace temis.api
                         Url = new Uri("https://github.com/PaschoalOliveira/temis/tree/feature/dotnet"),
                     }
                 });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
                 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -155,6 +169,8 @@ namespace temis.api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "temis.api v1"));
             }
+
+            app.UseCors("AnyOrigin");
 
             app.UseHttpsRedirection();
 
