@@ -48,6 +48,8 @@ namespace temis.api
         {
             var connectionString = Configuration["MySQLConnection:MySQLConnectionString"];
             
+            services.AddStackExchangeRedisCache(options => options.Configuration = this.Configuration.GetConnectionString("redisServerUrl"));
+            
             services.AddDbContext<TemisContext>((options) => options.UseMySql(connectionString));
 
             services.AddScoped<IMemberRepository, MemberRepository>();
