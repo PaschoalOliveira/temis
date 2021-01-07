@@ -16,19 +16,19 @@ namespace temis.Core.Models
 
             Page page = new Page();
 
-            page.Paged = totalResult > content.Count;
-            
             page.Number = pr.Number;
             page.Limit = pr.Limit;
+
+            page.Paged = totalResult > content.Count;
 
             page.TotalPages = (int)Math.Ceiling((double)totalResult / (double)page.Limit);
             
             page.Total = (int)totalResult;
 
             page.First = page.Number == 1;
-            page.Last = page.Number >= page.Total;
+            page.Last = page.Number >= page.TotalPages;
 
-            this.Content = content.Skip(page.Limit * (page.Number - 1)).Take(page.Limit).ToList();
+            this.Content = content;
             this.Page = page;
         }
         public static PageResponse<T> For(List<T> content, PageRequest pr, long totalResult) => new PageResponse<T>(content, pr, totalResult);
