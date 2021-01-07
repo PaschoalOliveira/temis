@@ -11,12 +11,12 @@ namespace temis.Api.Models.DTO
         public string Number { get; set; }
         
         [DataType(DataType.Date)]
-        [JsonConverter(typeof(JsonDateConverter))]
+       // [JsonConverter(typeof(JsonDateConverter))]
         public DateTime CreationDate { get; set; }
         public string Status { get; set; }
 
         [DataType(DataType.Date)]
-        [JsonConverter(typeof(JsonDateConverter))]
+       // [JsonConverter(typeof(JsonDateConverter))]
         public DateTime StatusUpdate { get; set; }
         
         public IEnumerable<JudgmentDto> Judgments {get; set;} 

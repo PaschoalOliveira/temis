@@ -27,9 +27,7 @@ using temis.Api.AutoMapper;
 using AutoMapper;
 using temis.Api.Models.DTO;
 using temis.Api.Models.DTO.MemberDto;
-using temis.Api.AutoMapper.Mapper.MemberMapper;
 using temis.api.Requests;
-
 namespace temis.api
 {
     public class Startup
@@ -43,13 +41,12 @@ namespace temis.api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration["MySQLConnection:MySQLConnectionString"];
-            
+
             services.AddStackExchangeRedisCache(options => options.Configuration = this.Configuration.GetConnectionString("redisServerUrl"));
-            
+
             services.AddDbContext<TemisContext>((options) => options.UseMySql(connectionString));
 
             services.AddScoped<IMemberRepository, MemberRepository>();
@@ -62,7 +59,7 @@ namespace temis.api
             services.AddScoped<IProcessService, ProcessService>();
 
             services.AddControllers();
-            
+
             services.AddCors(options =>
                 {
                     options.AddPolicy("AnyOrigin", builder =>
@@ -75,11 +72,12 @@ namespace temis.api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { 
-                    Title = "temis.api", 
-                    Version = "v1" ,
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "temis.api",
+                    Version = "v1",
                     Description = "Coder Trainee Training with ASP.NET 3.1",
-                    
+
                     Contact = new OpenApiContact
                     {
                         Name = "Coder Trainee Training with ASP.NET 3.1 - Repository",
@@ -90,7 +88,7 @@ namespace temis.api
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
-                
+
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
@@ -105,10 +103,10 @@ namespace temis.api
                     {
                         new OpenApiSecurityScheme
                         {
-                            Reference = new OpenApiReference 
+                            Reference = new OpenApiReference
                             {
                                 Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer" 
+                                Id = "Bearer"
                             },
                             Scheme = "oauth2",
                             Name = "Bearer",
@@ -140,10 +138,10 @@ namespace temis.api
             });
 
 
-          /*   var config = new MapperConfiguration(cfg => {
-                 cfg.AddMaps( new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly } );
-             });
-             IMapper mapper = config.CreateMapper(); */
+            /*   var config = new MapperConfiguration(cfg => {
+                   cfg.AddMaps( new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly } );
+               });
+               IMapper mapper = config.CreateMapper(); */
 
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
@@ -153,7 +151,7 @@ namespace temis.api
                 cfg.CreateMap<Process, CreateProcessRequest>();
                 cfg.CreateMap<CreateProcessRequest, Process>();
                 cfg.CreateMap<PageResponse<Process>, PageProcessDto>();
-                
+
             });
 
             IMapper mapper = config.CreateMapper();
@@ -161,7 +159,6 @@ namespace temis.api
             services.AddSingleton(mapper);
 
             services.AddMemoryCache();
-
             services.AddControllers().AddXmlDataContractSerializerFormatters();
 
         }

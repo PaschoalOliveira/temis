@@ -10,7 +10,7 @@ namespace temis.Api.Models.DTO
     {
 
         [DataType(DataType.Date)]
-        [JsonConverter(typeof(JsonDateConverter))]
+     //   [JsonConverter(typeof(JsonDateConverter))]
         public DateTime JudgmentDate { get; set; }
         public string Veredict { get; set; }
 

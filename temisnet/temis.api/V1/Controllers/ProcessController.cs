@@ -1,17 +1,20 @@
 using System;
+using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 using temis.api.Requests;
 using temis.Api.Controllers.Models.Requests;
 using temis.Api.Models.DTO;
-using temis.Api.Models.ViewModel;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
+using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace temis.Api.v1.Controllers
-
 {
     /// <summary>
     /// ProcessController
@@ -21,17 +24,18 @@ namespace temis.Api.v1.Controllers
     public class ProcessController : ControllerBase
     {
         private readonly IProcessService _processService;
-        private readonly IMemoryCache _cache;
+        private readonly IDistributedCache _cacheRedis;
+        private const string ProcessKey = "Process";
         private IMapper _mapper;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public ProcessController(IProcessService service, IMapper mapper, IMemoryCache cache)
+        public ProcessController(IProcessService service, IMapper mapper, IDistributedCache cacheRedis)
         {
             _processService = service;
             _mapper = mapper;
-            _cache = cache;
+            _cacheRedis = cacheRedis;
         }
 
         /// <summary>
@@ -47,20 +51,30 @@ namespace temis.Api.v1.Controllers
         [HttpGet]
         public IActionResult Get(int? page, int? limit, string number = "")
         {
-            var cacheEntry = _cache.GetOrCreate("Key", entry =>
-            {
-                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(10); // tempo de expiração
-                entry.SetPriority(CacheItemPriority.High);
+            var json = _cacheRedis.GetString(ProcessKey);
 
-                PageRequest pReq = PageRequest.Of(page, limit);
-                
-                Thread.Sleep(10000); 
-                
-                PageResponse<Process> processes = _processService.FindAll(number, pReq);
-                PageProcessDto viewModel = _mapper.Map<PageProcessDto>(processes);
-                return Ok(viewModel);
-            });
-                    return cacheEntry;
+            if (json != null)
+            {
+
+                var process = System.Text.Json.JsonSerializer.Deserialize<PageProcessDto>(json);
+                return Ok(process);
+            }
+
+            var options = new DistributedCacheEntryOptions()
+            .SetSlidingExpiration(TimeSpan.FromSeconds(20))
+            .SetAbsoluteExpiration(TimeSpan.FromMinutes(1));
+
+            PageRequest pReq = PageRequest.Of(page, limit);
+
+            Thread.Sleep(1000);
+
+            PageResponse<Process> processes = _processService.FindAll(number, pReq);
+            PageProcessDto viewModel = _mapper.Map<PageProcessDto>(processes);
+
+            string jsonFinaly = JsonConvert.SerializeObject(viewModel, Formatting.Indented);
+            _cacheRedis.SetString(ProcessKey, jsonFinaly, options);
+
+            return Ok(viewModel);
         }
 
         /// <summary>
@@ -73,15 +87,16 @@ namespace temis.Api.v1.Controllers
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpPost]
-        public IActionResult Post([FromBody]CreateProcessRequest request)
+        public IActionResult Post([FromBody] CreateProcessRequest request)
         {
 
             Process processMap = _mapper.Map<Process>(request);
             Process processEntity = _processService.CreateProcess(processMap);
 
-            if(processEntity == null) return NoContent();
+            if (processEntity == null) return NoContent();
 
             return Ok(_mapper.Map<ProcessDto>(processEntity));
+
         }
 
         /// <summary>

@@ -7,18 +7,18 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.10" NoWarn="NU1605"/>
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.8"/>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3"/>
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.4"/>
-    <PackageReference Include="AutoMapper" Version="10.1.1"/>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0"/>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.0"/>
-    <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0"/>
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.1"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.10" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.8" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.4" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\temis.core\temis.core.csproj"/>
-    <ProjectReference Include="..\temis.data\temis.data.csproj"/>
+    <ProjectReference Include="..\temis.core\temis.core.csproj" />
+    <ProjectReference Include="..\temis.data\temis.data.csproj" />
   </ItemGroup>
 </Project>

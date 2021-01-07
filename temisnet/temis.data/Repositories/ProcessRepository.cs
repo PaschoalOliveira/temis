@@ -21,9 +21,9 @@ namespace temis.Data.Repositories
 
         public Process CreateProcess(Process process)
         {
-            process.Status = "inicializado";
-            context.Process.Add(process);
-            context.SaveChanges();
+            //process.Status = "inicializado";
+            //context.Process.Add(process);
+            //context.SaveChanges();
             return process;
         }
 

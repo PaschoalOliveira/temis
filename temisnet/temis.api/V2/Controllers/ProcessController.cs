@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using temis.Api.Controllers.Models.Requests;
 using temis.Api.Models.DTO;
@@ -17,14 +20,16 @@ namespace temis.Api.v2.Controllers
     {
         private IProcessService _processService;
         private IMapper _mapper;
-
+        private readonly IDistributedCache _cacheRedis;
         private IMemoryCache _cache;
+        private const string ProcessKey = "Process";
 
-        public ProcessController(IProcessService service, IMapper mapper, IMemoryCache cache)
+        public ProcessController(IProcessService service, IMapper mapper, IMemoryCache cache, IDistributedCache cacheRedis)
         {
             _processService = service;
             _mapper = mapper;
             _cache = cache;
+            _cacheRedis = cacheRedis;
         }
 
         [HttpGet("{id}")]
@@ -39,43 +44,30 @@ namespace temis.Api.v2.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(int? page, int? limit, string description = "")
         {
-             var cacheEntry = await _cache.GetOrCreateAsync("Key", async entry =>
+            var cacheEntry = await _cache.GetOrCreateAsync("Key", async entry =>
             {
                 entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(10); // tempo de expiração
                 entry.SetPriority(CacheItemPriority.High);
 
                 PageRequest pReq = PageRequest.Of(page, limit);
-                
-                Thread.Sleep(10000); 
-                
+
+                Thread.Sleep(10000);
+
                 PageResponse<Process> processes = await _processService.FindAllAsync(pReq);
                 PageProcessDto viewModel = _mapper.Map<PageProcessDto>(processes);
                 return Ok(viewModel);
             });
-                    return cacheEntry;
-            // PageRequest pReq = PageRequest.Of(page, limit);
 
-            // Thread.Sleep(2000);
+            return cacheEntry;
 
-            // PageResponse<Process> processes = await _processService.FindAllAsync(pReq);
-            // return Ok(processes.Content);
         }
-
-        // [HttpGet("busca/{number}")]
-        // public IActionResult Get(string number)
-        // {
-        //     Process process = _processService.FindByNumber(number);
-        //     ProcessDto viewModel = _mapper.Map<ProcessDto>(process);
-
-        //     return Ok(viewModel);
-        // }
 
 
         [HttpPost]
         public IActionResult Post([FromBody] Process process)
         {
             Process processClient = _processService.CreateProcess(process);
-            var viewModel = _mapper.Map<ProcessDto>(processClient);
+            ProcessDto viewModel = _mapper.Map<ProcessDto>(processClient);
 
             if (viewModel != null) return Ok(viewModel);
 
