@@ -10,10 +10,8 @@ using AutoMapper;
 namespace temis.unitTest
 {
     public class ControllerMemberTest
-     {
-
+    {
         Mock<IMemberService> _service;
-        
         public MemberController _controller;
 
         public IMapper _mapper;
@@ -26,10 +24,36 @@ namespace temis.unitTest
         }
 
         [Test]
+        public void GetByIdNoContent()
+        {
+            _service.Setup(a => a.FindById(It.IsAny<long>())).Returns((Member)null);
+            var result = _controller.Get(It.IsAny<long>());
+
+            OkObjectResult okResult = result.Result as OkObjectResult;
+
+            Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
+            Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
+
+        }
+
+        [Test]
+        public void GetByIdReturnOk()
+        {
+            _service.Setup(a => a.FindById(It.IsAny<long>())).Returns(MemberSeed.GetById());
+            var result = _controller.Get(It.IsAny<long>());
+
+            OkObjectResult okResult = result.Result as OkObjectResult;
+
+            Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
+            Assert.AreEqual(((Member)okResult.Value).Id, MemberSeed.GetById().Id);
+
+        }
+
+        [Test]
         public void CreateMemberReturnOk()
         {
             _service.Setup(s => s.CreateMember(It.IsAny<Member>())).Returns(MemberSeed.Post());
-            
+
             var result = _controller.Post(It.IsAny<Member>());
             OkObjectResult okResult = result.Result as OkObjectResult;
 
@@ -41,12 +65,13 @@ namespace temis.unitTest
         public void CreateMemberNoContent()
         {
             _service.Setup(s => s.CreateMember(It.IsAny<Member>())).Returns((Member)null);
-            
+
             var result = _controller.Post(It.IsAny<Member>());
-            
+
             Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
             Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
         }
-                
+
+
     }
- }
+}

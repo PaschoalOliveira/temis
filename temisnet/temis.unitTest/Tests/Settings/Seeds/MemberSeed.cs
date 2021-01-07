@@ -11,5 +11,14 @@ namespace temis.unitTest.Tests.Settings.Seeds
                 Id = 6                   
             };
         }
+
+        public static Member GetById()
+        {
+            return new Member()
+            {
+                Id = 7,
+                Age = 29                   
+            };
+        }
     }
 }

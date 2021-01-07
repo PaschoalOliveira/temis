@@ -44,10 +44,15 @@ namespace temis.Api.v1.Controllers
 
         [HttpGet("{id}")]
         //[Authorize(Roles = "")]
-        public IActionResult Get([FromRoute] long id)
+        public ActionResult<Member> Get([FromRoute] long id)
         {
-            var userEntity = _memberService.FindById(id);
-            return Ok(_mapper.Map<MemberDto>(userEntity));
+            Member userEntity = _memberService.FindById(id);
+            if(userEntity == null)
+            {
+                return NoContent();
+            }
+           //return Ok(_mapper.Map<MemberDto>(userEntity));
+           return Ok(userEntity);
         }
 
         /// <summary>
@@ -128,7 +133,7 @@ namespace temis.Api.v1.Controllers
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
         [HttpDelete("{id}")]
         //[Authorize(Roles = "")]
-        public ActionResult Delete([FromRoute] long id)
+        public ActionResult<Member> Delete([FromRoute] long id)
         {
             bool memberNotFound = _memberService.FindById(id) == null;
 
