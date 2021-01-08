@@ -6,7 +6,6 @@ using temis.Api.v1.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using temis.unitTest.Tests.Settings.Seeds;
 using AutoMapper;
-using temis.Api.Models.DTO.MemberDto;
 
 namespace temis.unitTest
 {
@@ -92,6 +91,6 @@ namespace temis.unitTest
             Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
         }
 
-
+     
     }
 }
