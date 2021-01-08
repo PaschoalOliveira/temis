@@ -90,7 +90,6 @@ namespace temis.unitTest
 
             Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
         }
-
      
     }
 }
