@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using temis.Core.Interfaces;
@@ -10,7 +11,7 @@ using temis.unitTest.Tests.Settings.Seeds;
 
 namespace temis.unitTest
 {
-    public class ServiceTest
+    public class ServiceMemberTest
     {
 
         Mock<IMemberRepository> mockMemberRepository;
@@ -71,6 +72,7 @@ namespace temis.unitTest
             Assert.AreEqual(seed, result);
         }
 
+
         [Test]
         public void FindById()
         {
@@ -86,7 +88,7 @@ namespace temis.unitTest
             Assert.IsInstanceOf(typeof(Member), result);
             Assert.AreEqual(seed, result);
         }
-
+        
         [Test]
         public void Validate()
         {
@@ -149,6 +151,5 @@ namespace temis.unitTest
             Assert.AreEqual(seed, result);
         }
       
-        
    }
 }
