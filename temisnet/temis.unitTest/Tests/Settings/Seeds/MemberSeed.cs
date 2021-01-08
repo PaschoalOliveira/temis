@@ -31,6 +31,35 @@ namespace temis.unitTest.Tests.Settings.Seeds
             };
         }
 
-
+        public static Member MemberSerice()
+        {
+            return new Member()
+            {
+                Id = 67
+            };
+        }
+        public static List<Member> ListMemberSerice()
+        {
+            return new List<Member> 
+            {
+                new Member
+                {
+                    Id = 756
+                }
+            };
+        }
+        public static PageResponse<Member> PageResponseMemberSerice()
+        {
+            return new PageResponse<Member>()
+            {
+                Content = new List<Member> 
+                {
+                    new Member
+                    {
+                        Id = 1238
+                    }
+                }
+            };
+        }
     }
 }

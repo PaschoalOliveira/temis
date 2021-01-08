@@ -2,91 +2,152 @@ using System;
 using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
+using temis.Core.Interfaces;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 using  temis.Core.Services.Service;
-
+using temis.unitTest.Tests.Settings.Seeds;
 
 namespace temis.unitTest
 {
     public class ServiceTest
     {
 
-        Mock<IMemberService> mockMemberService;
-        private IMemberService _userService;
+        Mock<IMemberRepository> mockMemberRepository;
+        private IMemberService _memberService;
 
         [SetUp]
         public void Setup()
         {
-            mockMemberService = new Mock<IMemberService>();
+            mockMemberRepository = new Mock<IMemberRepository>();
+            _memberService = new MemberService(mockMemberRepository.Object);
         }
 
         [Test]
-        public void ValidaRetornoPorId()
+        public void CreateMember()
         {            
-            Member member = new Member(1,"teste","teste",12,"juiz","01826287523","senha");
+            // Arrange
+            Member seed = MemberSeed.MemberSerice();
+            mockMemberRepository.Setup(a => a.CreateMember(It.IsAny<Member>())).Returns(seed);
 
-            mockMemberService.Setup(p => p.FindById(1)).Returns(member);
+            // Act
+            var result = _memberService.CreateMember(It.IsAny<Member>());
 
-            NUnit.Framework.Assert.True(mockMemberService.Object.FindById(1) == member);
-
+            // Assert
+            mockMemberRepository.Verify(a => a.CreateMember(It.IsAny<Member>()), Times.Once);
+            Assert.IsInstanceOf(typeof(Member), result);
+            Assert.AreEqual(seed, result);
         }
 
         [Test]
-        public void ValidaRetornoAllMember()
+        public void EditMember()
         {
-                mockMemberService.Setup(p => p.FindAll())
-                .Returns(new List<Member>()
-                {
-                    new Member
-                    {
-                        Id = 1,
-                        Age = 12,
-                        Cpf = "01826252352"
-                    }
-                });
-                
-                NUnit.Framework.Assert.True(mockMemberService.Object.FindAll().Count == 1);
+            // Arrange
+            Member seed = MemberSeed.MemberSerice();
+            mockMemberRepository.Setup(a => a.EditMember(It.IsAny<Member>())).Returns(seed);
 
+            // Act
+            var result = _memberService.EditMember(It.IsAny<Member>());
+
+            // Assert
+            mockMemberRepository.Verify(a => a.EditMember(It.IsAny<Member>()), Times.Once);
+            Assert.IsInstanceOf(typeof(Member), result);
+            Assert.AreEqual(seed, result);
         }
 
         [Test]
-        public void ValidaInserirMember()
+        public void FindAll()
         {
-           
-            Member member = new Member(1,"teste","teste",12,"juiz","01826287523","senha");
+            // Arrange
+            List<Member> seed = MemberSeed.ListMemberSerice();
+            mockMemberRepository.Setup(a => a.FindAll()).Returns(seed);
 
-            mockMemberService.Setup(p => p.CreateMember(member)).Returns(member);
-            NUnit.Framework.Assert.True(mockMemberService.Object.CreateMember(member) == member);
+            // Act
+            var result = _memberService.FindAll();
 
+            // Assert
+            mockMemberRepository.Verify(a => a.FindAll(), Times.Once);
+            Assert.IsInstanceOf(typeof(List<Member>), result);
+            Assert.AreEqual(seed, result);
         }
 
         [Test]
-        public void ValidaEditMember() // duvidas
+        public void FindById()
         {
-        
-            Member member = new Member(2,"teste","service",12,"juiz","01826287523","senha");
+            // Arrange
+            Member seed = MemberSeed.MemberSerice();
+            mockMemberRepository.Setup(a => a.FindById(It.IsAny<long>())).Returns(seed);
 
-            mockMemberService.Setup(p => p.EditMember(member)).Returns(member);
-            NUnit.Framework.Assert.True(mockMemberService.Object.EditMember(member) == member); 
+            // Act
+            var result = _memberService.FindById(It.IsAny<long>());
 
+            // Assert
+            mockMemberRepository.Verify(a => a.FindById(It.IsAny<long>()), Times.Once);
+            Assert.IsInstanceOf(typeof(Member), result);
+            Assert.AreEqual(seed, result);
         }
 
         [Test]
-        public void ValidaSenha()
+        public void Validate()
         {
-           
-            Member member = new Member(1,"teste","teste",12,"role","cpf", "password");
+            // Arrange
+            Member seed = MemberSeed.MemberSerice();
+            mockMemberRepository.Setup(a => a.Validate(It.IsAny<string>(), It.IsAny<string>())).Returns(seed);
 
-            var cpf = "cpf";
-            var password = "password";
+            // Act
+            var result = _memberService.Validate(It.IsAny<string>(), It.IsAny<string>());
 
-            mockMemberService.Setup(p => p.Validate(cpf,password)).Returns(member);
-            NUnit.Framework.Assert.True(mockMemberService.Object.Validate(member.Cpf,member.Password) == member);
-
+            // Assert
+            mockMemberRepository.Verify(a => a.Validate(It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            Assert.IsInstanceOf(typeof(Member), result);
+            Assert.AreEqual(seed, result);
         }
 
-        
+        [Test]
+        public void EditPassword()
+        {
+            // Arrange         
+            Member seed = MemberSeed.MemberSerice();   
+            mockMemberRepository.Setup(a => a.FindById(It.IsAny<long>())).Returns(seed);
+            mockMemberRepository.Setup(a => a.EditPassword(It.IsAny<long>(), It.IsAny<string>()));
+
+            // Act
+            _memberService.EditPassword(It.IsAny<long>(), It.IsAny<string>());
+
+            // Assert
+            mockMemberRepository.Verify(a => a.EditPassword(It.IsAny<long>(), It.IsAny<string>()), Times.Once);
+        }
+
+        [Test]
+        public void Delete()
+        {
+            // Arrange         
+            Member seed = MemberSeed.MemberSerice();   
+            mockMemberRepository.Setup(a => a.FindById(It.IsAny<long>())).Returns(seed);
+            mockMemberRepository.Setup(a => a.Delete(It.IsAny<long>()));
+
+            // Act
+            _memberService.Delete(It.IsAny<long>());
+
+            // Assert
+            mockMemberRepository.Verify(a => a.Delete(It.IsAny<long>()), Times.Once);
+        }
+
+        [Test]
+        public void Filter()
+        {
+            // Arrange
+            PageResponse<Member> seed = MemberSeed.PageResponseMemberSerice();
+            mockMemberRepository.Setup(a => a.Filter(It.IsAny<string>(), It.IsAny<PageRequest>())).Returns(seed);
+
+            // Act
+            var result = _memberService.Filter(It.IsAny<string>(), It.IsAny<PageRequest>());
+
+            // Assert
+            mockMemberRepository.Verify(a => a.Filter(It.IsAny<string>(), It.IsAny<PageRequest>()), Times.Once);
+            Assert.IsInstanceOf(typeof(PageResponse<Member>), result);
+            Assert.AreEqual(seed, result);
+        }
       
         
    }
