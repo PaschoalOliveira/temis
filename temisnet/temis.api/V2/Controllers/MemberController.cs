@@ -13,6 +13,7 @@ namespace temis.Api.v2.Controllers
 {
     [ApiController]
     [Route("/api/v2/member")]
+    [ApiExplorerSettings(GroupName = "v2")]
     public class MemberController : ControllerBase
     {
         private IMemberService _memberService;

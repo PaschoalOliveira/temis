@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using temis.Core.Models;
 
 namespace temis.unitTest.Tests.Settings.Seeds
@@ -8,8 +9,18 @@ namespace temis.unitTest.Tests.Settings.Seeds
         {
             return new Member()
             {
-                Id = 6                   
+                Id = 6
             };
         }
+
+        public static Member GetById()
+        {
+            return new Member()
+            {
+                Id = 7,
+                Age = 29
+            };
+        }
+
     }
 }

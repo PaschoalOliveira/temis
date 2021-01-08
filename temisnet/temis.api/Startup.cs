@@ -85,6 +85,10 @@ namespace temis.api
                         Url = new Uri("https://github.com/PaschoalOliveira/temis/tree/feature/dotnet"),
                     }
                 });
+
+                c.SwaggerDoc("v2", new OpenApiInfo { Title = "My API - V2", Version = "v2" });
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
@@ -136,7 +140,8 @@ namespace temis.api
                     ValidateAudience = false
                 };
             });
-
+            
+            
 
             /*   var config = new MapperConfiguration(cfg => {
                    cfg.AddMaps( new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly } );
@@ -157,7 +162,6 @@ namespace temis.api
             IMapper mapper = config.CreateMapper();
 
             services.AddSingleton(mapper);
-
             services.AddMemoryCache();
             services.AddControllers().AddXmlDataContractSerializerFormatters();
 
@@ -170,14 +174,21 @@ namespace temis.api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "temis.api v1"));
+                app.UseSwaggerUI(c => {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "temis.api v1");
+                    c.SwaggerEndpoint("/swagger/v2/swagger.json", "temis.api v2");
+                });
             }
-
             app.UseCors("AnyOrigin");
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseSwagger(c =>
+            {
+                c.SerializeAsV2 = true;
+            });
+
 
             app.UseAuthentication();
             app.UseAuthorization();

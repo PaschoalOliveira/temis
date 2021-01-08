@@ -13,6 +13,7 @@ namespace temis.Api.v1.Controllers
     /// </summary>
     [ApiController]
     [Route("/api/v1/judgment")]
+    [ApiExplorerSettings(GroupName = "v1")]
     public class JudgmentController : ControllerBase
     {
         private readonly IJudgmentService _judgmentService;

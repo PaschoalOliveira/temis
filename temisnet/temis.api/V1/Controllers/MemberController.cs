@@ -13,6 +13,7 @@ namespace temis.Api.v1.Controllers
     /// </summary>
     [ApiController]
     [Route("api/v1/member")]
+    [ApiExplorerSettings(GroupName = "v1")]
     [ExcludeFromCodeCoverage]
 
     public class MemberController : ControllerBase
@@ -31,37 +32,62 @@ namespace temis.Api.v1.Controllers
            _mapper = mapper;
         }
 
-
         /// <summary>
         /// Get member by id number
         /// </summary>
-        /// <returns></returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET api/v1/member/{id}
+        ///     
+        /// </remarks>  
+        /// <returns>Member</returns>
+        /// <parameter name="id">Member id parameter</parameter>
         /// <response code="200">Success</response>
         /// <response code="204">No Content</response>
         /// <response code="400">Business logic error, see return message for more info</response>
         /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="403">Forbidden. Resource access is denied</response>
+        /// <response code="404">Resource not found</response>
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpGet("{id}")]
-        //[Authorize(Roles = "")]
-        public IActionResult Get([FromRoute] long id)
+        //[Authorize(Roles = "Analista")]
+        public ActionResult<Member> GetById([FromRoute] long id)
         {
-            var userEntity = _memberService.FindById(id);
-            return Ok(_mapper.Map<MemberDto>(userEntity));
+            Member userEntity = _memberService.FindById(id);
+            if(userEntity == null)
+            {
+                return NoContent();
+            }
+           //return Ok(_mapper.Map<MemberDto>(userEntity));
+           return Ok(userEntity);
         }
 
         /// <summary>
         /// Get all member
         /// </summary>
-        /// <returns></returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     GET api/v1/member/
+        ///     
+        /// </remarks>  
+        /// <returns>Member All</returns>
+        /// <parameter name="page">Actual page number</parameter>
+        /// <parameter name="limit">Amount of itens per page</parameter>
+        /// <parameter name="name">Member name parameter</parameter>
         /// <response code="200">Success</response>
         /// <response code="204">No Content</response>
         /// <response code="400">Business logic error, see return message for more info</response>
         /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="403">Forbidden. Resource access is denied</response>
+        /// <response code="404">Resource not found</response>
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
+
         [HttpGet]
-        //[Authorize(Roles = "")]
-        public IActionResult Get(int? page, int? limit, string name = "")
+        //[Authorize(Roles = "Analista")]
+        public IActionResult GetAll(int? page, int? limit, string name = "")
         {
             PageRequest pageRequest = PageRequest.Of(page, limit);
             PageResponse<Member> pageResponse = _memberService.Filter(name, pageRequest);
@@ -76,14 +102,33 @@ namespace temis.Api.v1.Controllers
 
         /// <summary>
         /// Create member
-        /// </summary>
+        /// </summary>  
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST api/v1/member/
+        ///     {
+        ///        "name": "Elayne",
+        ///        "lastname": "natalia",
+        ///        "role": analista,
+        ///        "age": 29,
+        ///        "cpf": 12345678901
+        ///        "password": "12345678902"
+        ///     }
+        ///
+        /// </remarks>
+        /// <returns>Member Create</returns>
+        /// <parameter name="member">Member data to be persisted</parameter>
         /// <response code="200">Success</response>
         /// <response code="204">No Content</response>
         /// <response code="400">Business logic error, see return message for more info</response>
         /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="403">Forbidden. Resource access is denied</response>
+        /// <response code="404">Resource not found</response>
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
+
         [HttpPost]
-        //[Authorize(Roles = "")]
+        //[Authorize(Roles = "Analista")]
         public ActionResult<Member> Post([FromBody] Member member)
         {
             Member userEntity = _memberService.CreateMember(member);
@@ -98,18 +143,31 @@ namespace temis.Api.v1.Controllers
         /// <summary>
         /// Partially changes the user
         /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     Patch api/v1/member/
+        ///     {
+        ///        "id": 1,
+        ///        "password": "12345678902"
+        ///     }
+        ///
+        /// </remarks>
+        /// <parameter name="request">Request data to be persisted</parameter>
         /// <response code="200">Success</response>
         /// <response code="204">No Content</response>
         /// <response code="400">Business logic error, see return message for more info</response>
         /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="403">Forbidden. Resource access is denied</response>
+        /// <response code="404">Resource not found</response>
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpPatch("edit")]
-        //[Authorize(Roles = "")]
+        //[Authorize(Roles = "Analista")]
         public IActionResult Patch([FromBody]EditPasswordRequest request)
         {
             _memberService.EditPassword(request.Id, request.Password);
-            return Ok();
+            return Ok("Alterado com sucesso");
         }
 
         /// <summary>
@@ -118,17 +176,21 @@ namespace temis.Api.v1.Controllers
         /// <remarks>
         /// Sample request:
         ///
-        ///     Delete /api/Member/{id}
+        ///     Delete api/v1/member/{id}
         ///     
         /// </remarks>  
+        /// <parameter name="id">Member id parameter</parameter>
         /// <response code="200">Success</response>
         /// <response code="204">No Content</response>
         /// <response code="400">Business logic error, see return message for more info</response>
         /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
+        /// <response code="403">Forbidden. Resource access is denied</response>
+        /// <response code="404">Resource not found</response>
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
+
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "")]
-        public ActionResult Delete([FromRoute] long id)
+        //[Authorize(Roles = "Analista")]
+        public ActionResult<Member> Delete([FromRoute] long id)
         {
             bool memberNotFound = _memberService.FindById(id) == null;
 
