@@ -14,7 +14,6 @@ namespace temis.Api.v1.Controllers
     [ApiController]
     [Route("api/v1/member")]
     [ApiExplorerSettings(GroupName = "v1")]
-    [ExcludeFromCodeCoverage]
 
     public class MemberController : ControllerBase
     {
@@ -164,10 +163,10 @@ namespace temis.Api.v1.Controllers
 
         [HttpPatch("edit")]
         //[Authorize(Roles = "Analista")]
-        public IActionResult Patch([FromBody]EditPasswordRequest request)
+        public ActionResult<Member> Patch([FromBody]EditPasswordRequest request)
         {
             _memberService.EditPassword(request.Id, request.Password);
-            return Ok("Alterado com sucesso");
+            return NoContent();
         }
 
         /// <summary>
