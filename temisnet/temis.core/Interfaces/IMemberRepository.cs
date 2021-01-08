@@ -9,7 +9,6 @@ namespace temis.Core.Interfaces
          Member EditMember(Member member);
          List<Member> FindAll();
          Member FindById(long id);
-         IEnumerable<Member> PartialEditMember(string name);
          void EditPassword(long id, string password);
          Member Validate(string cpf, string password);
          void Delete(long Id);

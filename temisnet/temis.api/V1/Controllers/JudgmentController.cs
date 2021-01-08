@@ -22,6 +22,7 @@ namespace temis.Api.v1.Controllers
         /// Constructor
         /// </summary>
         /// <param name="mapper"></param>
+        /// <param name="service"></param>
         public JudgmentController(IJudgmentService service, IMapper mapper)
         {
             _judgmentService = service;
@@ -135,28 +136,6 @@ namespace temis.Api.v1.Controllers
 
             var judgmentEntity = _judgmentService.EditJudgment(_mapper.Map<Judgment>(judgment));
             return Ok(_mapper.Map<JudgmentViewModel>(judgmentEntity));
-        }
-
-        /// <summary>
-        /// Judgment delete.
-        /// </summary>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     Pacth /api/judgment/
-        ///     
-        /// </remarks>  
-        /// <response code="200">Success</response>
-        /// <response code="204">No Content</response>
-        /// <response code="400">Business logic error, see return message for more info</response>
-        /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
-        /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
-
-        [HttpPatch("edit")]
-        public IActionResult Patch([FromBody] EditPasswordRequest request)
-        {
-
-            return Ok("nao implementei");
         }
 
         /// <summary>

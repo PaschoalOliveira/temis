@@ -85,19 +85,9 @@ namespace temis.Data.Repositories
         public void EditPassword(long id, string password)
         {
             Member memberPassword = new Member() { Id = id };
-         //   memberPassword.Password = password;
+
         }
 
-        public IEnumerable<Member> PartialEditMember(string membername)
-        {
-
-            IEnumerable<Member> member =
-            from memberByName in members
-            where memberByName.Name == membername
-            select memberByName;
-
-            return member;
-        }
         public PageResponse<Member> Filter(string name, PageRequest pageRequest)
         {
             IQueryable<Member> query = context.Membros.Where(

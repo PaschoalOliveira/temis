@@ -64,11 +64,5 @@ namespace temis.Data.Repositories
             Judgment judgment = context.Judgment.Where(p => p.JudgmentInstanceId == id).FirstOrDefault();
             return judgment;
         }
-
-        public Judgment FindByProcessId(long processId)
-        {
-            Judgment judgment = context.Judgment.Where(p => p.ProcessId == processId).FirstOrDefault();
-            return judgment;
-        }
     }
 }
