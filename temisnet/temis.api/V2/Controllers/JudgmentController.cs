@@ -9,6 +9,7 @@ namespace temis.Api.v2.Controllers
 {
     [ApiController]
     [Route("/api/v2/judgment")]
+    [ApiExplorerSettings(GroupName = "v2")]
     public class JudgmentController : ControllerBase
     {
          private IJudgmentService _judgmentService;

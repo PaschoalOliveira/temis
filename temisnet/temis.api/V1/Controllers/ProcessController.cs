@@ -21,6 +21,7 @@ namespace temis.Api.v1.Controllers
     /// </summary>
     [ApiController]
     [Route("/api/v1/process")]
+    [ApiExplorerSettings(GroupName = "v1")]
     public class ProcessController : ControllerBase
     {
         private readonly IProcessService _processService;

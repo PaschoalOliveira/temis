@@ -16,6 +16,7 @@ namespace temis.Api.v2.Controllers
 {
     [ApiController]
     [Route("/api/v2/process")]
+    [ApiExplorerSettings(GroupName = "v2")]
     public class ProcessController : ControllerBase
     {
         private IProcessService _processService;

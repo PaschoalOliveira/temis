@@ -6,6 +6,7 @@ using temis.Api.v1.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using temis.unitTest.Tests.Settings.Seeds;
 using AutoMapper;
+using temis.Api.Models.DTO.MemberDto;
 
 namespace temis.unitTest
 {
@@ -13,7 +14,6 @@ namespace temis.unitTest
     {
         Mock<IMemberService> _service;
         public MemberController _controller;
-
         public IMapper _mapper;
 
         [SetUp]
@@ -27,9 +27,10 @@ namespace temis.unitTest
         public void GetByIdNoContent()
         {
             _service.Setup(a => a.FindById(It.IsAny<long>())).Returns((Member)null);
-            var result = _controller.Get(It.IsAny<long>());
+            var result = _controller.GetById(It.IsAny<long>());
 
             OkObjectResult okResult = result.Result as OkObjectResult;
+
 
             Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
             Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
@@ -40,7 +41,7 @@ namespace temis.unitTest
         public void GetByIdReturnOk()
         {
             _service.Setup(a => a.FindById(It.IsAny<long>())).Returns(MemberSeed.GetById());
-            var result = _controller.Get(It.IsAny<long>());
+            var result = _controller.GetById(It.IsAny<long>());
 
             OkObjectResult okResult = result.Result as OkObjectResult;
 
@@ -71,6 +72,25 @@ namespace temis.unitTest
             Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
             Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
         }
+
+        [Test]
+        public void Patch()
+        {
+           
+        }
+
+        [Test]
+        public void Delete()
+        {
+           
+        }
+
+        [Test]
+        public void GetAll()
+        {
+           
+        }
+
 
 
     }
