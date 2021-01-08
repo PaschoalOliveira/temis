@@ -31,7 +31,6 @@ namespace temis.unitTest
 
             OkObjectResult okResult = result.Result as OkObjectResult;
 
-
             Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
             Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
 
@@ -74,23 +73,24 @@ namespace temis.unitTest
         }
 
         [Test]
-        public void Patch()
+        public void DeleteNotFound()
         {
-           
+            var result = _controller.Delete(It.IsAny<long>());
+            OkObjectResult okResult = result.Result as OkObjectResult;
+
+            Assert.IsInstanceOf(typeof(NotFoundObjectResult), result.Result);
         }
 
         [Test]
-        public void Delete()
+        public void DeleteNoContent()
         {
-           
-        }
+             _service.Setup(a => a.Delete(MemberSeed.GetById().Id));
+            var result = _controller.Delete(MemberSeed.GetById().Id);
+            
+            OkObjectResult okResult = result.Result as OkObjectResult;
 
-        [Test]
-        public void GetAll()
-        {
-           
+            Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
         }
-
 
 
     }
