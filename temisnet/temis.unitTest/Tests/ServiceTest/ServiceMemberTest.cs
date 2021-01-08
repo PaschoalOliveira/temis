@@ -1,93 +1,88 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using temis.Core.Interfaces;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 using  temis.Core.Services.Service;
-
+using temis.unitTest.Tests.Settings.Seeds;
 
 namespace temis.unitTest
 {
-    public class ServiceTest
+    public class ServiceMemberTest
     {
-
-        Mock<IMemberService> mockMemberService;
-        private IMemberService _userService;
+        Mock<IMemberRepository> _repository;
+        private MemberService _memberService;
 
         [SetUp]
         public void Setup()
         {
-            mockMemberService = new Mock<IMemberService>();
+            _repository = new Mock<IMemberRepository>();
+            _memberService = new MemberService(_repository.Object);
         }
 
         [Test]
-        public void ValidaRetornoPorId()
+        public void CreateMemberSucess()
         {            
-            Member member = new Member(1,"teste","teste",12,"juiz","01826287523","senha");
 
-            mockMemberService.Setup(p => p.FindById(1)).Returns(member);
+            _repository.Setup(p => p.CreateMember(It.IsAny<Member>())).Returns(MemberSeed.Post());
+            var result = _memberService.CreateMember((It.IsAny<Member>()));
 
-            NUnit.Framework.Assert.True(mockMemberService.Object.FindById(1) == member);
-
-        }
-
-        [Test]
-        public void ValidaRetornoAllMember()
-        {
-                mockMemberService.Setup(p => p.FindAll())
-                .Returns(new List<Member>()
-                {
-                    new Member
-                    {
-                        Id = 1,
-                        Age = 12,
-                        Cpf = "01826252352"
-                    }
-                });
-                
-                NUnit.Framework.Assert.True(mockMemberService.Object.FindAll().Count == 1);
+            Assert.AreEqual(result.Id, MemberSeed.Post().Id);
+            Assert.IsInstanceOf(typeof(Member), result);
+            Assert.IsNotNull(result);
 
         }
 
         [Test]
-        public void ValidaInserirMember()
+        public void EditMemberSucess()
         {
+            _repository.Setup(p => p.EditMember(It.IsAny<Member>())).Returns(MemberSeed.GetById());
+            var result = _memberService.EditMember((It.IsAny<Member>()));
            
-            Member member = new Member(1,"teste","teste",12,"juiz","01826287523","senha");
-
-            mockMemberService.Setup(p => p.CreateMember(member)).Returns(member);
-            NUnit.Framework.Assert.True(mockMemberService.Object.CreateMember(member) == member);
-
+            Assert.AreEqual(result.Id, MemberSeed.GetById().Id);
+            Assert.IsInstanceOf(typeof(Member), result);
+            Assert.IsNotNull(result);
         }
+
 
         [Test]
-        public void ValidaEditMember() // duvidas
-        {
-        
-            Member member = new Member(2,"teste","service",12,"juiz","01826287523","senha");
+        public void FindByIdSucess()
+        {            
+            
+            _repository.Setup(p => p.FindById(It.IsAny<long>())).Returns(MemberSeed.GetById());
+            var result = _memberService.FindById(It.IsAny<long>());
 
-            mockMemberService.Setup(p => p.EditMember(member)).Returns(member);
-            NUnit.Framework.Assert.True(mockMemberService.Object.EditMember(member) == member); 
+            Assert.IsInstanceOf(typeof(Member), result);
+            Assert.IsNotNull(result);
 
         }
+        
+        [Test]
+        public void ValidateSucess()
+        {
+            _repository.Setup(p => p.Validate(It.IsAny<string>(), It.IsAny<string>())).Returns(MemberSeed.GetById());
+            var result = _memberService.Validate(It.IsAny<string>(), It.IsAny<string>());
+
+            Assert.AreEqual(result.Id, MemberSeed.GetById().Id);
+            Assert.IsInstanceOf(typeof(Member), result);
+            Assert.IsNotNull(result);
+
+        }    
 
         [Test]
-        public void ValidaSenha()
+        public void FinalAll()
         {
-           
-            Member member = new Member(1,"teste","teste",12,"role","cpf", "password");
+            _repository.Setup(p => p.FindAll()).Returns(MemberSeed.GetAll());
+            var result = _memberService.FindAll();
+            
+            Assert.AreEqual(result.Count, MemberSeed.GetAll().Count);
+            Assert.IsInstanceOf(typeof(List<Member>), result);
+            Assert.IsNotNull(result);
 
-            var cpf = "cpf";
-            var password = "password";
-
-            mockMemberService.Setup(p => p.Validate(cpf,password)).Returns(member);
-            NUnit.Framework.Assert.True(mockMemberService.Object.Validate(member.Cpf,member.Password) == member);
-
-        }
-
-        
+        }   
       
-        
    }
 }

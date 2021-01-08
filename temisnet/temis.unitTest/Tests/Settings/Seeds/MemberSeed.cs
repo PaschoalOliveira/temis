@@ -30,6 +30,22 @@ namespace temis.unitTest.Tests.Settings.Seeds
                 Password = "teste"
             };
         }
+        public static List<Member> GetAll()
+        {
+            return new List<Member>()
+            {
+                new Member() 
+                {
+                    Id = 9,
+                    Age = 30
+                },
+                new Member()
+                {
+                    Id = 10,
+                    Age = 29
+                }
+            };
+        }
 
 
     }
