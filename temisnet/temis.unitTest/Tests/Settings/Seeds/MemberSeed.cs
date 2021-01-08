@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using temis.Api.Controllers.Models.Requests;
 using temis.Core.Models;
 
 namespace temis.unitTest.Tests.Settings.Seeds
@@ -21,10 +22,15 @@ namespace temis.unitTest.Tests.Settings.Seeds
                 Id = 7
             };
         }
-        public static void Delete()
+        public static EditPasswordRequest Patch()
         {
-            
+            return new EditPasswordRequest()
+            {
+                Id = 8,
+                Password = "teste"
+            };
         }
+
 
     }
 }

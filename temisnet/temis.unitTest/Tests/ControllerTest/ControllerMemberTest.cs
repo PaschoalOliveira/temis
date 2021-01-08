@@ -6,6 +6,7 @@ using temis.Api.v1.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using temis.unitTest.Tests.Settings.Seeds;
 using AutoMapper;
+using temis.Api.Controllers.Models.Requests;
 
 namespace temis.unitTest
 {
@@ -72,8 +73,23 @@ namespace temis.unitTest
         }
 
         [Test]
+        public void EditMember()
+        {
+            _service.Setup(a => a.EditPassword(It.IsAny<long>(), It.IsAny<string>()));
+            var result = _controller.Patch(MemberSeed.Patch());
+
+            OkObjectResult okResult = result.Result as OkObjectResult;
+
+            Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
+            Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
         public void DeleteNotFound()
         {
+            _service.Setup(a => a.FindById(It.IsAny<long>())).Returns((Member)null);
+
             var result = _controller.Delete(It.IsAny<long>());
             OkObjectResult okResult = result.Result as OkObjectResult;
 
@@ -81,14 +97,15 @@ namespace temis.unitTest
         }
 
         [Test]
-        public void DeleteNoContent()
+        public void DeleteSucess()
         {
-             _service.Setup(a => a.Delete(MemberSeed.GetById().Id));
-            var result = _controller.Delete(MemberSeed.GetById().Id);
-            
-            OkObjectResult okResult = result.Result as OkObjectResult;
+            _service.Setup(a => a.FindById(It.IsAny<long>())).Returns(MemberSeed.GetById());
 
-            Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
+            var result = _controller.Delete(It.IsAny<long>()).Result;
+            OkObjectResult okResult = result as OkObjectResult;
+
+            Assert.IsInstanceOf(typeof(NoContentResult), result);
+
         }
      
     }
