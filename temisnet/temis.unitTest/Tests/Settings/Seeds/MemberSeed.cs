@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using temis.Api.Controllers.Models.Requests;
 using temis.Core.Models;
 
 namespace temis.unitTest.Tests.Settings.Seeds
@@ -9,7 +10,8 @@ namespace temis.unitTest.Tests.Settings.Seeds
         {
             return new Member()
             {
-                Id = 6
+                Id = 6,
+                Age = 29
             };
         }
 
@@ -17,10 +19,63 @@ namespace temis.unitTest.Tests.Settings.Seeds
         {
             return new Member()
             {
-                Id = 7,
-                Age = 29
+                Id = 7
+            };
+        }
+        public static EditPasswordRequest Patch()
+        {
+            return new EditPasswordRequest()
+            {
+                Id = 8,
+                Password = "teste"
+            };
+        }
+        public static List<Member> GetAll()
+        {
+            return new List<Member>()
+            {
+                new Member() 
+                {
+                    Id = 9,
+                    Age = 30
+                },
+                new Member()
+                {
+                    Id = 10,
+                    Age = 29
+                }
             };
         }
 
+        public static Member MemberSerice()
+        {
+            return new Member()
+            {
+                Id = 67
+            };
+        }
+        public static List<Member> ListMemberSerice()
+        {
+            return new List<Member> 
+            {
+                new Member
+                {
+                    Id = 756
+                }
+            };
+        }
+        public static PageResponse<Member> PageResponseMemberSerice()
+        {
+            return new PageResponse<Member>()
+            {
+                Content = new List<Member> 
+                {
+                    new Member
+                    {
+                        Id = 1238
+                    }
+                }
+            };
+        }
     }
 }
