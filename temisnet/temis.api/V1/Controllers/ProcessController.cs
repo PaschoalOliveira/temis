@@ -50,11 +50,11 @@ namespace temis.Api.v1.Controllers
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpGet]
-        public IActionResult Get(int? page, int? limit, string number = "")
+        public ActionResult<Process> Get(int? page, int? limit, string number = "")
         {
             var json = _cacheRedis.GetString(ProcessKey);
 
-            if (json != null)
+            if ( !String.IsNullOrEmpty(json) )
             {
 
                 var process = System.Text.Json.JsonSerializer.Deserialize<PageProcessDto>(json);
@@ -88,7 +88,7 @@ namespace temis.Api.v1.Controllers
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpPost]
-        public IActionResult Post([FromBody] CreateProcessRequest request)
+        public ActionResult<Process> Post([FromBody] CreateProcessRequest request)
         {
 
             Process processMap = _mapper.Map<Process>(request);
@@ -110,8 +110,9 @@ namespace temis.Api.v1.Controllers
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpPatch]
-        public IActionResult Patch([FromBody] ChangeStatusRequest request)
+        public ActionResult<Process> Patch([FromBody] ChangeStatusRequest request)
         {
+            
             Process process = _processService.FindById(request.Id);
 
             if (process == null)
@@ -143,7 +144,7 @@ namespace temis.Api.v1.Controllers
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpDelete("{id}")]
-        public ActionResult Delete([FromRoute] long id)
+        public ActionResult<Process> Delete([FromRoute] long id)
         {
             bool processNotFound = _processService.FindById(id) == null;
 
