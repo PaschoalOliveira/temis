@@ -48,10 +48,8 @@ namespace temis.unitTest.Tests.ControllerTest
         public void PostReturnOK()
         {
             var seed = ProcessSeed.Post();
-            //var processDtoSeed = ProcessSeed.PostDto();
 
             _service.Setup(s => s.CreateProcess(It.IsAny<Process>())).Returns(seed);
-            // _mapper.Setup(m => m.Map<ProcessDto>(It.IsAny<Process>())).Returns(processDtoSeed);
 
             var result = _controller.Post(It.IsAny<CreateProcessRequest>());
 
