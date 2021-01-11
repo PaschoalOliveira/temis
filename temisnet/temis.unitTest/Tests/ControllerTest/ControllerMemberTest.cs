@@ -113,10 +113,9 @@ namespace temis.unitTest
         }
 
         [Test]
-        public void GetAllReturnOk()
+        public void GetAllReturnPageResponse()
         {
             var pageResponse = MemberSeed.PageResponseMemberSerice();
-            PageRequest pr = PageRequest.Of(1, 1);
 
             _service.Setup(a => a.Filter(It.IsAny<string>(),It.IsAny<PageRequest>())).Returns(pageResponse);
             var result = _controller.GetAll(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>());
@@ -131,14 +130,14 @@ namespace temis.unitTest
         public void GetAllReturnFindAll()
         {
             var pageResponse = MemberSeed.PageResponseMember();
-            PageRequest pr = PageRequest.Of(0, 0);
-
+           
             _service.Setup(a => a.Filter(It.IsAny<string>(),It.IsAny<PageRequest>())).Returns(pageResponse);
             var result = _controller.GetAll(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>());
 
             OkObjectResult okResult = result.Result as OkObjectResult;
             
             Assert.AreEqual(pageResponse.Content.Count, 0);
+            Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
             Assert.IsNotNull(result);
 
         }

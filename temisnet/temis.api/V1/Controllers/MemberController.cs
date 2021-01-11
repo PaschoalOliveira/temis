@@ -93,7 +93,7 @@ namespace temis.Api.v1.Controllers
             PageRequest pageRequest = PageRequest.Of(page, limit);
             PageResponse<Member> pageResponse = _memberService.Filter(name, pageRequest);
 
-            if (pageResponse.Content != null || pageResponse.Content.Count != 0)
+            if(pageResponse.Content.Count != 0)
             {
                 return Ok(pageResponse.Content);
             }
