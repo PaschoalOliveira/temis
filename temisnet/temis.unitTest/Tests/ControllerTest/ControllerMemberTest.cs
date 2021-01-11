@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using temis.unitTest.Tests.Settings.Seeds;
 using AutoMapper;
 using temis.Api.Controllers.Models.Requests;
+using temis.Api.Models.DTO.MemberDto;
 
 namespace temis.unitTest
 {
@@ -14,7 +15,8 @@ namespace temis.unitTest
     {
         Mock<IMemberService> _service;
         public MemberController _controller;
-        public IMapper _mapper;
+        IMapper _mapper;
+
 
         [SetUp]
         public void Setup()
@@ -40,11 +42,13 @@ namespace temis.unitTest
         public void GetByIdReturnOk()
         {
             _service.Setup(a => a.FindById(It.IsAny<long>())).Returns(MemberSeed.GetById());
+
             var result = _controller.GetById(It.IsAny<long>());
 
             OkObjectResult okResult = result.Result as OkObjectResult;
 
             Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
+
             Assert.AreEqual(((Member)okResult.Value).Id, MemberSeed.GetById().Id);
 
         }
@@ -105,6 +109,37 @@ namespace temis.unitTest
             OkObjectResult okResult = result as OkObjectResult;
 
             Assert.IsInstanceOf(typeof(NoContentResult), result);
+
+        }
+
+        [Test]
+        public void GetAllReturnOk()
+        {
+            var pageResponse = MemberSeed.PageResponseMemberSerice();
+            PageRequest pr = PageRequest.Of(1, 1);
+
+            _service.Setup(a => a.Filter(It.IsAny<string>(),It.IsAny<PageRequest>())).Returns(pageResponse);
+            var result = _controller.GetAll(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>());
+
+            OkObjectResult okResult = result.Result as OkObjectResult;
+
+            Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void GetAllReturnFindAll()
+        {
+            var pageResponse = MemberSeed.PageResponseMember();
+            PageRequest pr = PageRequest.Of(0, 0);
+
+            _service.Setup(a => a.Filter(It.IsAny<string>(),It.IsAny<PageRequest>())).Returns(pageResponse);
+            var result = _controller.GetAll(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>());
+
+            OkObjectResult okResult = result.Result as OkObjectResult;
+            
+            Assert.AreEqual(pageResponse.Content.Count, 0);
+            Assert.IsNotNull(result);
 
         }
      
