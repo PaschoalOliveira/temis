@@ -1,16 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using temis.Core.Interfaces;
 using temis.Core.Models;
@@ -23,12 +19,13 @@ using System.IO;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using temis.Api.AutoMapper;
 using AutoMapper;
 using temis.Api.Models.DTO;
 using temis.Api.Models.DTO.MemberDto;
 using temis.api.Requests;
 using System.Diagnostics.CodeAnalysis;
+using temis.Api.Middleware;
+using Elmah.Io.AspNetCore;
 
 namespace temis.api
 {
@@ -144,8 +141,6 @@ namespace temis.api
                 };
             });
             
-            
-
             /*   var config = new MapperConfiguration(cfg => {
                    cfg.AddMaps( new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly } );
                });
@@ -183,8 +178,7 @@ namespace temis.api
                 });
             }
             app.UseCors("AnyOrigin");
-
-            app.UseHttpsRedirection();
+        //    app.UseHttpsRedirection();
 
             app.UseRouting();
             app.UseSwagger(c =>
@@ -192,6 +186,13 @@ namespace temis.api
                 c.SerializeAsV2 = true;
             });
 
+            app.UseMiddleware<RequestLoggingMiddleware>();
+
+
+            app.MapWhen(context => context.Request.Path.StartsWithSegments("/api/v1/process"), appBuilder =>
+            {
+                appBuilder.UseMiddleware<RequestLoggingMiddleware>();
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();

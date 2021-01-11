@@ -4,9 +4,7 @@ using System.Text.Json.Serialization;
 using temis.Api.Models.Convert;
 
 namespace temis.Api.Models.DTO
-{
-
-    public class JudgmentDto
+{    public class JudgmentDto
     {
 
         [DataType(DataType.Date)]

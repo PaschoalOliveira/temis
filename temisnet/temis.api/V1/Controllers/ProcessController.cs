@@ -9,10 +9,12 @@ using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using temis.api.Requests;
 using temis.Api.Controllers.Models.Requests;
+using temis.Api.Middleware;
 using temis.Api.Models.DTO;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
+using Microsoft.Extensions.Logging;
 
 namespace temis.Api.v1.Controllers
 {
@@ -27,17 +29,21 @@ namespace temis.Api.v1.Controllers
         private readonly IProcessService _processService;
         private readonly IDistributedCache _cacheRedis;
         private const string ProcessKey = "Process";
+        private readonly ILogger _logger;
         private IMapper _mapper;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public ProcessController(IProcessService service, IMapper mapper, IDistributedCache cacheRedis)
+        public ProcessController(IProcessService service, IMapper mapper, IDistributedCache cacheRedis, ILogger logger)
         {
             _processService = service;
             _mapper = mapper;
             _cacheRedis = cacheRedis;
+            _logger = logger;
         }
+
+        public string Message { get; set; }
 
         /// <summary>
         /// Get all process
@@ -52,6 +58,7 @@ namespace temis.Api.v1.Controllers
         [HttpGet]
         public ActionResult<Process> Get(int? page, int? limit, string number = "")
         {
+            
             var json = _cacheRedis.GetString(ProcessKey);
 
             if ( !String.IsNullOrEmpty(json) )
@@ -146,6 +153,9 @@ namespace temis.Api.v1.Controllers
         [HttpDelete("{id}")]
         public ActionResult<Process> Delete([FromRoute] long id)
         {
+             Message = $"About page visited at {DateTime.UtcNow.ToLongTimeString()}";
+            _logger.LogInformation(Message);
+
             bool processNotFound = _processService.FindById(id) == null;
 
             if (processNotFound)

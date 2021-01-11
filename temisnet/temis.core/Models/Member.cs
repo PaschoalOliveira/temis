@@ -4,30 +4,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace temis.Core.Models
 {
     [Table("member")]
-    public class Member
+    public class Member : PessoaFisica
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id {get; set; }
-        
-        [Column("name")]
-        public string Name { get; set; }
-
-        [Column("last_name")]
-        public string LastName { get; set; }
+        [Key]
+        [Column("id_pessoa_fisica")]
+        public long IdPessoaFisica {get; set; }
 
         [Column("role")]
         public string Role { get; set; }
 
-        [Column("age")]
-        public int Age { get; set; }
-
-        [Column("cpf")]
-        [Required(ErrorMessage = "CPF is required")]
-        public string Cpf { get; set; }
-
         [Column("password")]
         public string Password { get; set; }
-
+        
         public Member (long id, string name,  string lastName, int age, string role, string cpf, string password)
         {
             this.Id = id;
