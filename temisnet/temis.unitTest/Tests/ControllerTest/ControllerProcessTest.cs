@@ -9,6 +9,7 @@ using temis.Api.Models.DTO;
 using temis.Api.v1.Controllers;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
+using temis.unitTest.Settings;
 using temis.unitTest.Tests.Settings.Seeds;
 
 namespace temis.unitTest.Tests.ControllerTest
@@ -18,15 +19,15 @@ namespace temis.unitTest.Tests.ControllerTest
         Mock<IProcessService> _service;
         Mock<IDistributedCache> _cacheRedis;
         public ProcessController _controller;
-        Mock<IMapper> _mapper;
+        IMapper _mapper;
 
         [SetUp]
         public void Setup()
         {
             _service = new Mock<IProcessService>();
             _cacheRedis = new Mock<IDistributedCache>();
-            _mapper = new Mock<IMapper>();
-            _controller = new ProcessController(_service.Object, _mapper.Object, _cacheRedis.Object);
+            _mapper = MapperMock.Create();
+            _controller = new ProcessController(_service.Object, _mapper, _cacheRedis.Object);
         }
 
         [Test]
@@ -47,10 +48,10 @@ namespace temis.unitTest.Tests.ControllerTest
         public void PostReturnOK()
         {
             var seed = ProcessSeed.Post();
-            var processDtoSeed = ProcessSeed.PostDto();
+            //var processDtoSeed = ProcessSeed.PostDto();
 
             _service.Setup(s => s.CreateProcess(It.IsAny<Process>())).Returns(seed);
-            _mapper.Setup(m => m.Map<ProcessDto>(It.IsAny<Process>())).Returns(processDtoSeed);
+            // _mapper.Setup(m => m.Map<ProcessDto>(It.IsAny<Process>())).Returns(processDtoSeed);
 
             var result = _controller.Post(It.IsAny<CreateProcessRequest>());
 
@@ -58,7 +59,7 @@ namespace temis.unitTest.Tests.ControllerTest
 
             Assert.IsInstanceOf(typeof(ActionResult<Process>), result);
             Assert.IsInstanceOf(typeof(OkObjectResult), result.Result);
-            Assert.AreEqual(((ProcessDto)okResult.Value).Number, processDtoSeed.Number);
+            Assert.AreEqual(((ProcessDto)okResult.Value).Number, seed.Number);
         }
 
         [Test]
@@ -75,16 +76,12 @@ namespace temis.unitTest.Tests.ControllerTest
         }
 
         [Test]
-        //Erro no FindById, como se ele recebesse nulo
-        //Falta fazer o teste de Retorno NotFound.
         public void PatchReturnOk()
         {
             var mockRequest = Mock.Of<ChangeStatusRequest>();
             var seed = ProcessSeed.Patch();
-            var processDtoSeed = ProcessSeed.PostDto();
 
             _service.Setup(s => s.FindById(It.IsAny<long>())).Returns(seed);
-            _mapper.Setup(m => m.Map<ProcessDto>(It.IsAny<Process>())).Returns(processDtoSeed);
 
             var result = _controller.Patch(mockRequest);
 
@@ -92,21 +89,49 @@ namespace temis.unitTest.Tests.ControllerTest
 
             Assert.IsInstanceOf(typeof(ActionResult<ProcessDto>), result);
             Assert.IsInstanceOf(typeof(OkObjectResult), result.Result);
-            Assert.AreEqual(((ProcessDto)okResult.Value).Status, processDtoSeed.Status);
+            Assert.AreEqual(((ProcessDto)okResult.Value).Status, seed.Status);
+        }
+
+        [Test]
+        public void PatchReturnNotFound()
+        {
+            var mockRequest = Mock.Of<ChangeStatusRequest>();
+            var seed = ProcessSeed.Patch();
+
+            _service.Setup(s => s.FindById(It.IsAny<long>())).Returns((Process)null);
+
+            var result = _controller.Patch(mockRequest);
+
+            NotFoundObjectResult okResult = result.Result as NotFoundObjectResult;
+
+            Assert.IsInstanceOf(typeof(ActionResult<ProcessDto>), result);
+            Assert.IsInstanceOf(typeof(NotFoundObjectResult), result.Result);
         }
         
         [Test]
          public void DeleteReturnNoContent()
         {
             _service.Setup(s => s.FindById(It.IsAny<long>())).Returns(ProcessSeed.Delete);
-            _service.Setup(s => s.Delete(It.IsAny<long>()));
-
+           
             var result = _controller.Delete(It.IsAny<long>());
 
             NoContentResult okResult = result.Result as NoContentResult;
 
             Assert.IsInstanceOf(typeof(ActionResult<Process>), result);
             Assert.IsInstanceOf(typeof(NoContentResult), result.Result);
+        }
+
+        [Test]
+         public void DeleteReturnNotFound()
+        {
+            _service.Setup(s => s.FindById(It.IsAny<long>())).Returns((Process)null);
+
+            var result = _controller.Delete(It.IsAny<long>());
+
+            NotFoundObjectResult okResult = result.Result as NotFoundObjectResult;
+
+            Assert.IsInstanceOf(typeof(ActionResult<Process>), result);
+            Assert.IsInstanceOf(typeof(NotFoundObjectResult), result.Result);
         }
     }
 }

@@ -45,13 +45,5 @@ namespace temis.unitTest.Tests.Settings.Seeds
             };
         }
 
-        public static ProcessDto PostDto()
-        {
-            return new ProcessDto()
-            {
-                Number = "2010"
-            };
-        }
-
     }
 }
