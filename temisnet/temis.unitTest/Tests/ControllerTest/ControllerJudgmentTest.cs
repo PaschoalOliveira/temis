@@ -6,6 +6,7 @@ using temis.Api.v1.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using temis.unitTest.Tests.Settings.Seeds;
 using AutoMapper;
+using temis.unitTest.Settings;
 using temis.Api.Models.DTO;
 using temis.Api.Models.ViewModel;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace temis.unitTest
      {
 
         Mock<IJudgmentService> _service;
-        Mock<IMapper> _mapper;
+        IMapper _mapper;
         
         public JudgmentController _controller;
 
@@ -25,8 +26,8 @@ namespace temis.unitTest
         public void Setup()
         {
             _service = new Mock<IJudgmentService>();
-            _mapper = new Mock<IMapper>(); 
-            _controller = new JudgmentController(_service.Object, _mapper.Object);
+            _mapper = MapperMock.Create();
+            _controller = new JudgmentController(_service.Object, _mapper);
         }
 
         [Test]
@@ -71,12 +72,12 @@ namespace temis.unitTest
             Assert.IsInstanceOf(typeof(NoContentResult), result);
         }
 
-        // [Test]
+        [Test]
         public void PostReturnOk()
         {
             _service.Setup(x => x.CreateJudgment(It.IsAny<Judgment>())).Returns(JudgmentSeed.Post());
 
-            var result = _controller.Post(JudgmentSeed.PostDto());
+            var result = _controller.Post(It.IsAny<JudgmentDto>());
             OkObjectResult okResult = result.Result as OkObjectResult;
 
             Assert.AreEqual(((JudgmentViewModel)okResult.Value).Veredict,JudgmentSeed.Post().Veredict);
