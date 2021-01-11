@@ -47,7 +47,7 @@ namespace temis.Api.v1.Controllers
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpGet("{id}")]
-        public IActionResult Get([FromRoute] long id)
+        public ActionResult<JudgmentViewModel> Get([FromRoute] long id)
         {
 
             var judgment = _judgmentService.FindById(id);
@@ -75,7 +75,7 @@ namespace temis.Api.v1.Controllers
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpGet]
-        public IActionResult Get(int? page, int? limit)
+        public ActionResult<Judgment> Get(int? page, int? limit)
         {
 
             PageRequest pReq = PageRequest.Of(page, limit);
