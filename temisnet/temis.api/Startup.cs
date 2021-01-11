@@ -28,8 +28,11 @@ using AutoMapper;
 using temis.Api.Models.DTO;
 using temis.Api.Models.DTO.MemberDto;
 using temis.api.Requests;
+using System.Diagnostics.CodeAnalysis;
+
 namespace temis.api
 {
+    [ExcludeFromCodeCoverageAttribute]
     public class Startup
     {
         public static string Secret = "fedaf7d8863b48e197b9287d492b708e";

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -14,6 +15,7 @@ namespace temis.Api.v2.Controllers
     [ApiController]
     [Route("/api/v2/member")]
     [ApiExplorerSettings(GroupName = "v2")]
+    [ExcludeFromCodeCoverageAttribute]
     public class MemberController : ControllerBase
     {
         private IMemberService _memberService;

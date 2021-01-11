@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 namespace temis.api
 {
+    [ExcludeFromCodeCoverageAttribute]
     public class Program
     {
         public static void Main(string[] args)

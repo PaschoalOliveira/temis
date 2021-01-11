@@ -61,7 +61,7 @@ namespace temis.Api.v1.Controllers
                 return NoContent();
             }
 
-           // MemberDto memberDto = _mapper.Map<MemberDto>(member);
+         //  MemberDto memberDto = _mapper.Map<MemberDto>(member);
            return Ok(member);
         }
 

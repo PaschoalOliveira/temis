@@ -6,6 +6,7 @@ using temis.Api.v1.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using temis.unitTest.Tests.Settings.Seeds;
 using AutoMapper;
+using temis.unitTest.Settings;
 
 namespace temis.unitTest
 {
@@ -20,6 +21,7 @@ namespace temis.unitTest
         public void Setup()
         {
             _service = new Mock<IMemberService>();
+            _mapper = MapperMock.Create();
             _controller = new MemberController(_service.Object, _mapper);
         }
 
