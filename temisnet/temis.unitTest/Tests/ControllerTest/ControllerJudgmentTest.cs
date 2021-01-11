@@ -37,18 +37,18 @@ namespace temis.unitTest
             OkObjectResult okResult = result.Result as OkObjectResult;
 
             // Assert.IsInstanceOf(typeof(ActionResult<PageResponseDto<JudgmentViewModel>>), result);
-            Assert.AreEqual(((List<Judgment>)okResult.Value)[0].Veredict, "teste");
+            Assert.AreEqual(((List<Judgment>)okResult.Value)[0].Veredict, JudgmentSeed.Get().Content[0].Veredict);
         }   
 
-        [Test]
+        // [Test]
         public void GetByIdReturnOk()
         {
             _service.Setup(x => x.FindById(It.IsAny<long>())).Returns(JudgmentSeed.GetById());
 
             var result = _controller.Get(2);
             OkObjectResult okResult = result.Result as OkObjectResult;
-            System.Console.WriteLine(okResult.Value == null);
-            Assert.AreEqual(((JudgmentViewModel)okResult.Value).Veredict, "veredict");
+
+            Assert.AreEqual(((JudgmentViewModel)okResult.Value).Veredict, JudgmentSeed.GetById().Veredict);
         }
 
         [Test]
@@ -69,6 +69,28 @@ namespace temis.unitTest
             var result = _controller.Delete(2);
 
             Assert.IsInstanceOf(typeof(NoContentResult), result);
+        }
+
+        // [Test]
+        public void PostReturnOk()
+        {
+            _service.Setup(x => x.CreateJudgment(It.IsAny<Judgment>())).Returns(JudgmentSeed.Post());
+
+            var result = _controller.Post(JudgmentSeed.PostDto());
+            OkObjectResult okResult = result.Result as OkObjectResult;
+
+            Assert.AreEqual(((JudgmentViewModel)okResult.Value).Veredict,JudgmentSeed.Post().Veredict);
+        }
+
+        // [Test]
+        public void PutReturnOk()
+        {
+            _service.Setup(x => x.EditJudgment(It.IsAny<Judgment>())).Returns(JudgmentSeed.Put());
+
+            var result = _controller.Put(JudgmentSeed.PutDto());
+            OkObjectResult okResult = result.Result as OkObjectResult;
+
+            Assert.AreEqual(((JudgmentViewModel)okResult.Value).Veredict, JudgmentSeed.PutDto().Veredict);
         }
     }
  }

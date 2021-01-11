@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using temis.Api.Models.DTO;
 using temis.Core.Models;
 
 namespace temis.unitTest.Tests.Settings.Seeds
@@ -41,6 +42,38 @@ namespace temis.unitTest.Tests.Settings.Seeds
                 Process = new Process(){},
                 JudgmentDate = new DateTime(2018, 12, 1),
                 Veredict = "1234"
+            };
+        }
+        public static Judgment Post()
+        {
+            return new Judgment(){
+                JudgmentInstanceId = 1,
+                JudgingInstance = new JudgingInstance(){},
+                ProcessId = 1,
+                Process = new Process(){},
+                JudgmentDate = new DateTime(2022, 1, 1),
+                Veredict = "complete"
+            };
+        }
+        public static JudgmentDto PostDto()
+        {
+            return new JudgmentDto(){
+                JudgmentDate = new DateTime(2022, 1, 1),
+                Veredict = "complete"
+            };
+        }
+
+        public static Judgment Put()
+        {
+            return new Judgment(){
+                Veredict = "abcd"
+            };
+        }
+
+        public static JudgmentDto PutDto()
+        {
+            return new JudgmentDto(){
+                Veredict = "abcd"
             };
         }
     }

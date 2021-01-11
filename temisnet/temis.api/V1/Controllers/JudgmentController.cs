@@ -99,7 +99,7 @@ namespace temis.Api.v1.Controllers
         /// <response code="401">Unauthorized. Token not present, invalid or expired</response>
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
         [HttpPost]
-        public IActionResult Post([FromBody] JudgmentDto judgment)
+        public ActionResult<JudgmentViewModel> Post([FromBody] JudgmentDto judgment)
         {
 
             // Judgment judgmentClient = _judgmentService.CreateJudgment(judgment);
@@ -129,7 +129,7 @@ namespace temis.Api.v1.Controllers
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpPut]
-        public IActionResult Put([FromBody] JudgmentDto judgment)
+        public ActionResult<JudgmentViewModel> Put([FromBody] JudgmentDto judgment)
         {
             //_judgmentService.EditJudgment(judgment);
             //var viewModel = _mapper.Map<JudgmentDto>(judgment);
