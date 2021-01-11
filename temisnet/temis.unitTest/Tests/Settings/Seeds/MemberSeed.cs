@@ -20,7 +20,9 @@ namespace temis.unitTest.Tests.Settings.Seeds
         {
             return new Member()
             {
-                Id = 7
+                Id = 7,
+                Cpf= "111111",
+                Role = "analista"
             };
         }
 

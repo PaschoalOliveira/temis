@@ -6,8 +6,6 @@ using temis.Api.v1.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using temis.unitTest.Tests.Settings.Seeds;
 using AutoMapper;
-using temis.Api.Controllers.Models.Requests;
-using temis.Api.Models.DTO.MemberDto;
 
 namespace temis.unitTest
 {
@@ -44,11 +42,9 @@ namespace temis.unitTest
             _service.Setup(a => a.FindById(It.IsAny<long>())).Returns(MemberSeed.GetById());
 
             var result = _controller.GetById(It.IsAny<long>());
-
             OkObjectResult okResult = result.Result as OkObjectResult;
 
             Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
-
             Assert.AreEqual(((Member)okResult.Value).Id, MemberSeed.GetById().Id);
 
         }
@@ -116,10 +112,9 @@ namespace temis.unitTest
         public void GetAllReturnPageResponse()
         {
             var pageResponse = MemberSeed.PageResponseMemberSerice();
-
-            _service.Setup(a => a.Filter(It.IsAny<string>(),It.IsAny<PageRequest>())).Returns(pageResponse);
+            _service.Setup(a => a.Filter(It.IsAny<string>(), It.IsAny<PageRequest>())).Returns(pageResponse);
+            
             var result = _controller.GetAll(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>());
-
             OkObjectResult okResult = result.Result as OkObjectResult;
 
             Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
@@ -130,17 +125,16 @@ namespace temis.unitTest
         public void GetAllReturnFindAll()
         {
             var pageResponse = MemberSeed.PageResponseMember();
-           
-            _service.Setup(a => a.Filter(It.IsAny<string>(),It.IsAny<PageRequest>())).Returns(pageResponse);
-            var result = _controller.GetAll(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>());
-
-            OkObjectResult okResult = result.Result as OkObjectResult;
+            _service.Setup(a => a.Filter(It.IsAny<string>(), It.IsAny<PageRequest>())).Returns(pageResponse);
             
+            var result = _controller.GetAll(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>());
+            OkObjectResult okResult = result.Result as OkObjectResult;
+
             Assert.AreEqual(pageResponse.Content.Count, 0);
             Assert.IsInstanceOf(typeof(ActionResult<Member>), result);
             Assert.IsNotNull(result);
 
         }
-     
+
     }
 }
