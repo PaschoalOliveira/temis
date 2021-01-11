@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using temis.Api.Controllers.Models.Requests;
+using temis.Api.Models.DTO.MemberDto;
 using temis.Core.Models;
 
 namespace temis.unitTest.Tests.Settings.Seeds
@@ -19,9 +20,13 @@ namespace temis.unitTest.Tests.Settings.Seeds
         {
             return new Member()
             {
-                Id = 7
+                Id = 7,
+                Cpf= "111111",
+                Role = "analista"
             };
         }
+
+        
         public static EditPasswordRequest Patch()
         {
             return new EditPasswordRequest()
@@ -74,6 +79,16 @@ namespace temis.unitTest.Tests.Settings.Seeds
                     {
                         Id = 1238
                     }
+                }
+            };
+        }
+
+        public static PageResponse<Member> PageResponseMember()
+        {
+            return new PageResponse<Member>()
+            {
+                Content = new List<Member> 
+                {
                 }
             };
         }

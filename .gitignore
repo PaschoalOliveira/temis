@@ -12,3 +12,5 @@ temisnet/temis.unitTest/bin/
 temisnet/temis.unitTest/TestResults/
 temisnet/temis.unitTest/coverage.cobertura.xml
 temisnet/temis.unitTest/coverage.json
+temisnet/temis.unitTest/coverage_report
+temisnet/temis.unitTest/coverage.opencover.xml

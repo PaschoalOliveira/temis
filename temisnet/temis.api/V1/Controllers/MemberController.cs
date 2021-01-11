@@ -54,13 +54,15 @@ namespace temis.Api.v1.Controllers
         //[Authorize(Roles = "Analista")]
         public ActionResult<Member> GetById([FromRoute] long id)
         {
-            Member userEntity = _memberService.FindById(id);
-            if(userEntity == null)
+            Member member = _memberService.FindById(id);
+
+            if(member == null)
             {
                 return NoContent();
             }
-           //return Ok(_mapper.Map<MemberDto>(userEntity));
-           return Ok(userEntity);
+
+           // MemberDto memberDto = _mapper.Map<MemberDto>(member);
+           return Ok(member);
         }
 
         /// <summary>
@@ -86,12 +88,12 @@ namespace temis.Api.v1.Controllers
 
         [HttpGet]
         //[Authorize(Roles = "Analista")]
-        public IActionResult GetAll(int? page, int? limit, string name = "")
+        public ActionResult<Member> GetAll(int? page, int? limit, string name = "")
         {
             PageRequest pageRequest = PageRequest.Of(page, limit);
             PageResponse<Member> pageResponse = _memberService.Filter(name, pageRequest);
 
-            if (pageResponse.Content != null || pageResponse.Content.Count != 0)
+            if(pageResponse.Content.Count != 0)
             {
                 return Ok(pageResponse.Content);
             }
