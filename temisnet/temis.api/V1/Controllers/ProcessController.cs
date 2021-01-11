@@ -110,7 +110,7 @@ namespace temis.Api.v1.Controllers
         /// <response code="500">Due to server problems, it`s not possible to get your data now</response>
 
         [HttpPatch]
-        public ActionResult<Process> Patch([FromBody] ChangeStatusRequest request)
+        public ActionResult<ProcessDto> Patch([FromBody] ChangeStatusRequest request)
         {
             
             Process process = _processService.FindById(request.Id);

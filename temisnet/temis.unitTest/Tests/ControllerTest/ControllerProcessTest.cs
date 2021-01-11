@@ -47,8 +47,10 @@ namespace temis.unitTest.Tests.ControllerTest
         public void PostReturnOK()
         {
             var seed = ProcessSeed.Post();
+            var processDtoSeed = ProcessSeed.PostDto();
 
             _service.Setup(s => s.CreateProcess(It.IsAny<Process>())).Returns(seed);
+            _mapper.Setup(m => m.Map<ProcessDto>(It.IsAny<Process>())).Returns(processDtoSeed);
 
             var result = _controller.Post(It.IsAny<CreateProcessRequest>());
 
@@ -56,8 +58,7 @@ namespace temis.unitTest.Tests.ControllerTest
 
             Assert.IsInstanceOf(typeof(ActionResult<Process>), result);
             Assert.IsInstanceOf(typeof(OkObjectResult), result.Result);
-            //Assert.AreEqual(result.Value.Number, seed.Number);
-            //Assert.AreEqual(((Process)okResult.Value).Number, seed.Number);
+            Assert.AreEqual(((ProcessDto)okResult.Value).Number, processDtoSeed.Number);
         }
 
         [Test]
@@ -78,17 +79,20 @@ namespace temis.unitTest.Tests.ControllerTest
         //Falta fazer o teste de Retorno NotFound.
         public void PatchReturnOk()
         {
+            var mockRequest = Mock.Of<ChangeStatusRequest>();
             var seed = ProcessSeed.Patch();
+            var processDtoSeed = ProcessSeed.PostDto();
 
             _service.Setup(s => s.FindById(It.IsAny<long>())).Returns(seed);
-            _service.Setup(s => s.ChangeStatus(It.IsAny<Process>())).Returns(seed);
+            _mapper.Setup(m => m.Map<ProcessDto>(It.IsAny<Process>())).Returns(processDtoSeed);
 
-            var result = _controller.Patch(It.IsAny<ChangeStatusRequest>());
+            var result = _controller.Patch(mockRequest);
 
             OkObjectResult okResult = result.Result as OkObjectResult;
 
-            Assert.IsInstanceOf(typeof(ActionResult<Process>), result);
+            Assert.IsInstanceOf(typeof(ActionResult<ProcessDto>), result);
             Assert.IsInstanceOf(typeof(OkObjectResult), result.Result);
+            Assert.AreEqual(((ProcessDto)okResult.Value).Status, processDtoSeed.Status);
         }
         
         [Test]

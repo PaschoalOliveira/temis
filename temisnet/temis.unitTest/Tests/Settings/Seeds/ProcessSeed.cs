@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using temis.api.Requests;
+using temis.Api.Controllers.Models.Requests;
+using temis.Api.Models.DTO;
 using temis.Core.Models;
 
 namespace temis.unitTest.Tests.Settings.Seeds
@@ -31,8 +34,7 @@ namespace temis.unitTest.Tests.Settings.Seeds
         {
             return new Process()
             {
-                ProcessId = 3,
-                Status = "Teste"
+                ProcessId = 0,
             };
         }
          public static Process Delete()
@@ -42,5 +44,14 @@ namespace temis.unitTest.Tests.Settings.Seeds
                 ProcessId = 4
             };
         }
+
+        public static ProcessDto PostDto()
+        {
+            return new ProcessDto()
+            {
+                Number = "2010"
+            };
+        }
+
     }
 }
