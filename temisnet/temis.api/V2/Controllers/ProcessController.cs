@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace temis.Api.v2.Controllers
     [ApiController]
     [Route("/api/v2/process")]
     [ApiExplorerSettings(GroupName = "v2")]
+    [ExcludeFromCodeCoverageAttribute]
     public class ProcessController : ControllerBase
     {
         private IProcessService _processService;

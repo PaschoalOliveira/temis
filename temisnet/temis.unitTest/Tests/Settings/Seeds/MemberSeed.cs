@@ -26,6 +26,19 @@ namespace temis.unitTest.Tests.Settings.Seeds
             };
         }
 
+        public static MemberDto GetByIdDto()
+        {
+            return new MemberDto()
+            {
+               
+                CPF= "111111",
+                Role = "analista",
+                Age = 29,
+                LastName = "Natalia",
+                Name = "Elayne"
+            };
+        }
+
         
         public static EditPasswordRequest Patch()
         {

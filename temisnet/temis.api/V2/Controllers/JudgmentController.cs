@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using temis.Api.Controllers.Models.Requests;
@@ -10,6 +11,7 @@ namespace temis.Api.v2.Controllers
     [ApiController]
     [Route("/api/v2/judgment")]
     [ApiExplorerSettings(GroupName = "v2")]
+    [ExcludeFromCodeCoverageAttribute]
     public class JudgmentController : ControllerBase
     {
          private IJudgmentService _judgmentService;
