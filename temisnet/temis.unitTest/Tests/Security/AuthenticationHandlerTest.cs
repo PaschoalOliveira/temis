@@ -1,15 +1,11 @@
-using Microsoft.AspNetCore.Authentication;
-using Moq;
 using NUnit.Framework;
 using temis.Api.Security;
-using temis.Core.Models;
 using temis.unitTest.Tests.Settings.Seeds;
 
 namespace temis.unitTest
 {
     public class AuthenticationHandlerTest
     { 
-        
         
         [Test]
         public void CreateToken()

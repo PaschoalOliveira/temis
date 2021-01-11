@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using temis.Api.Security;
+using temis.Core.Models;
 using temis.Core.Services.Interfaces;
 namespace temis.Api.Controllers
 {
@@ -33,25 +34,23 @@ namespace temis.Api.Controllers
         
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult<dynamic>> Authenticate(string Cpf, string Password) // https://localhost:5001/api/login/?Cpf=111111111&Password=teste
+        public ActionResult<Member> Authenticate(string Cpf, string Password) // https://localhost:5001/api/login/?Cpf=111111111&Password=teste
         {
             var user = _memberService.Validate(Cpf, Password);
 
-            if (user == null) return NotFound(new { message = "CPF or password is invalid" });
-            var token = "";
-            await Task.Run(() => token = AuthenticationHandler.CreateToken(user));
+            if (user == null) return NotFound("Member not found");
+            var token = AuthenticationHandler.CreateToken(user);
 
             if (token == null) return Unauthorized("We were unable to generate your token");
 
-            return new
+            return Ok( new
             {
                 name = user.Name,
                 role = user.Role,
                 createToken = (DateTime.Now).ToString(),
                 validToken = (DateTime.Now).AddHours(1).ToString(),
                 token = token
-            };
-
+            });
         }
 
     }
