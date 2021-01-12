@@ -6,9 +6,9 @@ namespace temis.Core.Models
     [Table("member")]
     public class Member : PessoaFisica
     {
-        [Key]
-        [Column("id_pessoa_fisica")]
-        public long IdPessoaFisica {get; set; }
+        // [Key]
+        // [Column("id_pessoa_fisica")]
+        // public long IdPessoaFisica {get; set; }
 
         [Column("role")]
         public string Role { get; set; }

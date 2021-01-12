@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using temis.Core.Models;
+using System.Collections.Generic;
 
 namespace temis.data.Data
 {

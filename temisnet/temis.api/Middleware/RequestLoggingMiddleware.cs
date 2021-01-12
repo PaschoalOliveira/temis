@@ -28,11 +28,9 @@ namespace temis.Api.Middleware
             finally
             {
                 var info =  $"Request {context.Request?.Method}, {context.Request?.Path.Value} => {context.Response?.StatusCode}";
-
                _logger.LogInformation(info);
-
-                await _cacheRedis.SetStringAsync(ProcessKey, info);
             }
+            _cacheRedis.SetString(ProcessKey, "qualqer coisa");
         }
     }
 }

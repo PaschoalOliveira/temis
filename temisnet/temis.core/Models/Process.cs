@@ -5,11 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace temis.Core.Models
 {
     [Table("process")]
-    public class Process
+    public class Process : BaseEntity
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("id")]
-        public long ProcessId { get; set; }
 
         [Column("status")]
         public string Status { get; set; }

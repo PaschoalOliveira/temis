@@ -32,7 +32,7 @@ namespace temis.Core.Services.Service
 
         public Process ChangeStatus(Process process)
         {
-            Process updateProcess = FindById(process.ProcessId);
+            Process updateProcess = FindById(process.Id);
             updateProcess.Status = process.Status;
             updateProcess.StatusUpdate = DateTime.Now;
             

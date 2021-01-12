@@ -20,13 +20,13 @@ namespace temis.Core.Services.Service
         }
         public Member CreateMember(Member member)
         {
-            Member memberNew = _repository.CreateMember(member);
+            Member memberNew = _repository.Create(member);
             return memberNew;
         }
 
         public Member EditMember(Member member)
         {
-            Member editedMember = _repository.EditMember(member);
+            Member editedMember = _repository.Update(member);
             return editedMember;
         }
 

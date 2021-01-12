@@ -1,10 +1,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 namespace temis.Core.Models
 {
-    public class JudgingInstance
+    public class JudgingInstance : BaseEntity
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long JudgingInstanceId {get; set; }
 
         [Column("level")]
         public string level {get;set;}

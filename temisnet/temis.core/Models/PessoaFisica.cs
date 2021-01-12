@@ -4,10 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace temis.Core.Models
 {
     [Table("pessoa_fisica")]
-    public class PessoaFisica
+    public class PessoaFisica : BaseEntity
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id {get; set; }
         
         [Column("name")]
         public string Name { get; set; }
@@ -21,15 +19,6 @@ namespace temis.Core.Models
 
         [Column("age")]
         public int Age { get; set; }
-
-        public PessoaFisica (long id, string name,  string lastName, int age, string role, string cpf, string password)
-        {
-            this.Id = id;
-            this.Name = name;
-            this.Cpf = cpf;
-        }
-
-        public PessoaFisica() {}
 
     }
 }
