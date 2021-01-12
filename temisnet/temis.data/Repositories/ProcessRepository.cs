@@ -29,7 +29,9 @@ namespace temis.Data.Repositories
 
         public void Delete(long Id)
         {
-            throw new NotImplementedException();
+            var result = context.Process.Where((p) => p.ProcessId == Id).SingleOrDefault();
+             context.Remove(result);
+             context.SaveChanges();
         }
       
         public Process ChangeStatus(Process process)

@@ -186,13 +186,18 @@ namespace temis.api
                 c.SerializeAsV2 = true;
             });
 
-            app.UseMiddleware<RequestLoggingMiddleware>();
+         //   app.UseMiddleware<RequestLoggingMiddleware>();
 
-
-            app.MapWhen(context => context.Request.Path.StartsWithSegments("/api/v1/process"), appBuilder =>
+            app.MapWhen(context => context.Request.Path.StartsWithSegments("/api/v1/process/{id}"), appBuilder =>
             {
                 appBuilder.UseMiddleware<RequestLoggingMiddleware>();
-            });
+            }); 
+
+         /*   app.UseEndpoints(endpoints =>{
+                endpoints.MapResizeImageEndpoint("/resizeImage"); // <- We only want to run them here 
+                endpoints.MapDefaultControllerRoute();
+            });*/
+            
 
             app.UseAuthentication();
             app.UseAuthorization();

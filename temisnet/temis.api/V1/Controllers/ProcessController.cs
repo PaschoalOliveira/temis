@@ -29,13 +29,13 @@ namespace temis.Api.v1.Controllers
         private readonly IProcessService _processService;
         private readonly IDistributedCache _cacheRedis;
         private const string ProcessKey = "Process";
-        private readonly ILogger _logger;
+        private readonly ILogger<Process> _logger;
         private IMapper _mapper;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public ProcessController(IProcessService service, IMapper mapper, IDistributedCache cacheRedis, ILogger logger)
+        public ProcessController(IProcessService service, IMapper mapper, IDistributedCache cacheRedis, ILogger<Process> logger)
         {
             _processService = service;
             _mapper = mapper;
