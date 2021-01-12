@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
@@ -8,11 +9,14 @@ namespace temis.Api.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
+        private readonly IDistributedCache _cacheRedis;
+        private const string ProcessKey = "Process";
 
-        public RequestLoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
+        public RequestLoggingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IDistributedCache cacheRedis)
         {
             _next = next;
             _logger = loggerFactory.CreateLogger<RequestLoggingMiddleware>();
+            _cacheRedis = cacheRedis;
         }
 
         public async Task Invoke(HttpContext context)
@@ -23,11 +27,11 @@ namespace temis.Api.Middleware
             }
             finally
             {
-                _logger.LogInformation(
-                    "Request {method} {url} => {statusCode}",
-                    context.Request?.Method,
-                    context.Request?.Path.Value,
-                    context.Response?.StatusCode);
+                var info =  $"Request {context.Request?.Method}, {context.Request?.Path.Value} => {context.Response?.StatusCode}";
+
+               _logger.LogInformation(info);
+
+                await _cacheRedis.SetStringAsync(ProcessKey, info);
             }
         }
     }
