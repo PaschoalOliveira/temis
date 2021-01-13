@@ -9,10 +9,12 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.MySql" Version="3.1.1" />
     <PackageReference Include="Elmah.Io.AspNetCore" Version="3.10.122" />
     <PackageReference Include="Elmah.Io.Extensions.Logging" Version="3.1.25" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Versioning" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.10" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="3.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.8" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.8" />

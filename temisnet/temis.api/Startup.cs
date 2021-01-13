@@ -26,6 +26,12 @@ using temis.api.Requests;
 using System.Diagnostics.CodeAnalysis;
 using temis.Api.Middleware;
 using Elmah.Io.AspNetCore;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 namespace temis.api
 {
@@ -48,6 +54,7 @@ namespace temis.api
             services.AddStackExchangeRedisCache(options => options.Configuration = this.Configuration.GetConnectionString("redisServerUrl"));
 
             services.AddDbContext<TemisContext>((options) => options.UseMySql(connectionString));
+            services.AddHealthChecks().AddDbContextCheck<TemisContext>();
 
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<IMemberService, MemberService>();
@@ -57,7 +64,6 @@ namespace temis.api
 
             services.AddScoped<IProcessRepository, ProcessRepository>();
             services.AddScoped<IProcessService, ProcessService>();
-
             services.AddControllers();
 
             services.AddCors(options =>
@@ -140,7 +146,7 @@ namespace temis.api
                     ValidateAudience = false
                 };
             });
-            
+
             /*   var config = new MapperConfiguration(cfg => {
                    cfg.AddMaps( new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly } );
                });
@@ -172,13 +178,22 @@ namespace temis.api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => {
+                app.UseSwaggerUI(c =>
+                {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "temis.api v1");
                     c.SwaggerEndpoint("/swagger/v2/swagger.json", "temis.api v2");
                 });
             }
             app.UseCors("AnyOrigin");
-        //    app.UseHttpsRedirection();
+
+          //  app.UseHealthChecks("/status");
+
+            app.UseHealthChecks("/check", new HealthCheckOptions()
+            {
+                ResponseWriter = WriteResponse,
+            });
+            
+            app.UseHttpsRedirection();
 
             app.UseRouting();
             app.UseSwagger(c =>
@@ -186,12 +201,12 @@ namespace temis.api
                 c.SerializeAsV2 = true;
             });
 
-          //  app.UseMiddleware<RequestLoggingMiddleware>();
+            //  app.UseMiddleware<RequestLoggingMiddleware>();
 
             app.UseWhen(context => context.Request.Path.StartsWithSegments("/api/v1/process"), appBuilder =>
             {
                 appBuilder.UseMiddleware<RequestLoggingMiddleware>();
-            }); 
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -200,6 +215,17 @@ namespace temis.api
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private static Task WriteResponse(HttpContext httpContext, HealthReport result)
+        {
+            httpContext.Response.ContentType = "application/json";
+            var json = new JObject(
+                new JProperty("HealthCheck", new JObject(result.Entries.Select(pair =>
+                    new JProperty(pair.Key, new JObject(
+                        new JObject(pair.Value.Data.Select(p => new JProperty(p.Key, p.Value)))))))));
+
+            return httpContext.Response.WriteAsync(json.ToString(Formatting.Indented));
         }
     }
 }
