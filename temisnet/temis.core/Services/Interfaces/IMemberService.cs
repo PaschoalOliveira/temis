@@ -12,7 +12,7 @@ namespace temis.Core.Services.Interfaces
          void EditPassword(long id, string password);
          void Delete(long Id);
          Member Validate(string cpf, string password);
-         PageResponse<Member> Filter (string name, PageRequest pageRequest);
+         PageResponse<PessoaFisica> Filter (string name, PageRequest pageRequest);
 
     }
 }

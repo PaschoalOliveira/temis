@@ -7,7 +7,7 @@ namespace temis.data.Data
 {
     public class TemisContext : DbContext
     {
-        public DbSet<Member> Membros { get; set; }
+        public DbSet<PessoaFisica> Pessoas { get; set; }
         public DbSet<Process> Process { get; set; }
         public DbSet<Judgment> Judgment { get; set; }
         
@@ -18,9 +18,10 @@ namespace temis.data.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Member>().ToTable("member");
-            builder.Entity<Member>().HasNoKey();
+            // builder.Entity<Member>().ToTable("member");
+            // builder.Entity<Member>().HasNoKey();
             builder.Entity<Judgment>().HasKey(p => new {p.JudgmentInstanceId, p.ProcessId});
+            // builder.Entity<Member>().HasBaseType<PessoaFisica>();
         }
 
     }
