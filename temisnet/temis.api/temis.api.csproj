@@ -9,7 +9,9 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.MySql" Version="3.1.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="3.1.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="3.1.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="3.1.1" />
     <PackageReference Include="Elmah.Io.AspNetCore" Version="3.10.122" />
     <PackageReference Include="Elmah.Io.Extensions.Logging" Version="3.1.25" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Versioning" Version="4.1.0" />

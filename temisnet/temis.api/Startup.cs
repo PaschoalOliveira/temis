@@ -25,7 +25,6 @@ using temis.Api.Models.DTO.MemberDto;
 using temis.api.Requests;
 using System.Diagnostics.CodeAnalysis;
 using temis.Api.Middleware;
-using Elmah.Io.AspNetCore;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -54,7 +53,15 @@ namespace temis.api
             services.AddStackExchangeRedisCache(options => options.Configuration = this.Configuration.GetConnectionString("redisServerUrl"));
 
             services.AddDbContext<TemisContext>((options) => options.UseMySql(connectionString));
-            services.AddHealthChecks().AddDbContextCheck<TemisContext>();
+
+            services.AddHealthChecks()
+                    .AddDbContextCheck<TemisContext>()
+                    .AddUrlGroup(new Uri("http://www5.tjba.jus.br/portal/"),
+                                name: "Tribunal da Justiça",
+                                failureStatus: HealthStatus.Degraded)
+                    .AddRedis(redisConnectionString: Configuration.GetConnectionString("redisServerUrl"),
+                                name: "Redis",
+                                failureStatus: HealthStatus.Degraded);
 
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<IMemberService, MemberService>();
@@ -171,7 +178,6 @@ namespace temis.api
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -186,22 +192,19 @@ namespace temis.api
             }
             app.UseCors("AnyOrigin");
 
-          //  app.UseHealthChecks("/status");
-
             app.UseHealthChecks("/check", new HealthCheckOptions()
             {
+                Predicate = _ => true,
                 ResponseWriter = WriteResponse,
             });
-            
-            app.UseHttpsRedirection();
 
+            app.UseHttpsRedirection();
             app.UseRouting();
+
             app.UseSwagger(c =>
             {
                 c.SerializeAsV2 = true;
             });
-
-            //  app.UseMiddleware<RequestLoggingMiddleware>();
 
             app.UseWhen(context => context.Request.Path.StartsWithSegments("/api/v1/process"), appBuilder =>
             {
@@ -219,12 +222,13 @@ namespace temis.api
 
         private static Task WriteResponse(HttpContext httpContext, HealthReport result)
         {
-            httpContext.Response.ContentType = "application/json";
-            var json = new JObject(
-                new JProperty("HealthCheck", new JObject(result.Entries.Select(pair =>
+            httpContext.Response.ContentType = "application/json"; var json = new JObject(
+                    new JProperty("status", result.Status.ToString()),
+                    new JProperty("results", new JObject(result.Entries.Select(pair =>
                     new JProperty(pair.Key, new JObject(
-                        new JObject(pair.Value.Data.Select(p => new JProperty(p.Key, p.Value)))))))));
-
+                    new JProperty("status", pair.Value.Status.ToString()),
+                    new JProperty("duration", pair.Value.Duration),
+                    new JProperty("data", new JObject(pair.Value.Data.Select(p => new JProperty(p.Key, p.Value))))))))));
             return httpContext.Response.WriteAsync(json.ToString(Formatting.Indented));
         }
     }
