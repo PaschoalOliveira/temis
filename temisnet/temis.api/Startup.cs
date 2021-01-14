@@ -25,7 +25,12 @@ using temis.Api.Models.DTO.MemberDto;
 using temis.api.Requests;
 using System.Diagnostics.CodeAnalysis;
 using temis.Api.Middleware;
-using Elmah.Io.AspNetCore;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 namespace temis.api
 {
@@ -46,8 +51,16 @@ namespace temis.api
             var connectionString = Configuration["MySQLConnection:MySQLConnectionString"];
 
             services.AddStackExchangeRedisCache(options => options.Configuration = this.Configuration.GetConnectionString("redisServerUrl"));
-
             services.AddDbContext<TemisContext>((options) => options.UseMySql(connectionString));
+
+            services.AddHealthChecks()
+                    .AddDbContextCheck<TemisContext>()
+                    .AddUrlGroup(new Uri("http://www5.tjba.jus.br/portal/"),
+                                name: "Tribunal da Justiça",
+                                failureStatus: HealthStatus.Degraded)
+                    .AddRedis(redisConnectionString: Configuration.GetConnectionString("redisServerUrl"),
+                                name: "Redis",
+                                failureStatus: HealthStatus.Degraded);
 
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<IMemberService, MemberService>();
@@ -57,7 +70,6 @@ namespace temis.api
 
             services.AddScoped<IProcessRepository, ProcessRepository>();
             services.AddScoped<IProcessService, ProcessService>();
-
             services.AddControllers();
 
             services.AddCors(options =>
@@ -86,7 +98,20 @@ namespace temis.api
                     }
                 });
 
-                c.SwaggerDoc("v2", new OpenApiInfo { Title = "My API - V2", Version = "v2" });
+                c.SwaggerDoc("v2", new OpenApiInfo
+                {
+                    Title = "temis.api",
+                    Version = "v2",
+                    Description = "Utilização de método assincrono",
+
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Coder Trainee Training with ASP.NET 3.1 - Repository",
+                        Email = string.Empty,
+                        Url = new Uri("https://github.com/PaschoalOliveira/temis/tree/feature/dotnet"),
+                    }
+                });
+
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -140,7 +165,7 @@ namespace temis.api
                     ValidateAudience = false
                 };
             });
-            
+
             /*   var config = new MapperConfiguration(cfg => {
                    cfg.AddMaps( new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly } );
                });
@@ -165,33 +190,38 @@ namespace temis.api
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => {
+                app.UseSwaggerUI(c =>
+                {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "temis.api v1");
                     c.SwaggerEndpoint("/swagger/v2/swagger.json", "temis.api v2");
                 });
             }
-            app.UseCors("AnyOrigin");
-        //    app.UseHttpsRedirection();
 
+            app.UseCors("AnyOrigin");
+            app.UseHealthChecks("/check", new HealthCheckOptions()
+            {
+                Predicate = _ => true,
+                ResponseWriter = WriteResponse,
+            });
+
+            app.UseHttpsRedirection();
             app.UseRouting();
+
             app.UseSwagger(c =>
             {
                 c.SerializeAsV2 = true;
             });
 
-          //  app.UseMiddleware<RequestLoggingMiddleware>();
-
             app.UseWhen(context => context.Request.Path.StartsWithSegments("/api/v1/process"), appBuilder =>
             {
                 appBuilder.UseMiddleware<RequestLoggingMiddleware>();
-            }); 
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -200,6 +230,18 @@ namespace temis.api
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private static Task WriteResponse(HttpContext httpContext, HealthReport result)
+        {
+            httpContext.Response.ContentType = "application/json"; var json = new JObject(
+                    new JProperty("status", result.Status.ToString()),
+                    new JProperty("results", new JObject(result.Entries.Select(pair =>
+                    new JProperty(pair.Key, new JObject(
+                    new JProperty("status", pair.Value.Status.ToString()),
+                    new JProperty("duration", pair.Value.Duration),
+                    new JProperty("data", new JObject(pair.Value.Data.Select(p => new JProperty(p.Key, p.Value))))))))));
+            return httpContext.Response.WriteAsync(json.ToString(Formatting.Indented));
         }
     }
 }
