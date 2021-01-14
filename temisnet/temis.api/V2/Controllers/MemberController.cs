@@ -68,7 +68,7 @@ namespace temis.Api.v2.Controllers
         public IActionResult Get(int? page, int? limit, string name = "")
         {   
             PageRequest pageRequest = PageRequest.Of(page, limit);
-            PageResponse<PessoaFisica> pageResponse = _memberService.Filter(name, pageRequest);
+            PageResponse<Member> pageResponse = _memberService.Filter(name, pageRequest);
 
             if (pageResponse.Content != null || pageResponse.Content.Count != 0)
             {

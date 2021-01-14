@@ -88,10 +88,10 @@ namespace temis.Api.v1.Controllers
 
         [HttpGet]
         //[Authorize(Roles = "Analista")]
-        public ActionResult<PessoaFisica> GetAll(int? page, int? limit, string name = "")
+        public ActionResult<Member> GetAll(int? page, int? limit, string name = "")
         {
             PageRequest pageRequest = PageRequest.Of(page, limit);
-            PageResponse<PessoaFisica> pageResponse = _memberService.Filter(name, pageRequest);
+            PageResponse<Member> pageResponse = _memberService.Filter(name, pageRequest);
 
             if(pageResponse.Content.Count != 0)
             {

@@ -64,7 +64,7 @@ namespace temis.Core.Services.Service
             _repository.Delete(id);
         }
 
-        public PageResponse<PessoaFisica> Filter(string name, PageRequest pageRequest)
+        public PageResponse<Member> Filter(string name, PageRequest pageRequest)
         {
             return _repository.Filter(name, pageRequest);
         }

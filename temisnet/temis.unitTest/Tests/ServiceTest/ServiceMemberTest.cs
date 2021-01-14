@@ -25,33 +25,33 @@ namespace temis.unitTest
         }
 
         [Test]
-        public void CreateMember()
+        public void Create()
         {            
             // Arrange
             Member seed = MemberSeed.MemberSerice();
-            mockMemberRepository.Setup(a => a.CreateMember(It.IsAny<Member>())).Returns(seed);
+            mockMemberRepository.Setup(a => a.Create(It.IsAny<Member>())).Returns(seed);
 
             // Act
             var result = _memberService.CreateMember(It.IsAny<Member>());
 
             // Assert
-            mockMemberRepository.Verify(a => a.CreateMember(It.IsAny<Member>()), Times.Once);
+            mockMemberRepository.Verify(a => a.Create(It.IsAny<Member>()), Times.Once);
             Assert.IsInstanceOf(typeof(Member), result);
             Assert.AreEqual(seed, result);
         }
 
         [Test]
-        public void EditMember()
+        public void Update()
         {
             // Arrange
             Member seed = MemberSeed.MemberSerice();
-            mockMemberRepository.Setup(a => a.EditMember(It.IsAny<Member>())).Returns(seed);
+            mockMemberRepository.Setup(a => a.Update(It.IsAny<Member>())).Returns(seed);
 
             // Act
             var result = _memberService.EditMember(It.IsAny<Member>());
 
             // Assert
-            mockMemberRepository.Verify(a => a.EditMember(It.IsAny<Member>()), Times.Once);
+            mockMemberRepository.Verify(a => a.Update(It.IsAny<Member>()), Times.Once);
             Assert.IsInstanceOf(typeof(Member), result);
             Assert.AreEqual(seed, result);
         }

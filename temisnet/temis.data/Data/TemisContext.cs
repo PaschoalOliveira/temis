@@ -7,7 +7,7 @@ namespace temis.data.Data
 {
     public class TemisContext : DbContext
     {
-        public DbSet<PessoaFisica> Pessoas { get; set; }
+        public DbSet<Member> Members { get; set; }
         public DbSet<Process> Process { get; set; }
         public DbSet<Judgment> Judgment { get; set; }
         

@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using temis.api.Requests;
@@ -18,6 +19,7 @@ namespace temis.unitTest.Tests.ControllerTest
     {
         Mock<IProcessService> _service;
         Mock<IDistributedCache> _cacheRedis;
+        Mock<ILogger<Process>> _logger;
         public ProcessController _controller;
         IMapper _mapper;
 
@@ -26,8 +28,9 @@ namespace temis.unitTest.Tests.ControllerTest
         {
             _service = new Mock<IProcessService>();
             _cacheRedis = new Mock<IDistributedCache>();
+            _logger = new Mock<ILogger<Process>>();
             _mapper = MapperMock.Create();
-            _controller = new ProcessController(_service.Object, _mapper, _cacheRedis.Object);
+            _controller = new ProcessController(_service.Object, _mapper, _cacheRedis.Object, _logger.Object);
         }
 
         [Test]
