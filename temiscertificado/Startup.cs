@@ -10,6 +10,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using temis.Core.Interfaces;
+using temis.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
+using temis.Data;
+using temis.Core.Services.Interface;
+using temis.Core.Services;
 
 namespace temiscertificado
 {
@@ -22,13 +28,18 @@ namespace temiscertificado
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = Configuration["MySQLConnection:MySQLConnectionString"];
+            
+            services.AddDbContext<TemisContext>((options) => options.UseMySql(connectionString));
+
+            services.AddScoped<IRepository, GenericRepository>();
+            services.AddScoped<IService, Service>();
+
             services.AddControllers();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
