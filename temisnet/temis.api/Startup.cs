@@ -51,7 +51,6 @@ namespace temis.api
             var connectionString = Configuration["MySQLConnection:MySQLConnectionString"];
 
             services.AddStackExchangeRedisCache(options => options.Configuration = this.Configuration.GetConnectionString("redisServerUrl"));
-
             services.AddDbContext<TemisContext>((options) => options.UseMySql(connectionString));
 
             services.AddHealthChecks()
@@ -99,7 +98,20 @@ namespace temis.api
                     }
                 });
 
-                c.SwaggerDoc("v2", new OpenApiInfo { Title = "My API - V2", Version = "v2" });
+                c.SwaggerDoc("v2", new OpenApiInfo
+                {
+                    Title = "temis.api",
+                    Version = "v2",
+                    Description = "Utilização de método assincrono",
+
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Coder Trainee Training with ASP.NET 3.1 - Repository",
+                        Email = string.Empty,
+                        Url = new Uri("https://github.com/PaschoalOliveira/temis/tree/feature/dotnet"),
+                    }
+                });
+
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -190,8 +202,8 @@ namespace temis.api
                     c.SwaggerEndpoint("/swagger/v2/swagger.json", "temis.api v2");
                 });
             }
-            app.UseCors("AnyOrigin");
 
+            app.UseCors("AnyOrigin");
             app.UseHealthChecks("/check", new HealthCheckOptions()
             {
                 Predicate = _ => true,
