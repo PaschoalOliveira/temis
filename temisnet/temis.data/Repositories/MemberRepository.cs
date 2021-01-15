@@ -35,17 +35,17 @@ namespace temis.Data.Repositories
 
         }
 
-        public PageResponse<PessoaFisica> Filter(string name, PageRequest pageRequest)
+        public PageResponse<Member> Filter(string name, PageRequest pageRequest)
         {
-            IQueryable<PessoaFisica> query = _context.Pessoas.Where(
+            IQueryable<Member> query = _context.Members.Where(
                                     i =>
                                     i.Name.Contains(name) ||
                                     i.LastName.Contains(name)
                                    ).OrderBy(u => u.Name);
 
-            List<PessoaFisica> filtredPessoaFisica;
-            filtredPessoaFisica = PaginationRepository<PessoaFisica>.For(query, pageRequest).ToList();
-            return PageResponse<PessoaFisica>.For(filtredPessoaFisica, pageRequest, query.Count());
+            List<Member> filtredMember;
+            filtredMember = PaginationRepository<Member>.For(query, pageRequest).ToList();
+            return PageResponse<Member>.For(filtredMember, pageRequest, query.Count());
         }
     }
 }

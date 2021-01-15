@@ -34,14 +34,14 @@ namespace temis.unitTest.Tests.Settings.Seeds
         {
             return new Process()
             {
-                ProcessId = 0,
+                Id = 0,
             };
         }
          public static Process Delete()
         {
             return new Process()
             {
-                ProcessId = 4
+                Id = 4
             };
         }
 
