@@ -41,7 +41,7 @@ namespace temis.unitTest
             Assert.AreEqual(((List<Judgment>)okResult.Value)[0].Veredict, JudgmentSeed.Get().Content[0].Veredict);
         }   
 
-        // [Test]
+        [Test]
         public void GetByIdReturnOk()
         {
             _service.Setup(x => x.FindById(It.IsAny<long>())).Returns(JudgmentSeed.GetById());
@@ -83,7 +83,7 @@ namespace temis.unitTest
             Assert.AreEqual(((JudgmentViewModel)okResult.Value).Veredict,JudgmentSeed.Post().Veredict);
         }
 
-        // [Test]
+        [Test]
         public void PutReturnOk()
         {
             _service.Setup(x => x.EditJudgment(It.IsAny<Judgment>())).Returns(JudgmentSeed.Put());

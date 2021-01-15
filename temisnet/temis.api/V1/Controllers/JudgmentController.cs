@@ -1,6 +1,5 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using temis.Api.Controllers.Models.Requests;
 using temis.Api.Models.DTO;
 using temis.Api.Models.ViewModel;
 using temis.Core.Models;

@@ -1,8 +1,5 @@
-using System.Diagnostics.CodeAnalysis;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using temis.Api.Models.DTO.MemberDto;
 using temis.Api.Controllers.Models.Requests;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;

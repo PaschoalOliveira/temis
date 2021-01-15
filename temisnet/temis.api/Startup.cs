@@ -166,11 +166,6 @@ namespace temis.api
                 };
             });
 
-            /*   var config = new MapperConfiguration(cfg => {
-                   cfg.AddMaps( new Assembly[] { typeof(AutoMapperProfile).GetTypeInfo().Assembly } );
-               });
-               IMapper mapper = config.CreateMapper(); */
-
             var config = new AutoMapper.MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Member, MemberDto>();

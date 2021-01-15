@@ -1,10 +1,7 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Solutis.Services;
 using temis.Api.Controllers.Models.Requests;
 using temis.Api.Models.DTO.MemberDto;
 using temis.Core.Models;

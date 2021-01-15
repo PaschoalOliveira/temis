@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using temis.api.Requests;
-using temis.Api.Controllers.Models.Requests;
-using temis.Api.Models.DTO;
 using temis.Core.Models;
 
 namespace temis.unitTest.Tests.Settings.Seeds

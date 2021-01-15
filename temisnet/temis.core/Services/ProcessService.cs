@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using temis.Core.Interfaces;
 using temis.Core.Models;

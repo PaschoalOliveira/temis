@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using temis.Core.Models;
 
 namespace temis.Core.Services.Interfaces

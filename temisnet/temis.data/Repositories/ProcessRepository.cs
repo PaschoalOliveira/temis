@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using temis.Core.Interfaces;
 using temis.Core.Models;
 using temis.data.Data;
-using MySql.Data.MySqlClient;
 using System.Threading.Tasks;
 
 namespace temis.Data.Repositories

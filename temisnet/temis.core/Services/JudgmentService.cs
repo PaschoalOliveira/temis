@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using temis.Core.Interfaces;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;

@@ -1,11 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using temis.Core.Interfaces;
 using temis.Core.Models;
 using temis.data.Data;
-using MySql.Data.MySqlClient;
 using Solutis.Services;
 
 namespace temis.Data.Repositories
@@ -32,7 +29,6 @@ namespace temis.Data.Repositories
         public void EditPassword(long id, string password)
         {
             Member memberPassword = new Member() { Id = id };
-
         }
 
         public PageResponse<Member> Filter(string name, PageRequest pageRequest)

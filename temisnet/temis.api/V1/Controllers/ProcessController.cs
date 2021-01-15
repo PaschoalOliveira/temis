@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text.Json;
 using System.Threading;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -9,11 +7,9 @@ using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using temis.api.Requests;
 using temis.Api.Controllers.Models.Requests;
-using temis.Api.Middleware;
 using temis.Api.Models.DTO;
 using temis.Core.Models;
 using temis.Core.Services.Interfaces;
-using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 using Microsoft.Extensions.Logging;
 
 namespace temis.Api.v1.Controllers

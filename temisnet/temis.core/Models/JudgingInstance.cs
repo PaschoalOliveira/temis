@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+
 namespace temis.Core.Models
 {
     public class JudgingInstance : BaseEntity

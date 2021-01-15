@@ -1,8 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
 using temis.Core.Models;
-using System.Collections.Generic;
-
 namespace temis.data.Data
 {
     public class TemisContext : DbContext
@@ -18,10 +16,7 @@ namespace temis.data.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            // builder.Entity<Member>().ToTable("member");
-            // builder.Entity<Member>().HasNoKey();
             builder.Entity<Judgment>().HasKey(p => new {p.JudgmentInstanceId, p.ProcessId});
-            // builder.Entity<Member>().HasBaseType<PessoaFisica>();
         }
 
     }
