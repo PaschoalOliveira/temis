@@ -39,7 +39,7 @@ namespace temiscertificado.Controllers
 
             while (count < 5 && result == null)
             {
-              result = Connection.Receive("ABC");
+               result = Connection.Receive("ABC");
                count ++;
             }
 
