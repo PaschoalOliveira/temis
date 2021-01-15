@@ -12,6 +12,9 @@
     <PackageReference Include="AspNetCore.HealthChecks.MySql" Version="3.1.1" />
     <PackageReference Include="Elmah.Io.AspNetCore" Version="3.10.122" />
     <PackageReference Include="Elmah.Io.Extensions.Logging" Version="3.1.25" />
+    <PackageReference Include="MassTransit.AspNetCore" Version="7.1.2" />
+    <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.1.2" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="7.1.2" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Versioning" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.10" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="3.1.1" />
