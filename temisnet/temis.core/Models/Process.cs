@@ -20,6 +20,9 @@ namespace temis.Core.Models
         [Column("number")]
         public string Number { get; set; }
 
+        [Column("cpf")]
+        public string Cpf { get; set; }
+
 
         [InverseProperty("Process")]
         public IEnumerable<Judgment> Judgments {get; set;} 

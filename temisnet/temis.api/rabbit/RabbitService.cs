@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using System.Threading.Tasks;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -7,14 +8,15 @@ namespace temis.api.rabbit
 {
     public class RabbitService
     {
-        public void enviarMensagem(){
+        public static void enviarMensagem()
+        {
             var connectionFactory = new ConnectionFactory()
-                        {
-                            HostName = "127.0.0.1",
-                            Port = 5672,
-                            UserName = "guest",
-                            Password = "guest",
-                        };
+            {
+                HostName = "localhost",
+                Port = 5672,
+                UserName = "guest",
+                Password = "guest",
+            };
 
             using (var connection = connectionFactory.CreateConnection())
             using (var channel = connection.CreateModel())
@@ -40,43 +42,60 @@ namespace temis.api.rabbit
             }
         }
 
-    public string consumirMensagem(){
+        public static string consumirMensagem()
+        {
 
-        var connectionFactory = new ConnectionFactory()
+            /*   var connectionFactory = new ConnectionFactory()
+                  {
+                      HostName = "localhost",
+                      Port = 5672,
+                      UserName = "guest",
+                      Password = "guest"
+                  };
+
+                  using (var connection = connectionFactory.CreateConnection())
+                  using (var channel = connection.CreateModel())
+                  {
+                      channel.QueueDeclare(
+                          queue: "tests",
+                          durable: false,
+                          exclusive: false,
+                          autoDelete: false,
+                          arguments: null);
+
+                      var consumer = new AsyncEventingBasicConsumer(channel);
+
+                      string mensagem = null;
+
+                      consumer.Received +=  async (sender, eventArgs) => 
+                      {
+                          mensagem =  await Task.Run(() => Encoding.UTF8.GetString(eventArgs.Body.ToArray()));
+
+                          Console.WriteLine(Environment.NewLine + "[New message received] " + mensagem);
+                      };
+
+                      // channel.BasicConsume(queue: "tests",
+                      //      autoAck: true,
+                      //      consumer: consumer);
+                       BasicGetResult result = channel.BasicGet("tests", true);
+
+                      //Console.WriteLine("Waiting messages to proccess");
+                      return  mensagem; */
+
+            using (IConnection connection = new ConnectionFactory().CreateConnection())
             {
-                HostName = "localhost",
-                Port = 5672,
-                UserName = "guest",
-                Password = "guest"
-            };
-
-            using (var connection = connectionFactory.CreateConnection())
-            using (var channel = connection.CreateModel())
-            {
-                channel.QueueDeclare(
-                    queue: "tests",
-                    durable: false,
-                    exclusive: false,
-                    autoDelete: false,
-                    arguments: null);
-
-                var consumer = new EventingBasicConsumer(channel);
-
-                var mensagem = "";
-                consumer.Received += (sender, eventArgs) =>
+                using (IModel channel = connection.CreateModel())
                 {
-                    mensagem = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
-
-                    Console.WriteLine(Environment.NewLine + "[New message received] " + mensagem);
-                };
-
-                channel.BasicConsume(queue: "tests",
-                     autoAck: true,
-                     consumer: consumer);
-
-                //Console.WriteLine("Waiting messages to proccess");
-                return mensagem;
+                    channel.QueueDeclare("tests", false, false, false, null);
+                    var consumer = new EventingBasicConsumer(channel);
+                    BasicGetResult result = channel.BasicGet("tests", true);
+                    if (result == null)
+                    {
+                        return "merdou";
+                    }
+                    return Encoding.UTF8.GetString(result.Body.ToArray());
+                }
             }
-    }
+        }
     }
 }

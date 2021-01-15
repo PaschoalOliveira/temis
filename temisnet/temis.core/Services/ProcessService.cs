@@ -58,6 +58,10 @@ namespace temis.Core.Services.Service
             return process;
         }
 
-              
+        public bool FindByCpf(string cpf)
+        {
+            bool apto = _repository.FindByCpf(cpf);
+            return apto;
+        }
     }
 }

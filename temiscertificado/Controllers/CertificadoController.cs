@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using temis.Core.Models;
 using temis.Core.Services.Interface;
@@ -19,6 +20,37 @@ namespace temiscertificado.Controllers
         public ActionResult<Certificado> GetById([FromRoute] long id)
         {
             return Ok(_service.FindById(id));
+        }
+
+        [HttpGet("rabbitProducer")]
+        public ActionResult<string> Send(string key, string msg)
+        {
+            Connection.Send(key, msg);
+            return Ok("Enviado ... ");
+        }
+
+        
+        [HttpGet("consultaCpf/{cpf}")]
+        public ActionResult<string> GetByCpf(string cpf)
+        {
+           var count =  0;
+           string result = null;
+           Connection.Send("tests", cpf);
+
+            while (count < 5 && result == null)
+            {
+              result = Connection.Receive("ABC");
+               count ++;
+            }
+
+            return Ok(result);
+        }
+
+        [HttpGet("rabbitConsumer/{key}")]
+        public ActionResult<string> Receive(string key)
+        {
+            string result =  Connection.Receive(key);
+            return Ok(result);
         }
 
         [HttpGet]

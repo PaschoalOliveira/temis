@@ -69,6 +69,11 @@ namespace temis.Data.Repositories
             return context.Process.Where((p) => p.Id == id).SingleOrDefault();
         }
 
+        public bool FindByCpf(string cpf)
+        {
+            return context.Process.Any((p) => p.Cpf.Equals(cpf));
+        }
+
       
     }
 }

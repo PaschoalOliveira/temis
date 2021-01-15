@@ -11,6 +11,7 @@ namespace temis.Core.Interfaces
          PageResponse<Process> FindAll(string number, PageRequest pageRequest);
          Task<PageResponse<Process>> FindAllAsync(PageRequest pageRequest);
          Process FindById(long id);
+         bool FindByCpf(string cpf);
          void Delete(long Id);
     }
 }
